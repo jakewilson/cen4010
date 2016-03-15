@@ -16,15 +16,14 @@ http.createServer((request, response) => {
                     'Content-Type': 'text/html' });
         
                 response.write('<h1>404</h1>Page not found');
-                response.end();
             } else {
                 response.writeHead(200, {
                     'Content-Type': 'text/html',
                     'Content-Length': data.length });
         
                 response.write(data);
-                response.end();
             }
+            response.end();
         });
     }
     
