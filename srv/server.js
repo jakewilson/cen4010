@@ -11,13 +11,20 @@ http.createServer((request, response) => {
             filename = 'index.html'
 
         fs.readFile(filename, (err, data) => {
-            if (err) throw err;
-            response.writeHead(200, {
-                'Content-Type': 'text/html',
-                'Content-Length': data.length });
-    
-            response.write(data);
-            response.end();
+            if (err) { // file not found - issue 404
+                response.writeHead(404, {
+                    'Content-Type': 'text/html' });
+        
+                response.write('<h1>404</h1>Page not found');
+                response.end();
+            } else {
+                response.writeHead(200, {
+                    'Content-Type': 'text/html',
+                    'Content-Length': data.length });
+        
+                response.write(data);
+                response.end();
+            }
         });
     }
     
