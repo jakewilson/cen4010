@@ -1,21 +1,19 @@
-var http = require('http');
-var fs   = require('fs');
+Server = (function() {
+    var http = require('http');
+    var fs   = require('fs');
 
-http.createServer((request, response) => {
+    var writeError = function() {
+        return '<h1>404</h1>Page not found';
+    };
 
-    if (request.method === 'GET') {
-        var filename = require('url').parse(request.url).pathname;
-        filename = filename.substring(1); // remove leading '/'
-
-        if (filename === '')
-            filename = 'index.html'
-
+    /* writes the HTTP response header */
+    var writeHead = function(filename, response) {
         fs.readFile(filename, (err, data) => {
             if (err) { // file not found - issue 404
                 response.writeHead(404, {
                     'Content-Type': 'text/html' });
         
-                response.write('<h1>404</h1>Page not found');
+                response.write(writeError());
             } else {
                 response.writeHead(200, {
                     'Content-Type': 'text/html',
@@ -25,6 +23,23 @@ http.createServer((request, response) => {
             }
             response.end();
         });
-    }
-    
-}).listen(6666);
+    };
+
+    return {
+        /* starts the server */
+        start: function(port) {
+            http.createServer((request, response) => {
+                if (request.method === 'GET') {
+                    var getFileName = function() {
+                        var filename = require('url').parse(request.url).pathname.substring(1); // remove leading '/'
+                
+                        return filename === '' ? 'index.html' : filename;
+                    };
+
+                    writeHead(getFileName(), response);
+                }
+            }).listen(port);
+        }
+    };
+
+});
