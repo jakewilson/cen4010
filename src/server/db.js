@@ -21,7 +21,8 @@ module.exports = {
   addPlayer: function(user, pass) {
     db.serialize(function() {
       db.prepare("INSERT INTO player(user, pass) VALUES (?, ?)").run(user, pass, (err) => {
-        console.log(err);
+        if (err)
+            console.log(err);
       }).finalize();
       // TODO catch "UNIQUE CONSTRAINT FAILED" to catch duplicate username
     });
@@ -33,8 +34,7 @@ module.exports = {
   getPlayer: function(user, callback) {
     db.serialize(function() {
       db.get("SELECT * FROM player WHERE user = ?", user, (err, row) => {
-        if (err) throw err;
-        callback.call(this, row);
+        callback.call(this, err, row);
       });
     });
   },
