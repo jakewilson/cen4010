@@ -2,7 +2,7 @@
  * Class for creating a sqlite3 database if it doesn't already exist and
  * adding and getting players
  */
-Database = (function() {
+exports.Database = (function() {
     /* private scope */
     var fs = require('fs');
     var sqlite3 = require('sqlite3').verbose();

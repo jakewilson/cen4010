@@ -3,12 +3,15 @@ Meatpocalypse
 
 Before attemping to run the game at all, make sure you have Node v5.8.0 installed.
 
-To create the database, the sqlite3 API is needed also:
+The following tools and API's are needed:
+    - sqlite3 (database)
+    - express (web server)
+    - express-ws (web socket server)
 
-``` $ sudo npm install sqlite3 ```
+To run the game, they must all be installed:
 
-To run the server:
+``` $ sudo npm install sqlite3 express express-ws ```
 
-``` $ node srv/server.js ```
+Then you can:
 
-More info coming on database creation soon.
+``` $ node meatpocalypse.js ```
