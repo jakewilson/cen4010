@@ -6,7 +6,7 @@ exports.Database = (function() {
     /* private scope */
     var fs = require('fs');
     var sqlite3 = require('sqlite3').verbose();
-    var db_name = process.cwd() + '/meatpocalypse.db';
+    var db_name = 'server/meatpocalypse.db';
     var db_exists = fs.existsSync(db_name);
 
     var createTable = function() {
@@ -21,6 +21,9 @@ exports.Database = (function() {
 
     /* public scope */
     return {
+        /* 
+         * Adds a player to the database
+         */
         addPlayer: function(user, pass) {
             db.serialize(function() {
                 db.prepare("INSERT INTO player(user, pass) VALUES (?, ?)").run(user, pass, (err) => {
@@ -30,6 +33,9 @@ exports.Database = (function() {
             });
         },
 
+        /*
+         * Retrieves a player from the database and calls the callback with the row
+         */
         getPlayer: function(user, callback) {
             db.serialize(function() {
                 db.get("SELECT * FROM player WHERE user = ?", user, (err, row) => {
