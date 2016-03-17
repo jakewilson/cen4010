@@ -1,3 +1,4 @@
 var server = require('../server/server').Server();
+var db = require('../server/db').Database();
 
-console.log(server.start(3000));
+server.start(3000);
