@@ -35,12 +35,13 @@ exports.Database = (function() {
 
         /*
          * Retrieves a player from the database and calls the callback with the row
+         * The callback takes the form function(err, row)
+         * NOTE: if the user does not exist, row will be undefined
          */
         getPlayer: function(user, callback) {
             db.serialize(function() {
                 db.get("SELECT * FROM player WHERE user = ?", user, (err, row) => {
-                    if (err) throw err;
-                    callback.call(this, row);
+                    callback.call(this, err, row);
                 });
             });
         },
