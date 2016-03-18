@@ -13,32 +13,15 @@
 	
 	
 	<!-- Load Javascript -->
-	<script type="text/javascript" src="./js/jquery.js"></script>
+	<!--<script type="text/javascript" src="./js/jquery.js"></script>-->
 	<script type="text/javascript" src="./js/form.js"></script>
-	<script type="text/javascript" src="./js/jquery.query-2.1.7.js"></script>
-	<script type="text/javascript" src="./js/rainbows.js"></script>
+	<!--	<script type="text/javascript" src="./js/jquery.query-2.1.7.js"></script>-->
+	<!--	<script type="text/javascript" src="./js/rainbows.js"></script>-->
 	<!-- // Load Javascipt -->
 
 	<!-- Load stylesheets -->
 	<link type="text/css" rel="stylesheet" href="css/style.css" media="screen" />
 	<!-- // Load stylesheets -->
-	
-<script>
-
-
-	$(document).ready(function(){
- 
-	$("#submit1").hover(
-	function() {
-	$(this).animate({"opacity": "0"}, "slow");
-	},
-	function() {
-	$(this).animate({"opacity": "1"}, "slow");
-	});
- 	});
-
-
-</script>
 	
 </head>
 <body>
@@ -56,7 +39,7 @@
 				<div id="username_inputleft"></div>
 
 				<div id="username_inputmiddle">
-					<input type="text" name="link" id="url" value="E-mail Address" onclick="this.value = ''">
+					<input type="text" name="user" id="url" value="Username" onclick="this.value = ''">
 					<img id="url_user" src="./images/mailicon.png" alt="">
 				</div>
 
@@ -69,7 +52,7 @@
 				<div id="password_inputleft"></div>
 
 				<div id="password_inputmiddle">
-					<input type="password" name="link" id="url" value="Password" onclick="this.value = ''">
+					<input type="password" name="pass" id="url" value="Password" onclick="this.value = ''">
 					<img id="url_password" src="./images/passicon.png" alt="">
 				</div>
 
@@ -89,7 +72,7 @@
 				<div id="username_signup">
 					<div id="username_inputleft"></div>
 						<div id="username_inputmiddle">
-							<input type="text" name="link" id="url" value="E-mail Address" onclick="this.value = ''">
+							<input type="text" name="createUser" id="url" value="Create Username" onclick="this.value = ''">
 							<img id="url_user" src="./images/mailicon.png" alt="">
 						</div>
 					<div id="username_inputright"></div>
@@ -97,7 +80,7 @@
 				<div id="password_signup">
 					<div id="password_inputleft"></div>
 					<div id="password_inputmiddle">
-						<input type="password" name="link" id="url" value="Password" onclick="this.value = ''">
+						<input type="password" name="createPass" id="url" value="Create Password" onclick="this.value = ''">
 						<img id="url_password" src="./images/passicon.png" alt="">
 					</div>
 					<div id="password_inputright"></div>
@@ -109,12 +92,9 @@
 			</form>	
 		</div>
 			<div id="links_left">
-
-			<a href="#">Forgot Password</a>
-
+				<a href="highScore.html">High Scores</a>
 			</div>
 			
-			<div id="links_middle"><a href="highScore.html">High Scores</a></div>
 
 			<div id="links_right"><a href="#" onClick="register()">Sign Up</a></div>
 
