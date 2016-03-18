@@ -21,7 +21,7 @@ body {
 	line-height: 20px;
 	min-width: 998px;
 	border-top:3px solid #919191;
-	background:url(../images/login.jpg) repeat;
+	background:url(../images/login.png) no-repeat center center fixed;	
 }
 #wrapper {	
 	padding: 70px 0 0 0px;
