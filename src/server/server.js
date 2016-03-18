@@ -4,6 +4,10 @@ var bodyParser = require('body-parser');
 var app = express();
 
 var urlParser = bodyParser.urlencoded({extended: false});
+var running = false;
+var server;
+
+db.create('meatpocalypse.db');
 
 app.post('/index.html', urlParser, (req, res, next) => {
     if (!req.body)
@@ -42,7 +46,16 @@ app.post('/index.html', urlParser, (req, res, next) => {
 module.exports = {
   start: function(port) {
     app.use(express.static('src/client/'));
-    app.listen(port);
+    server = app.listen(port, () => {
+      running = true;
+    });
+  },
 
+  stop: function() {
+    if (running) {
+      server.close(() => {
+        running = false;
+      });
+    }
   }
 }
