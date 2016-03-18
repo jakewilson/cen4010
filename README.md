@@ -19,3 +19,7 @@ Then you can:
 Then in your browser:
 
 ``` http://localhost:3000 ```
+
+Before committing, make sure all tests pass by running:
+
+``` $ jasmine ```
