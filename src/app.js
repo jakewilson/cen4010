@@ -1,4 +1,3 @@
-var server = require('../server/server').Server();
-var db = require('../server/db').Database();
+var server = require('./server/server');
 
 server.start(3000);

@@ -1,5 +1,5 @@
 "use strict";
-require("../src/meatpocalypse.js");
+require("../src/client/meatpocalypse.js");
 describe("Meatpocalypse", function() {
   it("is initializable", function() {
     var subject = new Meatpocalypse();
