@@ -20,6 +20,7 @@ app.post('/index.html', urlParser, (req, res, next) => {
         res.writeHead(400, {'Content-Type': 'text/html'});
         res.write('You must enter a username and a password');
         res.end();
+        return; // don't send another header
     }
 
     db.getPlayer(user, (err, row) => {
