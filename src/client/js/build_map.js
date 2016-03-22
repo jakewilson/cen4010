@@ -1,9 +1,9 @@
 var game = new Phaser.Game(800, 600, Phaser.AUTO, 'phaser-example', { preload: preload, create: create, update: update });
 
 function preload() {
-  game.load.tilemap('map', './js/assets/tilemap/test_map.json', null, Phaser.Tilemap.TILED_JSON);
-  game.load.image('tiles', './js/assets/tiles/basictiles.png');
-  game.load.image('protagonist', './js/assets/sprites/protagonist/walk1.png');
+  game.load.tilemap('map', './assets/tilemap/test_map.json', null, Phaser.Tilemap.TILED_JSON);
+  game.load.image('tiles', './assets/tiles/basictiles.png');
+  game.load.image('protagonist', './assets/sprites/protagonist/walk1.png');
 }
 
 var map, cursors, layer, player;
