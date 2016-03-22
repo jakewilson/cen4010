@@ -1,26 +1,52 @@
-var game = new Phaser.Game(800, 600, Phaser.AUTO, 'phaser-example', { preload: preload, create: create, update: update });
+var game = new Phaser.Game(800, 16 * 15, Phaser.AUTO, 'phaser-example', { preload: preload, create: create, update: update });
 
 function preload() {
-  game.load.tilemap('map', './assets/tilemap/test_map.json', null, Phaser.Tilemap.TILED_JSON);
-  game.load.image('tiles', './assets/tiles/basictiles.png');
-  game.load.image('protagonist', './assets/sprites/protagonist/walk1.png');
+  game.load.tilemap('map', './assets/tilemap/super_mario.json', null, Phaser.Tilemap.TILED_JSON);
+  game.load.image('tiles', './assets/tiles/super_mario.png');
+  game.load.atlasJSONHash('protagonist-walk', './assets/sprites/protagonist/walk.png', './assets/sprites/protagonist/walk.json');
 }
 
-var map, cursors, layer, player;
+var map, cursors, layer, player, frameSpeed;
 
 function create() {
   map = game.add.tilemap('map');
-  map.addTilesetImage('basictiles', 'tiles');
+  map.addTilesetImage('SuperMarioBros-World1-1', 'tiles');
 
-  layer = map.createLayer('Bottom Layer');
+  layer = map.createLayer('World1');
   layer.resizeWorld();
 
-  player = game.add.sprite(200, 200, 'protagonist');
+  map.setCollisionBetween(14, 16, true, layer);
+
+  player = game.add.sprite(0, 16 * 9, 'protagonist-walk');
+  player.animations.add('walk');
+
+  frameSpeed = 5;
+  playerSpeed = 4;
+
   game.physics.enable(player);
+
+  game.camera.follow(player);
 
   cursors = game.input.keyboard.createCursorKeys();
 }
 
 function update() {
+  game.physics.arcade.collide(player, layer);
 
+  if (game.input.keyboard.isDown(Phaser.Keyboard.RIGHT)) {
+    player.play('walk', frameSpeed);
+    player.x += 4;
+  }
+  if (game.input.keyboard.isDown(Phaser.Keyboard.LEFT)) {
+    player.play('walk', frameSpeed);
+    player.x -= 4;
+  }
+  if (game.input.keyboard.isDown(Phaser.Keyboard.UP)) {
+    player.play('walk', frameSpeed);
+    player.y -= 4;
+  }
+  if (game.input.keyboard.isDown(Phaser.Keyboard.DOWN)) {
+    player.play('walk', frameSpeed);
+    player.y += 4;
+  }
 }
