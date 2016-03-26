@@ -22,6 +22,7 @@ function create() {
   player.frameName = 'walk1.png';
 
   player.animations.add('walk', ['walk2.png', 'walk3.png', 'walk4.png', 'walk1.png']); // TODO change walk animation to be only one step at a time
+  player.animations.add('attack', ['walk1.png', 'attack2.png', 'attack3.png', 'attack4.png']); // TODO change walk animation to be only one step at a time
 
   frameSpeed = 5;
   playerSpeed = 4;
@@ -52,4 +53,8 @@ function update() {
     player.play('jump', frameSpeed);
     player.y += 4;
   }
+  if (game.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR)) {
+    player.play('attack', frameSpeed);
+  }
+
 }
