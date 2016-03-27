@@ -1,7 +1,11 @@
 {
+  "devDependencies": {
+    "grunt-cli": "1.1.0"
+  },
   "dependencies": {
     "express": "^4.13.4",
     "sqlite": "0.0.4",
-    "jasmine": "^2.4.1"
+    "jasmine": "^2.4.1",
+    "body-parser": "1.15.0"
   }
 }
