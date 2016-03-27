@@ -4,7 +4,7 @@ function preload() {
   loadMap();
   loadAnimations();
 }
-var map, cursors, layer, frameSpeed, playerSpeed;
+var map, layer, player;
 
 function create() {
   game.physics.startSystem(Phaser.Physics.ARCADE);
@@ -20,10 +20,13 @@ function create() {
   layer = map.createLayer('World1');
   layer.resizeWorld();
 
-  var player = new Player(game);
+  player = new Player(game);
   player.create(0, 16 * 9);
+
+  game.physics.arcade.gravity.y = 500;
 }
 
 function update() {
+  player.setCollision(layer);
 }
 
