@@ -2,7 +2,6 @@ var Entity = function(game, health) {
   this._game = game;
   this._health = health;
   this._sprite = null;
-  this._created = false; // TODO is this needed?
 
   /**
    * The currently playing animation
@@ -10,6 +9,11 @@ var Entity = function(game, health) {
   this._currentPlayingAnim = null;
 
   this._attacking = false;
+
+  /**
+   * The bullet pool for the Entity
+   */
+  this._bulletPool = null;
 }
 
 /**
@@ -17,6 +21,7 @@ var Entity = function(game, health) {
  */
 Entity.prototype.kill = function() {
   // TODO remove sprite from screen iff on screen
+  this._sprite.kill();
 }
 
 /**
@@ -37,7 +42,6 @@ Entity.prototype.attack = function() {
  */
 Entity.prototype.create = function(x, y, sprite, frame) {
   this._sprite = this._game.add.sprite(x, y, sprite, frame);
-  this._created = true;
 }
 
 /**
@@ -48,4 +52,13 @@ Entity.prototype.create = function(x, y, sprite, frame) {
  */
 Entity.prototype.addAnimation = function(name, frames, onComplete) {
   this._sprite.animations.add(name, frames).onComplete.add(onComplete, this);
+}
+
+/**
+ * Creates the Bullet Pool for the Entity
+ * @param game: the game object
+ * @param path: the path to the bullet image
+ */
+Entity.prototype.createBulletPool = function(name) {
+  this._bulletPool = new BulletPool(this._game, name, this._sprite);
 }
