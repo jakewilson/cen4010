@@ -42,6 +42,8 @@ Player.prototype.create = function(x, y) {
   this.addKeyCallback(Phaser.Keyboard.DOWN, this.crouch, this.crouchComplete);
   this.addKeyCallback(Phaser.Keyboard.S, this.crouch, this.crouchComplete);
 
+  this.createBulletPool('banana');
+
   this._game.physics.enable(this._sprite);
   this._sprite.body.collideWorldBounds = true;
 
@@ -131,9 +133,7 @@ Player.prototype.crouchComplete = function() {
  */
 Player.prototype.attack = function() {
   Entity.prototype.attack.call(this);
-  if (!this._attacking) {
-    // shoot banana
-  }
+  this._bulletPool.fireBullet();
 }
 
 Player.prototype.attackComplete = function() {
