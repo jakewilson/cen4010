@@ -3,6 +3,13 @@ var Entity = function(game, health) {
   this._health = health;
   this._sprite = null;
   this._created = false; // TODO is this needed?
+
+  /**
+   * The currently playing animation
+   */
+  this._currentPlayingAnim = null;
+
+  this._attacking = false;
 }
 
 /**
@@ -16,7 +23,8 @@ Entity.prototype.kill = function() {
  * Plays the Entity's attack animation
  */
 Entity.prototype.attack = function() {
-  // TODO play attack animation iff not already playing
+  this._currentPlayingAnim = this._sprite.animations.play('attack', this._ATTACK_SPEED);
+  this._attacking = true;
 }
 
 /**
