@@ -1,37 +1,44 @@
 "use strict";
 var server = require("../src/server/server.js");
 var http = require('http');
+var db = require('../src/server/db.js');
 
 describe("Server", function() {
+  beforeAll(function() {
+    server.start(3000);
+    db.create("meatpocalypse"); // should *NOT* have to do this...
+  });
+
+  afterAll(function() {
+    server.stop();
+  });
+
+  afterEach(function() {
+    db.clear();
+  });
+
+  var assertPlayerExists = function(user, done) {
+    db.getPlayer(user, function(err, row) {
+      expect(err).toBeFalsy();
+      expect(row).toBeTruthy();
+      done();
+    });
+  };
     it("is initializable", function() {
         expect(server).toBeTruthy();
     });
 
-    it("is start and stoppable", (done) => {
-        server.start(3000);
-        // the server should be listening on port 3000 for http requests
-        // we can verify this by creating an http client and sending
-        // a get request
-        http.request({port: 3000}, (res) => {
-            expect(res.statusCode).toBe(200);
-            server.stop();
-            done(); // let jasmine know that async operations are done
-        }).end();
-
-    });
-
     it("denies bad requests", (done) => {
-        server.start(3000);
+
         http.request({port: 3000, path: '/nonexistent'}, (res) => {
             expect(res.statusCode).toBe(404);
-            server.stop();
             done(); // let jasmine know that async operations are done
         }).end();
     });
 
   describe("login component", function() {
     it ("should reject usernames that don't exist", (done) => {
-      server.start(3000);
+
       var msg = 'user=hi&pass=1234';
       var options = {
         port: 3000,
@@ -44,17 +51,14 @@ describe("Server", function() {
       };
       var req = http.request(options, (res) => {
         expect(res.statusCode).toBe(400);
-
-        server.stop();
         done();
       });
       req.write(msg);
       req.end();
     });
 
-    // This will be tested after we have adding new user functionality on the server
-    /* it("should reject passwords that are incorrect", (done) => {
-      server.start(3000);
+    xit("should reject passwords that are incorrect", (done) => {
+
       var msg = 'user=hi&pass=1234';
       var options = {
         port: 3000,
@@ -67,14 +71,43 @@ describe("Server", function() {
       };
       var req = http.request(options, (res) => {
         expect(res.statusCode).toBe(400);
-        server.stop();
         done();
       });
       req.write(msg);
       req.end();
-    }); */
+    });
   });
 
-  
-    
+  describe("Player Registration", function() {
+    var testUser = 'jonathanIsCool';
+    var postData = "createUser=" + testUser + "&createPass=123";
+    var http_options = {
+      port: 3000,
+      method: 'POST',
+      path: '/registerPlayer',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'Content-Length': postData.length,
+      },
+    };
+
+    it("properly registers a player", function(done) {
+      var req = http.request(http_options, (res) => {
+        expect(res.statusCode).toBe(200);
+
+        assertPlayerExists(testUser, done);
+      });
+      req.write(postData);
+      req.end();
+    });
+
+    xit("Informs user if username has been taken", function(done) {
+      var req = http.request(http_options, (res) => {
+        expect(res.statusCode).toBe(409);
+        done();
+      });
+      req.write(postData);
+      req.end();
+    });
+  });
 });
