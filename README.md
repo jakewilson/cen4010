@@ -9,22 +9,24 @@ To run first all dependencies must be installed:
 
 will install all dependencies.
 
-
 Then you can:
 
 ``` $ grunt ```
 
 to create meatpocalypse.min.js.
 
+Then run the server:
+
 ``` $ node src/app.js ```
 
-Then in your browser:
+Finally you can run the game in your browser:
 
 ``` http://localhost:3000 ```
+
+Every time you make a change to a .js file in src/client/game, you must re-run grunt in the root
+project directory to be able to see your changes in the browser.
 
 Before committing, make sure all tests pass by running:
 
 ``` $ jasmine ```
 
-Every time you make a change to a .js file in src/client/game, you must re-run grunt in the root
-project directory to be able to see your changes in the browser.
