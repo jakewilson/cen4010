@@ -8,10 +8,6 @@ var Player = function(game) {
   this._ATTACK_SPEED = 5; // frames per second
   this._CROUCH_SPEED = 5; // frames per second
 
-  /**
-   * The currently playing animation
-   */
-  this._currentPlayingAnim = null;
   this._jumping = false;
 }
 
@@ -27,9 +23,9 @@ Player.prototype.constructor = Player;
 Player.prototype.create = function(x, y) {
   Entity.prototype.create.call(this, x, y, 'protagonist', 'walk1.png'); // initialize this._sprite
 
-  this.addAnimation('walk', ['walk2.png', 'walk3.png', 'walk4.png', 'walk1.png'], this._animComplete);
+  this.addAnimation('walk', ['walk2.png', 'walk3.png', 'walk4.png'], this._animComplete);
   this.addAnimation('jump', ['jump1.png'], this._animComplete);
-  this.addAnimation('attack', ['attack2.png', 'attack3.png', 'attack4.png', 'walk1.png'], this._animComplete)
+  this.addAnimation('attack', ['attack2.png', 'attack3.png', 'attack4.png'], this._animComplete)
   this.addAnimation('crouch', ['crouch1.png'], this._animComplete)
 
   // add keyboard callbacks
@@ -40,6 +36,8 @@ Player.prototype.create = function(x, y) {
   this.addKeyCallback(Phaser.Keyboard.D, this.move, this.moveComplete);
   this.addKeyCallback(Phaser.Keyboard.LEFT, this.move, this.moveComplete);
   this.addKeyCallback(Phaser.Keyboard.A, this.move, this.moveComplete);
+
+  this.addKeyCallback(Phaser.Keyboard.SPACEBAR, this.attack, this.attackComplete);
 
   this.addKeyCallback(Phaser.Keyboard.DOWN, this.crouch, this.crouchComplete);
   this.addKeyCallback(Phaser.Keyboard.S, this.crouch, this.crouchComplete);
@@ -102,7 +100,7 @@ Player.prototype.move = function(key) {
       break;
 
     default: // should never happen
-      console.log('how did this happen?: ' + key.keyCode);
+      console.log('how did this happen? Keycode: ' + key.keyCode);
       break;
   }
 
@@ -132,8 +130,14 @@ Player.prototype.crouchComplete = function() {
  * Sets the attack animation and shoots a projectile
  */
 Player.prototype.attack = function() {
-  this._currentPlayingAnim = this._sprite.animations.play('attack', this._ATTACK_SPEED);
-  // TODO shoot banana
+  Entity.prototype.attack.call(this);
+  if (!this._attacking) {
+    // shoot banana
+  }
+}
+
+Player.prototype.attackComplete = function() {
+  // TODO
 }
 
 /**
