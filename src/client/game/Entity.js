@@ -1,6 +1,8 @@
 var Entity = function(game, health) {
   this._game = game;
   this._health = health;
+  this._sprite = null;
+  this._created = false; // TODO is this needed?
 }
 
 /**
@@ -28,4 +30,14 @@ Entity.prototype.attack = function() {
 Entity.prototype.create = function(x, y, sprite, frame) {
   this._sprite = this._game.add.sprite(x, y, sprite, frame);
   this._created = true;
+}
+
+/**
+ * Adds an animation to the Entity
+ * @param name: the name of the animation
+ * @param frames: an array of spritesheet frames that comprise the animation
+ * @param onComplete: callback function to call when the animation is complete
+ */
+Entity.prototype.addAnimation = function(name, frames, onComplete) {
+  this._sprite.animations.add(name, frames).onComplete.add(onComplete, this);
 }

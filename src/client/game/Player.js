@@ -3,14 +3,16 @@ var Player = function(game) {
   this._PLAYER_HEALTH = 100;
   Entity.call(this, game, this._PLAYER_HEALTH);
 
-  this._JUMP_SPEED = 2; // frames per second
+  this._JUMP_SPEED = 1.5; // frames per second
   this._WALK_SPEED = 5; // frames per second
   this._ATTACK_SPEED = 5; // frames per second
+  this._CROUCH_SPEED = 5; // frames per second
 
   /**
    * The currently playing animation
    */
   this._currentPlayingAnim = null;
+  this._jumping = false;
 }
 
 /** Player inherits Entity */
@@ -25,49 +27,61 @@ Player.prototype.constructor = Player;
 Player.prototype.create = function(x, y) {
   Entity.prototype.create.call(this, x, y, 'protagonist', 'walk1.png'); // initialize this._sprite
 
-  this._walkAnim = this._sprite.animations.add('walk', ['walk2.png', 'walk3.png', 'walk4.png', 'walk1.png']);
-  this._walkAnim.onComplete.add(this._animComplete, this);
+  this.addAnimation('walk', ['walk2.png', 'walk3.png', 'walk4.png', 'walk1.png'], this._animComplete);
+  this.addAnimation('jump', ['jump1.png'], this._animComplete);
+  this.addAnimation('attack', ['attack2.png', 'attack3.png', 'attack4.png', 'walk1.png'], this._animComplete)
+  this.addAnimation('crouch', ['crouch1.png'], this._animComplete)
 
-  this._jumpAnim = this._sprite.animations.add('jump', ['jump1.png']);
-  this._jumpAnim.onComplete.add(this._animComplete, this);
+  // add keyboard callbacks
+  this.addKeyCallback(Phaser.Keyboard.UP, this.jump);
+  this.addKeyCallback(Phaser.Keyboard.W, this.jump);
 
-  this._attackAnim = this._sprite.animations.add('attack', ['attack2.png', 'attack3.png', 'attack4.png', 'walk1.png']);
-  this._attackAnim.onComplete.add(this._animComplete, this);
+  this.addKeyCallback(Phaser.Keyboard.RIGHT, this.move, this.moveComplete);
+  this.addKeyCallback(Phaser.Keyboard.D, this.move, this.moveComplete);
+  this.addKeyCallback(Phaser.Keyboard.LEFT, this.move, this.moveComplete);
+  this.addKeyCallback(Phaser.Keyboard.A, this.move, this.moveComplete);
+
+  this.addKeyCallback(Phaser.Keyboard.DOWN, this.crouch, this.crouchComplete);
+  this.addKeyCallback(Phaser.Keyboard.S, this.crouch, this.crouchComplete);
 
   this._game.physics.enable(this._sprite);
   this._sprite.body.collideWorldBounds = true;
-
-  // add keyboard callbacks
-  this._game.input.keyboard.addKey(Phaser.Keyboard.UP).onDown.add(this.jump, this);
-  this._game.input.keyboard.addKey(Phaser.Keyboard.W).onDown.add(this.jump, this);
-
-  this._game.input.keyboard.addKey(Phaser.Keyboard.RIGHT).onDown.add(this.move, this);
-  this._game.input.keyboard.addKey(Phaser.Keyboard.D).onDown.add(this.move, this);
-
-  this._game.input.keyboard.addKey(Phaser.Keyboard.LEFT).onDown.add(this.move, this);
-  this._game.input.keyboard.addKey(Phaser.Keyboard.A).onDown.add(this.move, this);
-
-  this._game.input.keyboard.addKey(Phaser.Keyboard.DOWN).onDown.add(this.crouch, this);
-  this._game.input.keyboard.addKey(Phaser.Keyboard.S).onDown.add(this.crouch, this);
-
-  this._game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR).onDown.add(this.attack, this);
 
   // follow the player
   this._game.camera.follow(this._sprite);
 }
 
 /**
+ * Adds callback to be called when key is pressed
+ * @param key: the key that when pressed will call the callback
+ * @param onDown: the function to call when the key is pressed down
+ * @param onUp: the function to call when the key is released
+ * TODO add onDownCallback for holding down the key
+ */
+Player.prototype.addKeyCallback = function(key, onDown, onUp) {
+  var _key = this._game.input.keyboard.addKey(key);
+  if (onDown) {
+    _key.onDown.add(onDown, this);
+  }
+  if (onUp) {
+    _key.onUp.add(onUp, this);
+  }
+}
+
+/**
  * Plays the Jump animation and gives the player an upward velocity
  */
 Player.prototype.jump = function() {
-  // jump only needs to make sure attack is not playing first
-  if (!this._currentPlayingAnim || this._currentPlayingAnim.name !== 'attack') {
-    this._currentPlayingAnim = this._sprite.animations.play('jump', this._JUMP_SPEED);
-  }
+  if (!this._jumping) {
+    this._jumping = true;
 
-  // TODO check if player is already in the air
-  console.log(this._sprite.body);
-  this._sprite.body.velocity.y = -200;
+    // jump only needs to make sure attack is not playing first
+    if (!this._currentPlayingAnim || this._currentPlayingAnim.name !== 'attack') {
+      this._currentPlayingAnim = this._sprite.animations.play('jump', this._JUMP_SPEED);
+    }
+  
+    this._sprite.body.velocity.y = -200;
+  }
 }
 
 /**
@@ -97,8 +111,21 @@ Player.prototype.move = function(key) {
   }
 }
 
+Player.prototype.moveComplete = function() {
+  this._sprite.body.velocity.x = 0;
+}
+
+/**
+ * Plays the crouch animation
+ */
 Player.prototype.crouch = function() {
-  console.log('crouching');
+  if (!this._currentPlayingAnim || this._currentPlayingAnim.name !== 'attack') {
+    this._currentPlayingAnim = this._sprite.animations.play('crouch', this._CROUCH_SPEED);
+  }
+}
+
+Player.prototype.crouchComplete = function() {
+  // TODO is this even needed?
 }
 
 /**
@@ -119,5 +146,15 @@ Player.prototype._animComplete = function() {
 }
 
 Player.prototype.setCollision = function(layer) {
-  this._game.physics.arcade.collide(this._sprite, layer);
+  // TODO add collision with enemy sprites here also
+  this._game.physics.arcade.collide(this._sprite, layer, null, function(obj1, obj2) {
+    this._jumpComplete();
+    return true;
+  }, this);
+}
+
+Player.prototype._jumpComplete = function() {
+  if (this._sprite.body.velocity.y === 0) {
+    this._jumping = false;
+  }
 }
