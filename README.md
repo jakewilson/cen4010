@@ -3,23 +3,30 @@ Meatpocalypse
 
 Before attemping to run the game at all, make sure you have Node v5.8.0 installed.
 
-The following tools and API's are needed:
-- sqlite3
-- express
-- body-parser
+To run first all dependencies must be installed:
 
-To run the game, they must all be installed:
+``` $ sudo npm install ```
 
-``` $ sudo npm install sqlite3 express body-parser ```
+will install all dependencies.
 
 Then you can:
 
+``` $ grunt ```
+
+to create meatpocalypse.min.js.
+
+Then run the server:
+
 ``` $ node src/app.js ```
 
-Then in your browser:
+Finally you can run the game in your browser:
 
 ``` http://localhost:3000 ```
+
+Every time you make a change to a .js file in src/client/game, you must re-run grunt in the root
+project directory to be able to see your changes in the browser.
 
 Before committing, make sure all tests pass by running:
 
 ``` $ jasmine ```
+
