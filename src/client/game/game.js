@@ -1,4 +1,4 @@
-var game = new Phaser.Game(800, 16 * 30, Phaser.AUTO, 'meatpocalypse', { preload: preload, create: create, update: update});
+var game = new Phaser.Game(500, 16 * 30, Phaser.AUTO, 'meatpocalypse', { preload: preload, create: create, update: update});
 
 function preload() {
   loadMap();

@@ -133,7 +133,9 @@ Player.prototype.crouchComplete = function() {
  */
 Player.prototype.attack = function() {
   Entity.prototype.attack.call(this);
-  this._bulletPool.fireBullet();
+  console.log(this._sprite.width);
+  // TODO add player direction
+  this._bulletPool.fireBullet(this._sprite.x + (this._sprite.width / 2), this._sprite.y + (this._sprite.height / 4));
 }
 
 Player.prototype.attackComplete = function() {
