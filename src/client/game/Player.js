@@ -9,6 +9,7 @@ var Player = function(game) {
   this._CROUCH_SPEED = 5; // frames per second
 
   this._jumping = false;
+  this._cursors = null;
 }
 
 /** Player inherits Entity */
@@ -28,20 +29,6 @@ Player.prototype.create = function(x, y) {
   this.addAnimation('attack', ['attack2.png', 'attack3.png', 'attack4.png'], this._animComplete)
   this.addAnimation('crouch', ['crouch1.png'], this._animComplete)
 
-  // add keyboard callbacks
-  this.addKeyCallback(Phaser.Keyboard.UP, this.jump);
-  this.addKeyCallback(Phaser.Keyboard.W, this.jump);
-
-  this.addKeyCallback(Phaser.Keyboard.RIGHT, this.move, this.moveComplete);
-  this.addKeyCallback(Phaser.Keyboard.D, this.move, this.moveComplete);
-  this.addKeyCallback(Phaser.Keyboard.LEFT, this.move, this.moveComplete);
-  this.addKeyCallback(Phaser.Keyboard.A, this.move, this.moveComplete);
-
-  this.addKeyCallback(Phaser.Keyboard.SPACEBAR, this.attack, this.attackComplete);
-
-  this.addKeyCallback(Phaser.Keyboard.DOWN, this.crouch, this.crouchComplete);
-  this.addKeyCallback(Phaser.Keyboard.S, this.crouch, this.crouchComplete);
-
   this.createBulletPool('banana');
 
   this._game.physics.enable(this._sprite);
@@ -51,23 +38,9 @@ Player.prototype.create = function(x, y) {
 
   // follow the player
   this._game.camera.follow(this._sprite);
-}
 
-/**
- * Adds callback to be called when key is pressed
- * @param key: the key that when pressed will call the callback
- * @param onDown: the function to call when the key is pressed down
- * @param onUp: the function to call when the key is released
- * TODO add onDownCallback for holding down the key
- */
-Player.prototype.addKeyCallback = function(key, onDown, onUp) {
-  var _key = this._game.input.keyboard.addKey(key);
-  if (onDown) {
-    _key.onDown.add(onDown, this);
-  }
-  if (onUp) {
-    _key.onUp.add(onUp, this);
-  }
+  this._cursors = this._game.input.keyboard.createCursorKeys();
+  this._attackButton = this._game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
 }
 
 /**
@@ -75,9 +48,7 @@ Player.prototype.addKeyCallback = function(key, onDown, onUp) {
  * // TODO need to redo this whole function - it sucks
  */
 Player.prototype.jump = function() {
-  if (!this._jumping) {
-    this._jumping = true;
-
+  if (this._sprite.body.onFloor()) {
     // jump only needs to make sure attack is not playing first
     if (!this._currentPlayingAnim || this._currentPlayingAnim.name !== 'attack') {
       this._currentPlayingAnim = this._sprite.animations.play('jump', this._JUMP_SPEED);
@@ -89,33 +60,19 @@ Player.prototype.jump = function() {
 
 /**
  * Moves the Player horizontally
- * @param key: the key that was pressed
+ * @param direction: the direction to move the player
  */
-Player.prototype.move = function(key) {
-  // TODO set the appropriate velocity and animation
-  switch (key.keyCode) {
-    case Phaser.KeyCode.RIGHT:
-    case Phaser.KeyCode.D:
-      this._sprite.body.velocity.x = 250;
-      break;
-
-    case Phaser.KeyCode.LEFT:
-    case Phaser.KeyCode.A:
-      this._sprite.body.velocity.x = -250;
-      break;
-
-    default: // should never happen
-      console.log('how did this happen? Keycode: ' + key.keyCode);
-      break;
+Player.prototype.move = function(direction) {
+  // TODO set appropriate animation for walking direction
+  if (direction === 'right') {
+    this._sprite.body.velocity.x = 250;
+  } else if (direction === 'left') {
+    this._sprite.body.velocity.x = -250;
   }
 
   if (this._currentPlayingAnim === null) { // walk must wait for animation to stop playing
     this._currentPlayingAnim = this._sprite.animations.play('walk', this._WALK_SPEED);
   }
-}
-
-Player.prototype.moveComplete = function() {
-  this._sprite.body.velocity.x = 0;
 }
 
 /**
@@ -136,7 +93,6 @@ Player.prototype.crouchComplete = function() {
  */
 Player.prototype.attack = function() {
   Entity.prototype.attack.call(this);
-  console.log(this._sprite.width);
   // TODO add player direction
   this._bulletPool.fireBullet(this._sprite.x + (this._sprite.width / 2), this._sprite.y + (this._sprite.height / 4));
 }
@@ -156,19 +112,24 @@ Player.prototype._animComplete = function() {
 
 Player.prototype.setCollision = function(layer) {
   // TODO add collision with enemy sprites here also
-  this._game.physics.arcade.collide(this._sprite, layer, null, function(obj1, obj2) {
-    this._jumpComplete();
-    return true;
-  }, this);
-}
-
-Player.prototype._jumpComplete = function() {
-  console.log(this._sprite.body.velocity.y);
-  if (this._sprite.body.velocity.y === 0) {
-    this._jumping = false;
-  }
+  this._game.physics.arcade.collide(this._sprite, layer);
 }
 
 Player.prototype.update = function() {
   // TODO
+  this._sprite.body.velocity.x = 0;
+
+  if (this._attackButton.isDown) {
+    this.attack();
+  }
+
+  if (this._cursors.right.isDown) {
+    this.move('right')
+  } else if (this._cursors.left.isDown) {
+    this.move('left')
+  }
+
+  if (this._cursors.up.isDown) {
+    this.jump();
+  }
 }

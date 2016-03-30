@@ -40,5 +40,6 @@ function create() {
 
 function update() {
   player.setCollision(layer);
+  player.update();
 }
 
