@@ -47,6 +47,8 @@ Player.prototype.create = function(x, y) {
   this._game.physics.enable(this._sprite);
   this._sprite.body.collideWorldBounds = true;
 
+  this._sprite.body.setSize(5, 58, 13, 3);
+
   // follow the player
   this._game.camera.follow(this._sprite);
 }
@@ -70,6 +72,7 @@ Player.prototype.addKeyCallback = function(key, onDown, onUp) {
 
 /**
  * Plays the Jump animation and gives the player an upward velocity
+ * // TODO need to redo this whole function - it sucks
  */
 Player.prototype.jump = function() {
   if (!this._jumping) {
@@ -80,7 +83,7 @@ Player.prototype.jump = function() {
       this._currentPlayingAnim = this._sprite.animations.play('jump', this._JUMP_SPEED);
     }
   
-    this._sprite.body.velocity.y = -200;
+    this._sprite.body.velocity.y = -400;
   }
 }
 
@@ -93,12 +96,12 @@ Player.prototype.move = function(key) {
   switch (key.keyCode) {
     case Phaser.KeyCode.RIGHT:
     case Phaser.KeyCode.D:
-      this._sprite.body.velocity.x = 100;
+      this._sprite.body.velocity.x = 250;
       break;
 
     case Phaser.KeyCode.LEFT:
     case Phaser.KeyCode.A:
-      this._sprite.body.velocity.x = -100;
+      this._sprite.body.velocity.x = -250;
       break;
 
     default: // should never happen
@@ -160,7 +163,12 @@ Player.prototype.setCollision = function(layer) {
 }
 
 Player.prototype._jumpComplete = function() {
+  console.log(this._sprite.body.velocity.y);
   if (this._sprite.body.velocity.y === 0) {
     this._jumping = false;
   }
+}
+
+Player.prototype.update = function() {
+  // TODO
 }

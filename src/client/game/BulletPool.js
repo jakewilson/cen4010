@@ -1,5 +1,5 @@
 var NUM_BULLETS = 10;
-var BULLET_VELOCITY = 400;
+var BULLET_VELOCITY = 200;
 
 /**
  * Constructs a BulletPool

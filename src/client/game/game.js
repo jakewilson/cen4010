@@ -1,4 +1,5 @@
-var game = new Phaser.Game(500, 16 * 30, Phaser.AUTO, 'meatpocalypse', { preload: preload, create: create, update: update});
+var width = 900, height = 21 * 32;
+var game = new Phaser.Game(width, height, Phaser.AUTO, 'meatpocalypse', { preload: preload, create: create, update: update});
 
 function preload() {
   loadMap();
@@ -9,19 +10,30 @@ var map, layer, player;
 function create() {
   game.physics.startSystem(Phaser.Physics.ARCADE);
 
+  bg = game.add.tileSprite(0, 0, width, height, 'background');
+  bg.fixedToCamera = true;
+
   map = game.add.tilemap('map');
-  map.addTilesetImage('SuperMarioBros-World1-1', 'tiles');
+  map.addTilesetImage('Tilesheet', 'tiles');
+  map.addTilesetImage('trash1', 'trash');
+  map.addTilesetImage('carrotsheet', 'carrots');
+  map.addTilesetImage('tofusheet', 'tofu');
+  map.addTilesetImage('pig', 'oink');
+  map.addTilesetImage('invertedtilesheet', 'inverted');
 
-  map.setCollisionBetween(14, 16);
-  map.setCollisionBetween(20, 25);
-  map.setCollisionBetween(27, 29);
-  map.setCollision(40);
+  map.setCollisionBetween(18, 21);
+  map.setCollisionBetween(23, 25);
+  map.setCollisionBetween(34, 35);
+  map.setCollisionBetween(39, 41);
+  map.setCollisionBetween(50, 51);
+  map.setCollisionBetween(65, 69);
+  
 
-  layer = map.createLayer('World1');
+  layer = map.createLayer('Tile Layer 1');
   layer.resizeWorld();
 
   player = new Player(game);
-  player.create(0, 16 * 9);
+  player.create(0, 32 * 15);
 
   game.physics.arcade.gravity.y = 500;
 }
