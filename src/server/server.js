@@ -23,25 +23,37 @@ app.post('/index.html', urlParser, (req, res, next) => {
         return; // don't send another header
     }
 
-    db.getPlayer(user, (err, row) => {
-        if (!err) {
-            if (row === undefined) {
-                msg = 'Username ' + user + ' does not exist.';
-            } else {
-                if (row.pass === pass) {
-                    res.redirect(302, 'game.html');
-                    return res.end();
-                } else {
-                    msg = 'Invalid password.';
-                }
-            }
-        } else {
-            console.log(err);
-        }
-        res.writeHead(400, {'Content-Type': 'text/html'});
-        res.write(msg);
-        res.end();
-    });
+    if(user && pass) {
+    	db.getPlayer(user, (err, row) => {
+        	if (!err) {
+        	    if (row === undefined) {
+        	        msg = 'Username ' + user + ' does not exist.';
+        	    } else {
+        	        if (row.pass === pass) {
+        	            res.redirect(302, 'game.html');
+        	            return res.end();
+        	        } else {
+        	            msg = 'Invalid password.';
+        	        }
+        	    }
+        	} else {
+        	    console.log(err);
+        	}
+        	res.writeHead(400, {'Content-Type': 'text/html'});
+        	res.write(msg);
+        	res.end();
+    	});
+    }
+});
+
+app.post('/registerPlayer', urlParser, function(req, res, next) {
+  db.addPlayer(req.body.createUser, req.body.createPass, function() {
+    res.writeHead(200, {'Content-Type': 'text/html'});
+    res.end();
+  }, function() {
+    res.writeHead(409, {'Content-Type': 'text/html'});
+    res.end();
+  });
 });
 
 module.exports = {

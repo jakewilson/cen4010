@@ -5,6 +5,8 @@
 var fs = require('fs');
 var sqlite3 = require('sqlite3').verbose();
 var db, db_created = false;
+var dbFileName = "meatpocalypse.db";
+
 module.exports = {
   /*
    * Creates the db with the given name
@@ -12,27 +14,49 @@ module.exports = {
    * @callback: the function to call after creation
    */
   create: function(name, callback) {
+    dbFileName = name || dbFileName;
     db = new sqlite3.Database(name, () => {
       db.serialize(function() {
         db.run("CREATE TABLE IF NOT EXISTS player (user TEXT PRIMARY KEY, pass TEXT)", () => { // TODO: finish columns
           db_created = true;
           if (callback !== undefined)
             callback.call(this);
-        }); 
+        });
       });
     });
-
   },
 
   /*
    * Adds a player to the database and calls the callback when done
    * TODO: instead accept an object when there are more key/values?
    */
-  addPlayer: function(user, pass, callback) {
+  addPlayer: function(user, pass, callback, failure) {
     if (!db_created)
-      return;
+      throw new Error("Database was not created!");
+
+    this.getPlayer(user, function(err, row) {
+      // only add the player if they don't already exist!
+
+      if(row === undefined) {
+        db.serialize(function() {
+          db.run("INSERT INTO player(user, pass) VALUES (?, ?)", user, pass, callback);
+        });
+      } else {
+        if(failure !== undefined) {
+          failure();
+        } else {
+          throw new Error("Player '" + user + "' already exists! ")
+        }
+      }
+    });
+  },
+
+  /**
+   * Removes a player from the database
+   */
+  removePlayer: function(user) {
     db.serialize(function() {
-      db.run("INSERT INTO player(user, pass) VALUES (?, ?)", user, pass, callback);
+      db.run("DELETE FROM player where user = ?", user);
     });
   },
 
@@ -50,7 +74,18 @@ module.exports = {
     });
   },
 
+  clear: function() {
+    db.serialize(function() {
+      db.run("DELETE FROM player");
+    });
+  },
+
   close: function() {
     db.close();
   },
+
+  delete: function() {
+    fs.unlink(dbFileName);
+    db_created = false;
+  }
 }
