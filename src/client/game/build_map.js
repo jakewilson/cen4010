@@ -6,7 +6,8 @@ function loadMap() {
   game.load.image('tiles', './assets/tiles/tilesheet.png');
   game.load.image('trash', './assets/tiles/trash.png');
   game.load.image('oink', './assets/tiles/pigsheet.png');
-  game.load.image('inverted', './assets/tiles/inverted_tilesheet.png');
+  //game.load.image('inverted', './assets/tiles/inverted_tilesheet.png');
+
 }
 
 function createMap() {
