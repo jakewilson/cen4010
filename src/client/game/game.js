@@ -4,9 +4,9 @@ var game = new Phaser.Game(width, height, Phaser.AUTO, 'meatpocalypse', { preloa
 var map, layer, player;
 
 function preload() {
+  loadAnimations();
   map = new Map(game);
   map.load();
-  loadAnimations();
 }
 
 function create() {

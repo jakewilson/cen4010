@@ -2,6 +2,8 @@ var Map = function(game) {
   this._game = game;
   this._map = null;
   this.layers = [];
+  // TODO create instance of Enemy objects when we have it
+  this.enemies = [];
 }
 
 Map.prototype.load = function() {
@@ -27,6 +29,8 @@ Map.prototype.create = function() {
   this.setCollisionTiles();
   this.createLayers();
   this.layers['First'].resizeWorld();
+
+  this.createEnemies();
 }
 
 Map.prototype.setCollisionTiles = function() {
@@ -40,4 +44,16 @@ Map.prototype.setCollisionTiles = function() {
 
 Map.prototype.createLayers = function() {
   this.layers['First'] = this._map.createLayer('First');
+}
+
+Map.prototype.createEnemies = function() {
+  // enemy object layer
+  this.layers['Enemies'] = this._map.objects['Enemies'];
+  var self = this;
+  this.layers['Enemies'].forEach(function(enemy) {
+    self.enemies.push(enemy);
+    if (enemy.name === 'Range') {
+      rangeSprite = self._game.add.sprite(enemy.x, enemy.y, 'range', 'walk1.png');
+    }
+  });
 }
