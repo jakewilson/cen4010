@@ -75,7 +75,7 @@ Player.prototype.move = function(direction) {
     this._sprite.body.velocity.x = -250;
   }
 
-  if (this._currentPlayingAnim === null) { // walk must wait for animation to stop playing
+  if (this._currentPlayingAnim === null || this._currentPlayingAnim.name.indexOf('walk') >= 0) {
     this._currentPlayingAnim = this._sprite.animations.play('walk' + this._direction, this._WALK_SPEED);
   }
 }
