@@ -1,0 +1,36 @@
+{"frames": {
+
+"pig1.png":
+{
+	"frame": {"x":101,"y":1,"w":48,"h":32},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":0,"y":32,"w":48,"h":32},
+	"sourceSize": {"w":48,"h":64}
+},
+"pig2.png":
+{
+	"frame": {"x":51,"y":1,"w":48,"h":43},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":0,"y":21,"w":48,"h":43},
+	"sourceSize": {"w":48,"h":64}
+},
+"pig3.png":
+{
+	"frame": {"x":1,"y":1,"w":48,"h":57},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":0,"y":7,"w":48,"h":57},
+	"sourceSize": {"w":48,"h":64}
+}},
+"meta": {
+	"app": "http://www.codeandweb.com/texturepacker",
+	"version": "1.0",
+	"image": "pig.png",
+	"format": "RGBA8888",
+	"size": {"w":150,"h":59},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:ffb4e7125497d9a61ab49f1b23a9bb76:f40c09c23b134f9fed71fa94d0dcbf8d:4dd13c7db2d2fc02b6406b8a7f7d5ecc$"
+}
+}
