@@ -30,7 +30,7 @@ Map.prototype.create = function() {
   this.createLayers();
   this.layers['First'].resizeWorld();
 
-  this.createEnemies();
+  // this.createEnemies();
 }
 
 Map.prototype.setCollisionTiles = function() {

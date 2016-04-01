@@ -29,10 +29,9 @@ var BulletPool = function(game, name) {
  * 
  * @param x: the x coordinate to fire the bullet at
  * @param y: the y coordinate to fire the bullet at
- * @param dir: the direction in which to fire the bullet (right now unused TODO)
+ * @param dir: the direction in which to fire the bullet
  */
 BulletPool.prototype.fireBullet = function(x, y, dir) {
-  // TODO limit fire rate here
   // get the first non-existent bullet from the pool
   var bullet = this._pool.getFirstExists(false);
 
@@ -40,6 +39,10 @@ BulletPool.prototype.fireBullet = function(x, y, dir) {
   if (bullet && this._game.time.now > this._nextFire) {
     this._nextFire = this._game.time.now + FIRE_RATE;
     bullet.reset(x, y);
-    bullet.body.velocity.x = BULLET_VELOCITY;
+    if (dir === 'right') {
+      bullet.body.velocity.x = BULLET_VELOCITY;
+    } else {
+      bullet.body.velocity.x = BULLET_VELOCITY * (-1);
+    }
   }
 }
