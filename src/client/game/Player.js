@@ -22,12 +22,16 @@ Player.prototype.constructor = Player;
  * @param y: the y location of the Player
  */
 Player.prototype.create = function(x, y) {
-  Entity.prototype.create.call(this, x, y, 'protagonist', 'walk1.png'); // initialize this._sprite
+  Entity.prototype.create.call(this, x, y, 'protagonist', 'walkright1.png'); // initialize this._sprite
 
-  this.addAnimation('walk', ['walk2.png', 'walk3.png', 'walk4.png'], this._animComplete);
-  this.addAnimation('jump', ['jump1.png'], this._animComplete);
-  this.addAnimation('attack', ['attack2.png', 'attack3.png', 'attack4.png'], this._animComplete)
-  this.addAnimation('crouch', ['crouch1.png'], this._animComplete)
+  this.addAnimation('walkright', ['walkright2.png', 'walkright3.png', 'walkright4.png'], this._animComplete);
+  this.addAnimation('jumpright', ['jumpright1.png'], this._animComplete);
+  this.addAnimation('attackright', ['attackright2.png', 'attackright3.png', 'attackright4.png'], this._animComplete)
+
+  this.addAnimation('walkleft', ['walkleft2.png', 'walkleft3.png', 'walkleft4.png'], this._animComplete);
+  this.addAnimation('jumpleft', ['jumpleft1.png'], this._animComplete);
+  this.addAnimation('attackleft', ['attackleft2.png', 'attackleft3.png', 'attackleft4.png'], this._animComplete)
+
 
   this.createBulletPool('banana');
 
@@ -50,8 +54,8 @@ Player.prototype.create = function(x, y) {
 Player.prototype.jump = function() {
   if (this._sprite.body.onFloor()) {
     // jump only needs to make sure attack is not playing first
-    if (!this._currentPlayingAnim || this._currentPlayingAnim.name !== 'attack') {
-      this._currentPlayingAnim = this._sprite.animations.play('jump', this._JUMP_SPEED);
+    if (!this._currentPlayingAnim || this._currentPlayingAnim.name.indexOf('attack') < 0) {
+      this._currentPlayingAnim = this._sprite.animations.play('jump' + this._direction, this._JUMP_SPEED);
     }
   
     this._sprite.body.velocity.y = -400;
@@ -63,29 +67,17 @@ Player.prototype.jump = function() {
  * @param direction: the direction to move the player
  */
 Player.prototype.move = function(direction) {
-  // TODO set appropriate animation for walking direction
   if (direction === 'right') {
+    this._direction = 'right'; 
     this._sprite.body.velocity.x = 250;
   } else if (direction === 'left') {
+    this._direction = 'left';
     this._sprite.body.velocity.x = -250;
   }
 
   if (this._currentPlayingAnim === null) { // walk must wait for animation to stop playing
-    this._currentPlayingAnim = this._sprite.animations.play('walk', this._WALK_SPEED);
+    this._currentPlayingAnim = this._sprite.animations.play('walk' + this._direction, this._WALK_SPEED);
   }
-}
-
-/**
- * Plays the crouch animation
- */
-Player.prototype.crouch = function() {
-  if (!this._currentPlayingAnim || this._currentPlayingAnim.name !== 'attack') {
-    this._currentPlayingAnim = this._sprite.animations.play('crouch', this._CROUCH_SPEED);
-  }
-}
-
-Player.prototype.crouchComplete = function() {
-  // TODO is this even needed?
 }
 
 /**
@@ -93,8 +85,12 @@ Player.prototype.crouchComplete = function() {
  */
 Player.prototype.attack = function() {
   Entity.prototype.attack.call(this);
-  // TODO add player direction
-  this._bulletPool.fireBullet(this._sprite.x + (this._sprite.width / 2), this._sprite.y + (this._sprite.height / 4));
+  var offset = (this._direction === 'left') ? 0 : (3 * (this._sprite.width / 4));
+  /*var offset = (this._sprite.width / 2);
+  if (this._direction === 'left') {
+    offset = 0;
+  }*/
+  this._bulletPool.fireBullet(this._sprite.x + offset, this._sprite.y + (this._sprite.height / 4), this._direction);
 }
 
 Player.prototype.attackComplete = function() {
@@ -106,7 +102,7 @@ Player.prototype.attackComplete = function() {
  * to the initial walking frame
  */
 Player.prototype._animComplete = function() {
-  this._sprite.frameName = 'walk1.png';
+  this._sprite.frameName = 'walk' + this._direction + '1.png';
   this._currentPlayingAnim = null;
 }
 

@@ -2,6 +2,7 @@ var Entity = function(game, health) {
   this._game = game;
   this._health = health;
   this._sprite = null;
+  this._direction = 'right';
 
   /**
    * The currently playing animation
@@ -28,7 +29,7 @@ Entity.prototype.kill = function() {
  * Plays the Entity's attack animation
  */
 Entity.prototype.attack = function() {
-  this._currentPlayingAnim = this._sprite.animations.play('attack', this._ATTACK_SPEED);
+  this._currentPlayingAnim = this._sprite.animations.play('attack' + this._direction, this._ATTACK_SPEED);
   this._attacking = true;
 }
 
