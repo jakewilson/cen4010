@@ -1,8 +1,7 @@
 
 var Player = function(game) {
   this._PLAYER_HEALTH = 100;
-  Entity.call(this, game, this._PLAYER_HEALTH);
-
+  Entity.call(this, game, this._PLAYER_HEALTH, 'protagonist');
   this._JUMP_SPEED = 1.5; // frames per second
   this._WALK_SPEED = 5; // frames per second
   this._ATTACK_SPEED = 5; // frames per second
@@ -16,13 +15,18 @@ var Player = function(game) {
 Player.prototype = Object.create(Entity.prototype);
 Player.prototype.constructor = Player;
 
+Player.prototype.preLoad = function() {
+  Entity.prototype.preLoad.call(this);
+  this._game.load.image('banana', './assets/spritesheets/banana.png');
+}
+
 /**
  * Creates the Player at the specified location
  * @param x: the x location of the Player
  * @param y: the y location of the Player
  */
 Player.prototype.create = function(x, y) {
-  Entity.prototype.create.call(this, x, y, 'protagonist', 'walkright1.png'); // initialize this._sprite
+  Entity.prototype.create.call(this, x, y, 'walkright1.png'); // initialize this._sprite
 
   this.addAnimation('walkright', ['walkright2.png', 'walkright3.png', 'walkright4.png'], this._animComplete);
   this.addAnimation('jumpright', ['jumpright1.png'], this._animComplete);
