@@ -43,6 +43,7 @@ Entity.prototype.attack = function() {
  */
 Entity.prototype.create = function(x, y, sprite, frame) {
   this._sprite = this._game.add.sprite(x, y, sprite, frame);
+  this._game.physics.enable(this._sprite);
 }
 
 /**
