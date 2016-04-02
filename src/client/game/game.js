@@ -1,4 +1,4 @@
-var width = 900, height = 21 * 32;
+var width = 900, height = (21 * 32) - 8;
 var game = new Phaser.Game(width, height, Phaser.AUTO, 'meatpocalypse', { preload: preload, create: create, update: update});
 
 var map, layer, player;

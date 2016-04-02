@@ -32,16 +32,16 @@ Player.prototype.create = function(x, y) {
   this.addAnimation('jumpleft', ['jumpleft1.png'], this._animComplete);
   this.addAnimation('attackleft', ['attackleft2.png', 'attackleft3.png', 'attackleft4.png'], this._animComplete)
 
-
   this.createBulletPool('banana');
 
   this._game.physics.enable(this._sprite);
   this._sprite.body.collideWorldBounds = true;
 
-  this._sprite.body.setSize(5, 58, 13, 3);
+  this._sprite.body.setSize(5, 58, 30, 3);
 
   // follow the player
   this._game.camera.follow(this._sprite);
+
 
   this._cursors = this._game.input.keyboard.createCursorKeys();
   this._attackButton = this._game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
