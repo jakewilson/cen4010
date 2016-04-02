@@ -85,10 +85,6 @@ Player.prototype.move = function(direction) {
 Player.prototype.attack = function() {
   Entity.prototype.attack.call(this);
   var offset = (this._direction === 'left') ? 0 : (3 * (this._sprite.width / 4));
-  /*var offset = (this._sprite.width / 2);
-  if (this._direction === 'left') {
-    offset = 0;
-  }*/
   this._bulletPool.fireBullet(this._sprite.x + offset, this._sprite.y + (this._sprite.height / 4), this._direction);
 }
 

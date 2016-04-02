@@ -6,7 +6,7 @@ var map, layer, player;
 function preload() {
   loadAnimations();
   map = new Map(game);
-  map.load();
+  map.preLoad();
 }
 
 function create() {

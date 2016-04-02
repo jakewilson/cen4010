@@ -4,21 +4,22 @@ var Map = function(game) {
   this.layers = [];
   // TODO create instance of Enemy objects when we have it
   this.enemies = [];
+  this.tofu = new Tofu(game);
 }
 
-Map.prototype.load = function() {
+Map.prototype.preLoad = function() {
   this._game.load.tilemap('map', './assets/tilemap/map.json', null, Phaser.Tilemap.TILED_JSON);
   this._game.load.image('background', './assets/tilemap/background.png');
   this._game.load.image('carrots', './assets/tiles/carrotsheet.png');
-  this._game.load.image('tofu', './assets/tiles/tofusheet.png');
+  this.tofu.preLoad();
   this._game.load.image('tiles', './assets/tiles/tilesheet.png');
   this._game.load.image('trash', './assets/tiles/trash.png');
   this._game.load.image('oink', './assets/tiles/pigsheet.png');
-  //game.load.image('inverted', './assets/tiles/inverted_tilesheet.png');
 }
 
 Map.prototype.create = function() {
   this._map = game.add.tilemap('map');
+  this.tofu.create();
   this._map.addTilesetImage('Tilesheet', 'tiles');
   this._map.addTilesetImage('trash1', 'trash');
   this._map.addTilesetImage('carrotsheet', 'carrots');
