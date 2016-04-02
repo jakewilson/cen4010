@@ -22,7 +22,6 @@ var Entity = function(game, health, name) {
  */
 Entity.prototype.preLoad = function() {
   this._game.load.atlasJSONHash(this._name, './assets/spritesheets/' + this._name + '.png', './assets/spritesheets/' + this._name + '.json');
-  console.log('loaded entity');
 }
 
 /**
