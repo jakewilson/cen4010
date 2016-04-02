@@ -1,9 +1,9 @@
-var Entity = function(game, health) {
+var Entity = function(game, health, name) {
   this._game = game;
   this._health = health;
   this._sprite = null;
   this._direction = 'right';
-
+  this._name = name;
   /**
    * The currently playing animation
    */
@@ -15,6 +15,14 @@ var Entity = function(game, health) {
    * The bullet pool for the Entity
    */
   this._bulletPool = null;
+}
+
+/**
+ * Loads the spritesheets
+ */
+Entity.prototype.preLoad = function() {
+  this._game.load.atlasJSONHash(this._name, './assets/spritesheets/' + this._name + '.png', './assets/spritesheets/' + this._name + '.json');
+  console.log('loaded entity');
 }
 
 /**
@@ -38,11 +46,10 @@ Entity.prototype.attack = function() {
  * on the specified frame
  * @param x: the x coordinate of the Entity
  * @param y: the y coordinate of the Entity
- * @param sprite: the name of the sprite image
  * @param frame: starting frame of the Entity
  */
-Entity.prototype.create = function(x, y, sprite, frame) {
-  this._sprite = this._game.add.sprite(x, y, sprite, frame);
+Entity.prototype.create = function(x, y, frame) {
+  this._sprite = this._game.add.sprite(x, y, this._name, frame);
   this._game.physics.enable(this._sprite);
 }
 
