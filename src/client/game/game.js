@@ -4,9 +4,10 @@ var game = new Phaser.Game(width, height, Phaser.AUTO, 'meatpocalypse', { preloa
 var map, layer, player;
 
 function preload() {
-  loadAnimations();
   map = new Map(game);
   map.preLoad();
+  player = new Player(game);
+  player.preLoad();
 }
 
 function create() {
@@ -23,7 +24,6 @@ function create() {
 //    carrotSprite[index] = game.add.tileSprite(carrot.x, carrot.y, 32, 32, 'carrots');
 //  });
 
-  player = new Player(game);
   player.create(0, 32 * 15);
 
   game.physics.arcade.gravity.y = 500;
