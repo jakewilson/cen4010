@@ -83,9 +83,4 @@ module.exports = {
   close: function() {
     db.close();
   },
-
-  delete: function() {
-    fs.unlink(dbFileName);
-    db_created = false;
-  }
 }
