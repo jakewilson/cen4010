@@ -57,7 +57,7 @@ describe("Server", function() {
       req.end();
     });
 
-    xit("should reject passwords that are incorrect", (done) => {
+    it("should reject passwords that are incorrect", (done) => {
 
       var msg = 'user=hi&pass=1234';
       var options = {
@@ -101,10 +101,14 @@ describe("Server", function() {
       req.end();
     });
 
-    xit("Informs user if username has been taken", function(done) {
+    it("Informs user if username has been taken", function(done) {
       var req = http.request(http_options, (res) => {
-        expect(res.statusCode).toBe(409);
-        done();
+        var badReq = http.request(http_options, (res) => {
+          expect(res.statusCode).toBe(409);
+          done();
+        });
+        badReq.write(postData);
+        badReq.end();
       });
       req.write(postData);
       req.end();
