@@ -24,21 +24,20 @@ describe("Server", function() {
       done();
     });
   };
-    it("is initializable", function() {
-        expect(server).toBeTruthy();
-    });
 
-    it("denies bad requests", (done) => {
+  it("is initializable", function() {
+    expect(server).toBeTruthy();
+  });
 
-        http.request({port: 3000, path: '/nonexistent'}, (res) => {
-            expect(res.statusCode).toBe(404);
-            done(); // let jasmine know that async operations are done
-        }).end();
-    });
+  it("denies bad requests", (done) => {
+    http.request({port: 3000, path: '/nonexistent'}, (res) => {
+      expect(res.statusCode).toBe(404);
+      done(); // let jasmine know that async operations are done
+    }).end();
+  });
 
   describe("login component", function() {
     it ("should reject usernames that don't exist", (done) => {
-
       var msg = 'user=hi&pass=1234';
       var options = {
         port: 3000,
