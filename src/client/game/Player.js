@@ -1,11 +1,8 @@
 
 var Player = function(game) {
   this._PLAYER_HEALTH = 100;
-  Entity.call(this, game, this._PLAYER_HEALTH, 'protagonist');
+  Entity.call(this, game, this._PLAYER_HEALTH, 'protagonist', 5, 5);
   this._JUMP_SPEED = 1.5; // frames per second
-  this._WALK_SPEED = 5; // frames per second
-  this._ATTACK_SPEED = 5; // frames per second
-  this._CROUCH_SPEED = 5; // frames per second
 
   this._jumping = false;
   this._cursors = null;

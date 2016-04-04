@@ -8,6 +8,8 @@ function preload() {
   map.preLoad();
   player = new Player(game);
   player.preLoad();
+  enemy = new Enemy(game);
+  enemy.preLoad();
 }
 
 function create() {
@@ -26,7 +28,7 @@ function create() {
 
   pauseKey = game.input.keyboard.addKey(Phaser.Keyboard.ESC);
   player.create(0, 32 * 15);
-
+  enemy.create(20, 32 * 15);
   game.physics.arcade.gravity.y = 500;
 }
 
