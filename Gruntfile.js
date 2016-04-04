@@ -6,7 +6,7 @@ module.exports = function(grunt) {
         banner: '/*! <%= pkg.name %> <%= grunt.template.today("yyyy-mm-dd") %> */\n'
       },
       build: {
-        src: 'src/client/game/*.js',
+        src: ['src/client/game/TileSpriteGroup.js', 'src/client/game/*.js'],
         dest: 'src/client/meatpocalypse.min.js'
       }
     }
