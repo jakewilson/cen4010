@@ -4,16 +4,8 @@ var Entity = function(game, health, name) {
   this._sprite = null;
   this._direction = 'right';
   this._name = name;
-  /**
-   * The currently playing animation
-   */
   this._currentPlayingAnim = null;
-
   this._attacking = false;
-
-  /**
-   * The bullet pool for the Entity
-   */
   this._bulletPool = null;
 }
 

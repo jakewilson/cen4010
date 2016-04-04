@@ -10,6 +10,6 @@ Tofu.prototype.preLoad = function() {
   TileSpriteGroup.prototype.preLoad.call(this);
 }
 
-Tofu.prototype.create = function() {
-  TileSpriteGroup.prototype.create.call(this);
+Tofu.prototype.create = function(spriteObjects) {
+  TileSpriteGroup.prototype.create.call(this, spriteObjects);
 }
