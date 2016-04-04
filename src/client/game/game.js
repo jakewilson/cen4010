@@ -24,6 +24,7 @@ function create() {
 //    carrotSprite[index] = game.add.tileSprite(carrot.x, carrot.y, 32, 32, 'carrots');
 //  });
 
+  pauseKey = game.input.keyboard.addKey(Phaser.Keyboard.ESC);
   player.create(0, 32 * 15);
 
   game.physics.arcade.gravity.y = 500;
@@ -32,5 +33,9 @@ function create() {
 function update() {
   player.setCollision(map.layers['First']);
   player.update();
+  pauseKey.onDown.add(pauseFunction, this);
 }
 
+function pauseFunction() {
+  game.paused = !game.paused;
+}
