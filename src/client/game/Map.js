@@ -51,15 +51,11 @@ Map.prototype.createLayers = function() {
   this.layers['Enemies'] = this._map.objects['Enemies'];
   this.layers['Tofu'] = this._map.objects['Tofu'];
   this.layers['Animals'] = this._map.objects['Animals'];
-  console.log(this.layers['Animals']);
-}
-
-Map.prototype.getObjects = function() {
-  
 }
 
 Map.prototype.createEnemies = function() {
   // enemy object layer
+  // TODO
   var self = this;
   this.layers['Enemies'].forEach(function(enemy) {
     self.enemies.push(enemy);
