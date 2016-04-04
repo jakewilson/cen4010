@@ -4,8 +4,8 @@ var Map = function(game) {
   this.layers = [];
   // TODO create instance of Enemy objects when we have it
   this.enemies = [];
-  this.tofu = new Tofu(game);
-  this.animal = new Animal(game);
+  this.tofu = new TileSpriteGroup(game, 'tofu');
+  this.animal = new TileSpriteGroup(game, 'animal');
 }
 
 Map.prototype.preLoad = function() {
