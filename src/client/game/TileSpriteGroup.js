@@ -21,16 +21,34 @@ TileSpriteGroup.prototype.preLoad = function() {
  * @param startingFrameIdx: the starting frame index for the sprite
  */
 TileSpriteGroup.prototype.create = function(spriteObjects, startingFrameIdx) {
-  if (startingFrameIdx === undefined)
-    startingFrameIdx = 1;
+  startingFrameIdx = startingFrameIdx || 1;
 
   this._objects = spriteObjects;
   this._group = this._game.add.group();
   this._group.enableBody = true;
-  this._group.physicsBodyType = Phaser.Physics.Arcade;
+  this._group.physicsBodyType = Phaser.Physics.ARCADE;
 
   var this_ = this;
   this._objects.forEach(function(obj, idx) {
     this_._group.create(obj.x, obj.y, this_._name, startingFrameIdx, true);
   });
+
+  this._group.setAll('body.allowGravity', false);
+}
+
+/**
+ * Sets a collision between the player and the TileSpriteGroup
+ *
+ * @param player: the player
+ */
+TileSpriteGroup.prototype.setCollision = function(player) {
+  this._game.physics.arcade.overlap(player.getSprite(), this._group, this._onOverlap, null, this);
+}
+
+/**
+ * Function that should only be called by Phaser.Physics.Arcade
+ * Do *NOT* call this function. This function is meant to overridden.
+ */
+TileSpriteGroup.prototype._onOverlap = function(sprite, group) {
+  console.log('whoopsies!');
 }

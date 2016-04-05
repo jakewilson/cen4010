@@ -125,3 +125,12 @@ Player.prototype.update = function() {
     this.jump();
   }
 }
+
+/**
+ * Returns the sprite of the player
+ *
+ * @return: the sprite of the player
+ */
+Player.prototype.getSprite = function() {
+  return this._sprite;
+}
