@@ -25,6 +25,8 @@ function create() {
 //  });
 
   pauseKey = game.input.keyboard.addKey(Phaser.Keyboard.ESC);
+  pauseKey.onDown.add(pauseFunction, this);
+
   player.create(0, 32 * 15);
 
   game.physics.arcade.gravity.y = 500;
@@ -32,9 +34,11 @@ function create() {
 
 function update() {
   player.setCollision(map.layers['First']);
+
+  // set collisions with game objects (tofu, animals, carrots, trash cans)
   map.setCollision(player);
+
   player.update();
-  pauseKey.onDown.add(pauseFunction, this);
 }
 
 function pauseFunction() {

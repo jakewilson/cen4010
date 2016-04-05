@@ -4,7 +4,7 @@ var Map = function(game) {
   this.layers = [];
   // TODO create instance of Enemy objects when we have it
   this.enemies = [];
-  this.tofu = new TileSpriteGroup(game, 'tofu');
+  this.tofu = new Tofu(game);
   this.animal = new Animal(game);
 }
 
@@ -58,7 +58,7 @@ Map.prototype.createLayers = function() {
  * @param player: the player
  */
 Map.prototype.setCollision = function(player) {
-  // this.tofu.setCollision(player);
+  this.tofu.setCollision(player);
   this.animal.setCollision(player);
 }
 
