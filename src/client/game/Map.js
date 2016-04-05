@@ -24,7 +24,7 @@ Map.prototype.create = function() {
   this.createLayers();
 
   this.tofu.create(this.layers['Tofu']);
-  this.animal.create(this.layers['Animals']);
+  this.animal.create(this.layers['Animals'], 3);
 
   this._map.addTilesetImage('Tilesheet', 'tiles');
   this._map.addTilesetImage('trash1', 'trash');

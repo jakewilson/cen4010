@@ -18,15 +18,19 @@ TileSpriteGroup.prototype.preLoad = function() {
  * Creates a TileSpriteGroup
  *
  * @param spriteObjects: the objects for the sprites as specified in a Tiled object layer
+ * @param startingFrameIdx: the starting frame index for the sprite
  */
-TileSpriteGroup.prototype.create = function(spriteObjects) {
+TileSpriteGroup.prototype.create = function(spriteObjects, startingFrameIdx) {
+  if (startingFrameIdx === undefined)
+    startingFrameIdx = 1;
+
   this._objects = spriteObjects;
   this._group = this._game.add.group();
   this._group.enableBody = true;
   this._group.physicsBodyType = Phaser.Physics.Arcade;
 
-  var self = this;
+  var this_ = this;
   this._objects.forEach(function(obj, idx) {
-    self._group.create(obj.x, obj.y, self._name, 1, true);
+    this_._group.create(obj.x, obj.y, this_._name, startingFrameIdx, true);
   });
 }
