@@ -35,8 +35,6 @@ Player.prototype.create = function(x, y) {
 
   this.createBulletPool('banana');
 
-  this._sprite.body.collideWorldBounds = true;
-
   this._sprite.body.setSize(5, 58, 30, 3);
 
   // follow the player

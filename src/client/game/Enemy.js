@@ -7,10 +7,6 @@ var Enemy = function(game) {
 Enemy.prototype = Object.create(Entity.prototype);
 Enemy.prototype.constructor = Enemy;
 
-Enemy.prototype.preLoad = function() {
-  Entity.prototype.preLoad.call(this);
-}
-
 /**
  * Created the Enemy at the specified locations
  * @param x: the x location of the Enemy   
@@ -19,7 +15,6 @@ Enemy.prototype.preLoad = function() {
  */
 Enemy.prototype.create = function(x, y) {
   Entity.prototype.create.call(this, x, y, 'walkleft1.png');
-  this._sprite.body.collideWorldBounds = true;
 }
 
 Enemy.prototype.update = function() {

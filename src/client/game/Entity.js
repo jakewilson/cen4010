@@ -44,6 +44,7 @@ Entity.prototype.attack = function() {
 Entity.prototype.create = function(x, y, frame) {
   this._sprite = this._game.add.sprite(x, y, this._name, frame);
   this._game.physics.enable(this._sprite);
+  this._sprite.body.collideWorldBounds = true;
 }
 
 /**
