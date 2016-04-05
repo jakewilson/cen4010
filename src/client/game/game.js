@@ -32,6 +32,7 @@ function create() {
 
 function update() {
   player.setCollision(map.layers['First']);
+  map.setCollision(player);
   player.update();
   pauseKey.onDown.add(pauseFunction, this);
 }

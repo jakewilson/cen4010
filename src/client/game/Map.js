@@ -5,7 +5,7 @@ var Map = function(game) {
   // TODO create instance of Enemy objects when we have it
   this.enemies = [];
   this.tofu = new TileSpriteGroup(game, 'tofu');
-  this.animal = new TileSpriteGroup(game, 'animal');
+  this.animal = new Animal(game);
 }
 
 Map.prototype.preLoad = function() {
@@ -29,7 +29,6 @@ Map.prototype.create = function() {
   this._map.addTilesetImage('Tilesheet', 'tiles');
   this._map.addTilesetImage('trash1', 'trash');
   this._map.addTilesetImage('carrotsheet', 'carrots');
-  this._map.addTilesetImage('invertedtilesheet', 'inverted');
 
   this.setCollisionTiles();
   this.layers['First'].resizeWorld();
@@ -51,6 +50,16 @@ Map.prototype.createLayers = function() {
   this.layers['Enemies'] = this._map.objects['Enemies'];
   this.layers['Tofu'] = this._map.objects['Tofu'];
   this.layers['Animals'] = this._map.objects['Animals'];
+}
+
+/**
+ * Sets collisions between the player and all sprite groups (animal, tofu, carrot)
+ *
+ * @param player: the player
+ */
+Map.prototype.setCollision = function(player) {
+  // this.tofu.setCollision(player);
+  this.animal.setCollision(player);
 }
 
 Map.prototype.createEnemies = function() {
