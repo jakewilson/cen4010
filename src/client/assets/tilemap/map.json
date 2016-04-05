@@ -476,7 +476,7 @@
                  "visible":true,
                  "width":27,
                  "x":1476,
-                 "y":67
+                 "y":32
                 }, 
                 {
                  "height":24,
@@ -490,8 +490,8 @@
                  "type":"",
                  "visible":true,
                  "width":27,
-                 "x":5026,
-                 "y":99
+                 "x":5010,
+                 "y":64
                 }, 
                 {
                  "height":26,
@@ -506,7 +506,7 @@
                  "visible":true,
                  "width":32,
                  "x":5026,
-                 "y":581
+                 "y":576
                 }, 
                 {
                  "height":21,

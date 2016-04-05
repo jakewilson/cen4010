@@ -4,31 +4,34 @@ var Map = function(game) {
   this.layers = [];
   // TODO create instance of Enemy objects when we have it
   this.enemies = [];
-  this.tofu = new Tofu(game);
+  this.tofu = new TileSpriteGroup(game, 'tofu');
+  this.animal = new TileSpriteGroup(game, 'animal');
 }
 
 Map.prototype.preLoad = function() {
   this._game.load.tilemap('map', './assets/tilemap/map.json', null, Phaser.Tilemap.TILED_JSON);
   this._game.load.image('background', './assets/tilemap/background.png');
-  this._game.load.image('carrots', './assets/tiles/carrotsheet.png');
+
   this.tofu.preLoad();
+  this.animal.preLoad();
+  this._game.load.image('carrots', './assets/tiles/carrotsheet.png');
   this._game.load.image('tiles', './assets/tiles/tilesheet.png');
   this._game.load.image('trash', './assets/tiles/trash.png');
-  this._game.load.image('oink', './assets/tiles/pigsheet.png');
 }
 
 Map.prototype.create = function() {
   this._map = game.add.tilemap('map');
-  this.tofu.create();
+  this.createLayers();
+
+  this.tofu.create(this.layers['Tofu']);
+  this.animal.create(this.layers['Animals']);
+
   this._map.addTilesetImage('Tilesheet', 'tiles');
   this._map.addTilesetImage('trash1', 'trash');
   this._map.addTilesetImage('carrotsheet', 'carrots');
-  this._map.addTilesetImage('tofusheet', 'tofu');
-  this._map.addTilesetImage('pig', 'oink');
   this._map.addTilesetImage('invertedtilesheet', 'inverted');
 
   this.setCollisionTiles();
-  this.createLayers();
   this.layers['First'].resizeWorld();
 
   // this.createEnemies();
@@ -45,11 +48,14 @@ Map.prototype.setCollisionTiles = function() {
 
 Map.prototype.createLayers = function() {
   this.layers['First'] = this._map.createLayer('First');
+  this.layers['Enemies'] = this._map.objects['Enemies'];
+  this.layers['Tofu'] = this._map.objects['Tofu'];
+  this.layers['Animals'] = this._map.objects['Animals'];
 }
 
 Map.prototype.createEnemies = function() {
   // enemy object layer
-  this.layers['Enemies'] = this._map.objects['Enemies'];
+  // TODO
   var self = this;
   this.layers['Enemies'].forEach(function(enemy) {
     self.enemies.push(enemy);

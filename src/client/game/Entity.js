@@ -6,16 +6,8 @@ var Entity = function(game, health, name, walkSpeed, attackSpeed) {
   this._name = name;
   this._WALK_SPEED = walkSpeed;
   this._ATTACK_SPEED = attackSpeed;
-  /**
-   * The currently playing animation
-   */
   this._currentPlayingAnim = null;
-
   this._attacking = false;
-
-  /**
-   * The bullet pool for the Entity
-   */
   this._bulletPool = null;
 }
 
