@@ -43,8 +43,9 @@ function update() {
   // set collisions with game objects (tofu, animals, carrots, trash cans)
   map.setCollision(player);
 
-  timerText.text = 'Time: ' + Math.round(game.time.now) / 1000;
   player.update();
+
+  timerText.text = 'Time: ' + Math.round(game.time.now) / 1000;
 }
 
 function pauseFunction() {

@@ -140,3 +140,16 @@ Player.prototype.update = function() {
 Player.prototype.getSprite = function() {
   return this._sprite;
 }
+
+/**
+ * Increases the score by the amount specified
+ *
+ * @param amt: the amount to increase the score by
+ * @return: the new score
+ */
+Player.prototype.updateScore = function(amt) {
+  if (amt)
+    this._score += amt;
+
+  return this._score;
+}
