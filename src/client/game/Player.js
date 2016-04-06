@@ -1,7 +1,7 @@
 
 var Player = function(game) {
-  this._PLAYER_HEALTH = 3;
-  Entity.call(this, game, this._PLAYER_HEALTH, 'protagonist', 5, 5);
+  this._PLAYER_STARTING_HEALTH = 3;
+  Entity.call(this, game, this._PLAYER_STARTING_HEALTH, 'protagonist', 5, 5);
   this._JUMP_SPEED = 1.5; // frames per second
   this._score = 0;
   this._jumping = false;
@@ -91,10 +91,6 @@ Player.prototype.attack = function() {
   Entity.prototype.attack.call(this);
   var offset = (this._direction === 'left') ? 0 : (3 * (this._sprite.width / 4));
   this._bulletPool.fireBullet(this._sprite.x + offset, this._sprite.y + (this._sprite.height / 4), this._direction);
-}
-
-Player.prototype.attackComplete = function() {
-  // TODO
 }
 
 /**

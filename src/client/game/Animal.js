@@ -10,8 +10,8 @@ Animal.prototype.constructor = Animal;
 
 Animal.prototype.setCollision = function(player) {
   var onOverlap = function(player_sprite, animal) {
-    if (!this._released) {
-      this._released = true;
+    if (!animal.released) {
+      animal.released = true;
       // play the animation and kill the sprite on completion
       animal.animations.play('anim', 3, false, true);
       player.updateScore(this._scoreAmt);
