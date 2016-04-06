@@ -43,15 +43,8 @@ TileSpriteGroup.prototype.create = function(spriteObjects, startingFrameIdx, ani
  * Sets a collision between the player and the TileSpriteGroup
  *
  * @param player: the player
+ * @param onOverlap: the function to call on an overlap
  */
-TileSpriteGroup.prototype.setCollision = function(player) {
-  this._game.physics.arcade.overlap(player.getSprite(), this._group, this._onOverlap, null, this);
-}
-
-/**
- * Function that should only be called by Phaser.Physics.Arcade
- * Do *NOT* call this function. This function is meant to overridden.
- */
-TileSpriteGroup.prototype._onOverlap = function(sprite, group) {
-  console.log('whoopsies!');
+TileSpriteGroup.prototype.setCollision = function(player, onOverlap) {
+  this._game.physics.arcade.overlap(player.getSprite(), this._group, onOverlap, null, this);
 }

@@ -14,7 +14,11 @@ Tofu.prototype.create = function(spriteObjects, startingFrameIdx) {
   });
 }
 
-Tofu.prototype._onOverlap = function(obj1, obj2) {
-  // TODO increase player health here
-  console.log('health++');
+Tofu.prototype.setCollision = function(player) {
+  var onOverlap = function(player_sprite, tofu) {
+    tofu.kill();
+    player.health += 1;
+  }
+
+  TileSpriteGroup.prototype.setCollision.call(this, player, onOverlap);
 }

@@ -1,7 +1,7 @@
 var width = 900, height = (21 * 32) - 8;
 var game = new Phaser.Game(width, height, Phaser.AUTO, 'meatpocalypse', { preload: preload, create: create, update: update});
 
-var map, layer, player;
+var map, layer, player, timerText;
 
 function preload() {
   map = new Map(game);
@@ -26,6 +26,9 @@ function create() {
 //    carrotSprite[index] = game.add.tileSprite(carrot.x, carrot.y, 32, 32, 'carrots');
 //  });
 
+  var textStyle = { font: "18px Arial", fill: "#ffffff", align: "left"};
+  timerText = game.add.text(18, 32, 'Time: ', textStyle);
+  timerText.fixedToCamera = true;
   pauseKey = game.input.keyboard.addKey(Phaser.Keyboard.ESC);
   pauseKey.onDown.add(pauseFunction, this);
 
@@ -41,6 +44,8 @@ function update() {
   map.setCollision(player);
 
   player.update();
+
+  timerText.text = 'Time: ' + Math.round(game.time.now) / 1000;
 }
 
 function pauseFunction() {

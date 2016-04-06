@@ -1,9 +1,10 @@
 
 var Player = function(game) {
-  this._PLAYER_HEALTH = 100;
-  Entity.call(this, game, this._PLAYER_HEALTH, 'protagonist', 5, 5);
   this._JUMP_FPS = 1.5; // frames per second
   this._WALK_SPEED = 250;
+  this._PLAYER_STARTING_HEALTH = 3;
+  Entity.call(this, game, this._PLAYER_STARTING_HEALTH, 'protagonist', 5, 5);
+  this._score = 0;
   this._jumping = false;
   this._sprinting = false;
   this._cursors = null;
@@ -12,6 +13,8 @@ var Player = function(game) {
 /** Player inherits Entity */
 Player.prototype = Object.create(Entity.prototype);
 Player.prototype.constructor = Player;
+
+var scoreText;
 
 Player.prototype.preLoad = function() {
   Entity.prototype.preLoad.call(this);
@@ -44,6 +47,10 @@ Player.prototype.create = function(x, y) {
   this._sprintButton.onDown.add(this._sprint, this);
   this._cursors = this._game.input.keyboard.createCursorKeys();
   this._attackButton = this._game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
+  var textStyle = { font: "18px Arial", fill: "#00ff00", align: "left"};
+  scoreText = game.add.text(18, 52, 'Score: ', textStyle);
+  scoreText.fixedToCamera = true;
+
 }
 
 /**
@@ -88,10 +95,6 @@ Player.prototype.attack = function() {
   this._bulletPool.fireBullet(this._sprite.x + offset, this._sprite.y + (this._sprite.height / 4), this._direction);
 }
 
-Player.prototype.attackComplete = function() {
-  // TODO
-}
-
 /**
  * Called when any Animation completes. Sets the sprite frame
  * to the initial walking frame
@@ -123,6 +126,8 @@ Player.prototype.update = function() {
   if (this._cursors.up.isDown) {
     this.jump();
   }
+
+  scoreText.text = 'Score: ' + this._score;
 }
 
 /**
@@ -142,4 +147,17 @@ Player.prototype._sprint = function() {
 		this._WALK_SPEED = this._WALK_SPEED / 5;
  		this._sprinting = false; 
 	}
+}
+
+/**
+ * Increases the score by the amount specified
+ *
+ * @param amt: the amount to increase the score by
+ * @return: the new score
+ */
+Player.prototype.updateScore = function(amt) {
+  if (amt)
+    this._score += amt;
+
+  return this._score;
 }

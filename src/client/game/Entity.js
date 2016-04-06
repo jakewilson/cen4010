@@ -1,6 +1,6 @@
 var Entity = function(game, health, name, walkSpeed, attackSpeed) {
   this._game = game;
-  this._health = health;
+  this.health = health;
   this._sprite = null;
   this._direction = 'right';
   this._name = name;
