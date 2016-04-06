@@ -80,7 +80,7 @@ Player.prototype.move = function(direction) {
 }
 
 /**
- * Sets the attack animation and shoots a projeD/
+ * Sets the attack animation and shoots a projectile
 */
 Player.prototype.attack = function() {
   Entity.prototype.attack.call(this);
@@ -135,7 +135,7 @@ Player.prototype.getSprite = function() {
 }
 
 Player.prototype._sprint = function() {
-	if (this._sprinting) {
+	if (!this._sprinting) {
 		this._WALK_SPEED = this._WALK_SPEED * 5;
  		this._sprinting = true; 
 	} else {
