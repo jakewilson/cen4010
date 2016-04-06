@@ -1,9 +1,9 @@
 
 var Player = function(game) {
-  this._PLAYER_HEALTH = 100;
+  this._PLAYER_HEALTH = 3;
   Entity.call(this, game, this._PLAYER_HEALTH, 'protagonist', 5, 5);
   this._JUMP_SPEED = 1.5; // frames per second
-
+  this._score = 0;
   this._jumping = false;
   this._cursors = null;
 }
@@ -11,6 +11,8 @@ var Player = function(game) {
 /** Player inherits Entity */
 Player.prototype = Object.create(Entity.prototype);
 Player.prototype.constructor = Player;
+
+var scoreText;
 
 Player.prototype.preLoad = function() {
   Entity.prototype.preLoad.call(this);
@@ -43,6 +45,10 @@ Player.prototype.create = function(x, y) {
 
   this._cursors = this._game.input.keyboard.createCursorKeys();
   this._attackButton = this._game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
+  var textStyle = { font: "18px Arial", fill: "#00ff00", align: "left"};
+  scoreText = game.add.text(18, 52, 'Score: ', textStyle);
+  scoreText.fixedToCamera = true;
+
 }
 
 /**
@@ -122,6 +128,8 @@ Player.prototype.update = function() {
   if (this._cursors.up.isDown) {
     this.jump();
   }
+
+  scoreText.text = 'Score: ' + this._score;
 }
 
 /**
