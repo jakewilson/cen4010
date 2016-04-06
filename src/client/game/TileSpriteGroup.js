@@ -19,9 +19,11 @@ TileSpriteGroup.prototype.preLoad = function() {
  *
  * @param spriteObjects: the objects for the sprites as specified in a Tiled object layer
  * @param startingFrameIdx: the starting frame index for the sprite
+ * @param animName: the name to call the animation
  */
-TileSpriteGroup.prototype.create = function(spriteObjects, startingFrameIdx) {
+TileSpriteGroup.prototype.create = function(spriteObjects, startingFrameIdx, animName) {
   startingFrameIdx = startingFrameIdx || 1;
+  animName = animName || 'anim';
 
   this._objects = spriteObjects;
   this._group = this._game.add.group();
@@ -30,7 +32,8 @@ TileSpriteGroup.prototype.create = function(spriteObjects, startingFrameIdx) {
 
   var this_ = this;
   this._objects.forEach(function(obj, idx) {
-    this_._group.create(obj.x, obj.y, this_._name, startingFrameIdx, true);
+    var obj_ = this_._group.create(obj.x, obj.y, this_._name, startingFrameIdx, true);
+    obj_.animations.add(animName);
   });
 
   this._group.setAll('body.allowGravity', false);
