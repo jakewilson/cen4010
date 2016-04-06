@@ -1,9 +1,11 @@
-var Entity = function(game, health, name) {
+var Entity = function(game, health, name, walkSpeed, attackSpeed) {
   this._game = game;
   this._health = health;
   this._sprite = null;
   this._direction = 'right';
   this._name = name;
+  this._WALK_SPEED = walkSpeed;
+  this._ATTACK_SPEED = attackSpeed;
   this._currentPlayingAnim = null;
   this._attacking = false;
   this._bulletPool = null;
@@ -42,6 +44,7 @@ Entity.prototype.attack = function() {
 Entity.prototype.create = function(x, y, frame) {
   this._sprite = this._game.add.sprite(x, y, this._name, frame);
   this._game.physics.enable(this._sprite);
+  this._sprite.body.collideWorldBounds = true;
 }
 
 /**
