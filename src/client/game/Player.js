@@ -5,6 +5,7 @@ var Player = function(game) {
   this._JUMP_FPS = 1.5; // frames per second
   this._WALK_SPEED = 250;
   this._jumping = false;
+  this._sprinting = false;
   this._cursors = null;
 }
 
@@ -39,8 +40,8 @@ Player.prototype.create = function(x, y) {
 
   // follow the player
   this._game.camera.follow(this._sprite);
-  sprintButton = game.input.keyboard.addKey(Phaser.Keyboard.D);
-  sprintButton.onDown.add(this._sprint, this);
+  this._sprintButton = this._game.input.keyboard.addKey(Phaser.Keyboard.D);
+  this._sprintButton.onDown.add(this._sprint, this);
   this._cursors = this._game.input.keyboard.createCursorKeys();
   this._attackButton = this._game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
 }
@@ -80,6 +81,7 @@ Player.prototype.move = function(direction) {
 
 /**
  * Sets the attack animation and shoots a projeD/
+*/
 Player.prototype.attack = function() {
   Entity.prototype.attack.call(this);
   var offset = (this._direction === 'left') ? 0 : (3 * (this._sprite.width / 4));
@@ -133,8 +135,11 @@ Player.prototype.getSprite = function() {
 }
 
 Player.prototype._sprint = function() {
-	if(this._WALK_SPEED == 250) {
+	if (this._sprinting) {
 		this._WALK_SPEED = this._WALK_SPEED * 5;
-	} else
+ 		this._sprinting = true; 
+	} else {
 		this._WALK_SPEED = this._WALK_SPEED / 5;
+ 		this._sprinting = false; 
+	}
 }
