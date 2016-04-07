@@ -17,7 +17,7 @@ Tofu.prototype.create = function(spriteObjects, startingFrameIdx) {
 Tofu.prototype.setCollision = function(player) {
   var onOverlap = function(player_sprite, tofu) {
     tofu.kill();
-    player.health += 1;
+    player.updateHealth(1);
   }
 
   TileSpriteGroup.prototype.setCollision.call(this, player, onOverlap);

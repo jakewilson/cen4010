@@ -19,12 +19,6 @@ function create() {
   bg.fixedToCamera = true;
 
   map.create();
-//  var carrotLayer = map.objects['Carrot'];
-//  var carrotSprite = [];
-//
-//  carrotLayer.forEach(function(carrot, index) {
-//    carrotSprite[index] = game.add.tileSprite(carrot.x, carrot.y, 32, 32, 'carrots');
-//  });
 
   var textStyle = { font: "18px Arial", fill: "#ffffff", align: "left"};
   timerText = game.add.text(18, 32, 'Time: ', textStyle);

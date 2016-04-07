@@ -1,11 +1,15 @@
-
 var Player = function(game) {
-  this._PLAYER_STARTING_HEALTH = 3;
-  Entity.call(this, game, this._PLAYER_STARTING_HEALTH, 'protagonist', 5, 5);
+  this._STARTING_HEALTH = 3;
+  this._MAX_HEALTH = 6;
+  Entity.call(this, game, this._STARTING_HEALTH, 'protagonist', 5, 5);
   this._JUMP_SPEED = 1.5; // frames per second
   this._score = 0;
   this._jumping = false;
   this._cursors = null;
+  this._healthPool = null;
+  this._healthY = 10;
+  this._healthX = 30;
+  this._textOffset = 18;
 }
 
 /** Player inherits Entity */
@@ -42,13 +46,15 @@ Player.prototype.create = function(x, y) {
   // follow the player
   this._game.camera.follow(this._sprite);
 
-
   this._cursors = this._game.input.keyboard.createCursorKeys();
   this._attackButton = this._game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
+
   var textStyle = { font: "18px Arial", fill: "#00ff00", align: "left"};
-  scoreText = game.add.text(18, 52, 'Score: ', textStyle);
+  scoreText = game.add.text(this._textOffset, 52, 'Score: ', textStyle);
   scoreText.fixedToCamera = true;
 
+  this._createHealthPool();
+  this._drawHealth();
 }
 
 /**
@@ -148,4 +154,39 @@ Player.prototype.updateScore = function(amt) {
     this._score += amt;
 
   return this._score;
+}
+
+
+Player.prototype._createHealthPool = function() {
+  this._healthPool = this._game.add.group();
+  for (var i = 0; i < this._MAX_HEALTH; i++) {
+    var child = this._healthPool.create(this._healthX * i + this._textOffset, this._healthY, 'tofu');
+  }
+  this._healthPool.setAll('fixedToCamera', true);
+}
+
+/**
+ * Draws the players health as tofu cubes at the top left of the screen
+ */
+Player.prototype._drawHealth = function() {
+  this._healthPool.callAll('kill');
+  for (var i = 0; i < this._health; i++) {
+    var child = this._healthPool.getChildAt(i);
+    child.reset(this._healthX * i, this._healthY);
+  }
+}
+
+/**
+ * Updates the players health by the specified amount
+ *
+ * @param amt: the amount to increase the health by
+ * @return: the new health
+ */
+Player.prototype.updateHealth = function(amt) {
+  if (amt) {
+    this._health += amt;
+    this._drawHealth();
+  }
+
+  return this._health;
 }
