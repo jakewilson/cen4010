@@ -4,8 +4,8 @@ var Entity = function(game, health, name, walkSpeed, attackSpeed) {
   this._sprite = null;
   this._direction = 'right';
   this._name = name;
-  this._WALK_SPEED = walkSpeed;
-  this._ATTACK_SPEED = attackSpeed;
+  this._WALK_FPS = walkSpeed;
+  this._ATTACK_FPS = attackSpeed;
   this._currentPlayingAnim = null;
   this._attacking = false;
   this._bulletPool = null;
@@ -30,7 +30,7 @@ Entity.prototype.kill = function() {
  * Plays the Entity's attack animation
  */
 Entity.prototype.attack = function() {
-  this._currentPlayingAnim = this._sprite.animations.play('attack' + this._direction, this._ATTACK_SPEED);
+  this._currentPlayingAnim = this._sprite.animations.play('attack' + this._direction, this._ATTACK_FPS);
   this._attacking = true;
 }
 
