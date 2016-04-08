@@ -6,7 +6,7 @@ var db = require('../src/server/db.js');
 describe("Server", function() {
   beforeAll(function() {
     server.start(3000);
-    db.create("meatpocalypse"); // should *NOT* have to do this...
+    db.create("meatpocalypse.db"); // should *NOT* have to do this...
   });
 
   afterAll(function() {
@@ -79,7 +79,7 @@ describe("Server", function() {
 
   describe("Player Registration", function() {
     var testUser = 'jonathanIsCool';
-    var postData = "createUser=" + testUser + "&createPass=123";
+    var postData = "user=" + testUser + "&pass=123";
     var http_options = {
       port: 3000,
       method: 'POST',

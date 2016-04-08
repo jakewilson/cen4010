@@ -35,18 +35,16 @@ module.exports = {
       throw new Error("Database was not created!");
 
     this.getPlayer(user, function(err, row) {
-      // only add the player if they don't already exist!
 
+      // only add the player if they don't already exist!
       if(row === undefined) {
         db.serialize(function() {
           db.run("INSERT INTO player(user, pass) VALUES (?, ?)", user, pass, callback);
         });
+      } else if(failure !== undefined) {
+        failure();
       } else {
-        if(failure !== undefined) {
-          failure();
-        } else {
-          throw new Error("Player '" + user + "' already exists! ")
-        }
+        throw new Error("Player '" + user + "' already exists! ")
       }
     });
   },
