@@ -21,7 +21,7 @@ function create() {
   map.create();
 
   var textStyle = { font: "18px Arial", fill: "#ffffff", align: "left"};
-  timerText = game.add.text(18, 32, 'Time: ', textStyle);
+  timerText = game.add.text(800, 18, 'Time: ', textStyle);
   timerText.fixedToCamera = true;
   pauseKey = game.input.keyboard.addKey(Phaser.Keyboard.ESC);
   pauseKey.onDown.add(pauseFunction, this);
@@ -39,7 +39,7 @@ function update() {
 
   player.update();
 
-  timerText.text = 'Time: ' + Math.round(game.time.now) / 1000;
+  timerText.text = 'Time: ' + (Math.round(game.time.now) / 1000).toFixed(1);
 }
 
 function pauseFunction() {

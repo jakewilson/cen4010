@@ -11,7 +11,8 @@ var Player = function(game) {
   this._healthPool = null;
   this._healthY = 10;
   this._healthX = 30;
-  this._textOffset = 18;
+  this._tofuTextOffset = 18;
+  this._scoreTextOffset = 425;
 }
 
 /** Player inherits Entity */
@@ -55,7 +56,7 @@ Player.prototype.create = function(x, y) {
   this._attackButton = this._game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
 
   var textStyle = { font: "18px Arial", fill: "#00ff00", align: "left"};
-  scoreText = game.add.text(this._textOffset, 52, 'Score: ', textStyle);
+  scoreText = game.add.text(this._scoreTextOffset, 18, 'Score: ', textStyle);
   scoreText.fixedToCamera = true;
 
   this._createHealthPool();
@@ -175,7 +176,7 @@ Player.prototype.updateScore = function(amt) {
 Player.prototype._createHealthPool = function() {
   this._healthPool = this._game.add.group();
   for (var i = 0; i < this._MAX_HEALTH; i++) {
-    var child = this._healthPool.create(this._healthX * i + this._textOffset, this._healthY, 'tofu');
+    var child = this._healthPool.create(this._healthX * i + this._tofuTextOffset, this._healthY, 'tofu');
   }
   this._healthPool.setAll('fixedToCamera', true);
 }
