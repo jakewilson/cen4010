@@ -176,20 +176,6 @@ Player.prototype._sprint = function() {
 	}
 }
 
-/**
- * Increases the score by the amount specified
- *
- * @param amt: the amount to increase the score by
- * @return: the new score
- */
-Player.prototype.updateScore = function(amt) {
-  if (amt)
-    this._score += amt;
-
-  return this._score;
-}
-
-
 Player.prototype._createHealthPool = function() {
   this._healthPool = this._game.add.group();
   for (var i = 0; i < this._MAX_HEALTH; i++) {
