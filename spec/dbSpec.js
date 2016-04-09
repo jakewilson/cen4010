@@ -21,10 +21,11 @@ describe("Database", function() {
   });
 
   it("should be able to add and retrieve", (done) => {
-    db.addPlayer('jake', '1234', (err) => {
+    var player = 'jake';
+    db.addPlayer(player, '1234', (err) => {
       expect(err).toBe(null);
-      db.getPlayer('jake', (err, row) => {
-        expect(row).toEqual({user: 'jake', pass: '1234'});
+      db.getPlayer(player, (err, row) => {
+        expect(row).toEqual({user: player, pass: '1234'});
         done();
       });
     });
@@ -44,6 +45,14 @@ describe("Database", function() {
 
   it("should not fail on non existent users", (done) => {
     db.getPlayer('martino', (err, row) => {
+      expect(row).toBe(undefined);
+      done();
+    });
+  });
+
+  it("should fail if a user is not provided", function(done) {
+    db.getPlayer(undefined, (err, row) => {
+      expect(err).not.toBe(undefined);
       expect(row).toBe(undefined);
       done();
     });

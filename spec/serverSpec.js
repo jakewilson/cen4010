@@ -6,7 +6,7 @@ var db = require('../src/server/db.js');
 describe("Server", function() {
   beforeAll(function() {
     server.start(3000);
-    db.create("meatpocalypse"); // should *NOT* have to do this...
+    db.create("meatpocalypse.db"); // should *NOT* have to do this...
   });
 
   afterAll(function() {
@@ -24,21 +24,20 @@ describe("Server", function() {
       done();
     });
   };
-    it("is initializable", function() {
-        expect(server).toBeTruthy();
-    });
 
-    it("denies bad requests", (done) => {
+  it("is initializable", function() {
+    expect(server).toBeTruthy();
+  });
 
-        http.request({port: 3000, path: '/nonexistent'}, (res) => {
-            expect(res.statusCode).toBe(404);
-            done(); // let jasmine know that async operations are done
-        }).end();
-    });
+  it("denies bad requests", (done) => {
+    http.request({port: 3000, path: '/nonexistent'}, (res) => {
+      expect(res.statusCode).toBe(404);
+      done(); // let jasmine know that async operations are done
+    }).end();
+  });
 
   describe("login component", function() {
     it ("should reject usernames that don't exist", (done) => {
-
       var msg = 'user=hi&pass=1234';
       var options = {
         port: 3000,
@@ -57,7 +56,7 @@ describe("Server", function() {
       req.end();
     });
 
-    xit("should reject passwords that are incorrect", (done) => {
+    it("should reject passwords that are incorrect", (done) => {
 
       var msg = 'user=hi&pass=1234';
       var options = {
@@ -80,7 +79,7 @@ describe("Server", function() {
 
   describe("Player Registration", function() {
     var testUser = 'jonathanIsCool';
-    var postData = "createUser=" + testUser + "&createPass=123";
+    var postData = "user=" + testUser + "&pass=123";
     var http_options = {
       port: 3000,
       method: 'POST',
@@ -101,10 +100,14 @@ describe("Server", function() {
       req.end();
     });
 
-    xit("Informs user if username has been taken", function(done) {
+    it("Informs user if username has been taken", function(done) {
       var req = http.request(http_options, (res) => {
-        expect(res.statusCode).toBe(409);
-        done();
+        var badReq = http.request(http_options, (res) => {
+          expect(res.statusCode).toBe(409);
+          done();
+        });
+        badReq.write(postData);
+        badReq.end();
       });
       req.write(postData);
       req.end();

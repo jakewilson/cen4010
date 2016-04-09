@@ -44,14 +44,13 @@ app.post('/index.html', urlParser, (req, res, next) => {
         	res.end();
     	});
     }
-});
-
-app.post('/registerPlayer', urlParser, function(req, res, next) {
-  db.addPlayer(req.body.createUser, req.body.createPass, function() {
-    res.writeHead(200, {'Content-Type': 'text/html'});
+}).post('/registerPlayer', urlParser, function(req, res, next) {
+  db.addPlayer(req.body.user, req.body.pass, function() {
+    res.redirect(302, 'game.html');
     res.end();
   }, function() {
     res.writeHead(409, {'Content-Type': 'text/html'});
+    res.write('Player already exists!');
     res.end();
   });
 });

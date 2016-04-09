@@ -14,19 +14,22 @@ var Player = function(game) {
 
   this._score = 0;
   this._scoreTextOffset = 425;
+
   this._carrotsCollected = 0;
   this._animalsRescued = 0;
   this._carrotMultiplier = 10;
   this._animalMultiplier = 1000;
   this._enemiesKilled = 0;
   this._enemyMultiplier = 100;
+
+  this._carrotTextOffset = 48;
 }
 
 /** Player inherits Entity */
 Player.prototype = Object.create(Entity.prototype);
 Player.prototype.constructor = Player;
 
-var scoreText;
+var scoreText, carrotSprite, carrotText;
 
 Player.prototype.preLoad = function() {
   Entity.prototype.preLoad.call(this);
@@ -63,8 +66,14 @@ Player.prototype.create = function(x, y) {
   this._attackButton = this._game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
 
   var textStyle = { font: "18px Arial", fill: "#00ff00", align: "left"};
-  scoreText = game.add.text(this._scoreTextOffset, 18, 'Score: ', textStyle);
+  scoreText = this._game.add.text(this._scoreTextOffset, 18, 'Score: ', textStyle);
   scoreText.fixedToCamera = true;
+
+  carrotSprite = this._game.add.sprite(18, 48, 'carrot');
+  carrotSprite.fixedToCamera = true;
+  carrotText = this._game.add.text(this._carrotTextOffset, 58, 'x ' + this._carrotsCollected, textStyle);
+  carrotText.fixedToCamera = true;
+
 
   this._createHealthPool();
   this._drawHealth();
@@ -145,6 +154,7 @@ Player.prototype.update = function() {
   }
 
   scoreText.text = 'Score: ' + this._score;
+  carrotText.text = 'x ' + this._carrotsCollected;
 }
 
 /**
