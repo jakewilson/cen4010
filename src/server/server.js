@@ -46,10 +46,11 @@ app.post('/index.html', urlParser, (req, res, next) => {
     }
 }).post('/registerPlayer', urlParser, function(req, res, next) {
   db.addPlayer(req.body.user, req.body.pass, function() {
-    res.writeHead(200, {'Content-Type': 'text/html'});
+    res.redirect(302, 'game.html');
     res.end();
   }, function() {
     res.writeHead(409, {'Content-Type': 'text/html'});
+    res.write('Player already exists!');
     res.end();
   });
 });
