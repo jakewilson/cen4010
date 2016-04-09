@@ -1,6 +1,5 @@
 var Animal = function(game) {
   TileSpriteGroup.call(this, game, 'animal');
-  this._scoreAmt = 100;
   this._released = false;
 }
 
@@ -14,7 +13,7 @@ Animal.prototype.setCollision = function(player) {
       animal.released = true;
       // play the animation and kill the sprite on completion
       animal.animations.play('anim', 3, false, true);
-      player.updateScore(this._scoreAmt);
+      player.registerAnimalRescued();
     }
   };
   TileSpriteGroup.prototype.setCollision.call(this, player, onOverlap);
