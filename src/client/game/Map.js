@@ -7,6 +7,7 @@ var Map = function(game) {
   this.tofu = new Tofu(game);
   this.animal = new Animal(game);
   this.carrot = new Carrot(game);
+  this.trash = new Trash(game);
 }
 
 Map.prototype.preLoad = function() {
@@ -16,9 +17,9 @@ Map.prototype.preLoad = function() {
   this.tofu.preLoad();
   this.carrot.preLoad();
   this.animal.preLoad();
+  this.trash.preLoad();
   this._game.load.image('carrots', './assets/tiles/carrotsheet.png');
   this._game.load.image('tiles', './assets/tiles/tilesheet.png');
-  this._game.load.image('trash', './assets/tiles/trash.png');
 }
 
 Map.prototype.create = function() {
@@ -28,9 +29,9 @@ Map.prototype.create = function() {
   this.tofu.create(this.layers['Tofu']);
   this.animal.create(this.layers['Animals'], 3);
   this.carrot.create(this.layers['Carrots'], 3);
+  this.trash.create(this.layers['Trash'], 3);
 
   this._map.addTilesetImage('Tilesheet', 'tiles');
-  this._map.addTilesetImage('trash1', 'trash');
   this._map.addTilesetImage('carrotsheet', 'carrots');
 
   this.setCollisionTiles();
@@ -54,6 +55,7 @@ Map.prototype.createLayers = function() {
   this.layers['Tofu'] = this._map.objects['Tofu'];
   this.layers['Animals'] = this._map.objects['Animals'];
   this.layers['Carrots'] = this._map.objects['Carrots'];
+  this.layers['Trash'] = this._map.objects['Trash'];
 }
 
 /**
