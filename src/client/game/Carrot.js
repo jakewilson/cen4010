@@ -15,7 +15,7 @@ Carrot.prototype.create = function(spriteObjects, startingFrameIdx) {
 }
 
 Carrot.prototype.setCollision = function(player) {
-  var onOverlap = function(player_sprite, tofu) {
+  var onOverlap = function(player_sprite, carrot) {
     carrot.kill();
     player.carrots += 1;
   }
