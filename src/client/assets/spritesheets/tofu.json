@@ -1,0 +1,44 @@
+{"frames": {
+
+"tofu1.png":
+{
+	"frame": {"x":1,"y":1,"w":18,"h":18},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":7,"y":10,"w":18,"h":18},
+	"sourceSize": {"w":32,"h":32}
+},
+"tofu2.png":
+{
+	"frame": {"x":21,"y":1,"w":18,"h":18},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":7,"y":12,"w":18,"h":18},
+	"sourceSize": {"w":32,"h":32}
+},
+"tofu3.png":
+{
+	"frame": {"x":41,"y":1,"w":18,"h":18},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":7,"y":10,"w":18,"h":18},
+	"sourceSize": {"w":32,"h":32}
+},
+"tofu4.png":
+{
+	"frame": {"x":61,"y":1,"w":18,"h":18},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":7,"y":12,"w":18,"h":18},
+	"sourceSize": {"w":32,"h":32}
+}},
+"meta": {
+	"app": "http://www.codeandweb.com/texturepacker",
+	"version": "1.0",
+	"image": "tofu.png",
+	"format": "RGBA8888",
+	"size": {"w":80,"h":20},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:d54fce7dad43d129bbbc16392f9f72a7:4b188b56678809f00d1b2a019c156b9e:b3c16689b8adaf15c6b2cca99f0af7d6$"
+}
+}

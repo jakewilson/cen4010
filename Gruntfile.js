@@ -1,4 +1,6 @@
 module.exports = function(grunt) {
+
+  var gamePath = 'src/client/game/';
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
     uglify: {
@@ -6,7 +8,7 @@ module.exports = function(grunt) {
         banner: '/*! <%= pkg.name %> <%= grunt.template.today("yyyy-mm-dd") %> */\n'
       },
       build: {
-        src: 'src/client/game/*.js',
+        src: [gamePath + 'TileSpriteGroup.js', gamePath + 'Entity.js', gamePath + '/*.js'],
         dest: 'src/client/meatpocalypse.min.js'
       }
     }

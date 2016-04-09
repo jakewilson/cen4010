@@ -1,5 +1,6 @@
 var NUM_BULLETS = 10;
 var BULLET_VELOCITY = 400;
+var FIRE_RATE = 200; // in ms
 
 /**
  * Constructs a BulletPool
@@ -20,6 +21,7 @@ var BulletPool = function(game, name) {
   this._pool.setAll('outOfBoundsKill', true);
   this._pool.setAll('autoCull', true);
   this._pool.setAll('body.allowGravity', false);
+  this._nextFire = 0;
 }
 
 /**
@@ -27,16 +29,20 @@ var BulletPool = function(game, name) {
  * 
  * @param x: the x coordinate to fire the bullet at
  * @param y: the y coordinate to fire the bullet at
- * @param dir: the direction in which to fire the bullet (right now unused TODO)
+ * @param dir: the direction in which to fire the bullet
  */
 BulletPool.prototype.fireBullet = function(x, y, dir) {
-  // TODO limit fire rate here
   // get the first non-existent bullet from the pool
   var bullet = this._pool.getFirstExists(false);
 
   // fire the bullet here
-  if (bullet) {
+  if (bullet && this._game.time.now > this._nextFire) {
+    this._nextFire = this._game.time.now + FIRE_RATE;
     bullet.reset(x, y);
-    bullet.body.velocity.x = BULLET_VELOCITY;
+    if (dir === 'right') {
+      bullet.body.velocity.x = BULLET_VELOCITY;
+    } else {
+      bullet.body.velocity.x = BULLET_VELOCITY * (-1);
+    }
   }
 }
