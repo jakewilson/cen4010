@@ -4,7 +4,6 @@ var Player = function(game) {
   Entity.call(this, game, this._STARTING_HEALTH, 'protagonist', 5, 5);
   this._JUMP_FPS = 1.5; // frames per second
   this._WALK_SPEED = 250;
-  this._score = 0;
   this._jumping = false;
   this._sprinting = false;
   this._cursors = null;
@@ -12,7 +11,15 @@ var Player = function(game) {
   this._healthY = 10;
   this._healthX = 30;
   this._tofuTextOffset = 18;
+
+  this._score = 0;
   this._scoreTextOffset = 425;
+  this._carrotsCollected = 0;
+  this._animalsRescued = 0;
+  this._carrotMultiplier = 10;
+  this._animalMultiplier = 1000;
+  this._enemiesKilled = 0;
+  this._enemyMultiplier = 100;
 }
 
 /** Player inherits Entity */
@@ -205,4 +212,26 @@ Player.prototype.updateHealth = function(amt) {
   }
 
   return this._health;
+}
+
+Player.prototype.getCarrotsCollected = function() {
+  return this._carrotsCollected;
+}
+
+Player.prototype.getRescuedAnimals = function() {
+  return this._animalsRescued;
+}
+
+Player.prototype.registerCarrotCollected = function() {
+  this._carrotsCollected++;
+}
+
+Player.prototype.registerAnimalRescued = function() {
+  this._animalsRescued++;
+}
+
+Player.prototype.getScore = function() {
+  return (this._carrotsCollected * this._carrotMultiplier) +
+    (this._animalsRescued * this._animalMultiplier) +
+    (this._enemiesKilled * this._enemyMultiplier);
 }
