@@ -21,19 +21,38 @@ describe("Database", function() {
   });
 
   it("should be able to add and retrieve", (done) => {
-    db.addPlayer('jake', '1234', (err) => {
+    var player = 'jake';
+    db.addPlayer(player, '1234', (err) => {
       expect(err).toBe(null);
-
-      db.getPlayer('jake', (err, row) => {
-        expect(row).toEqual({user: 'jake', pass: '1234'});
+      db.getPlayer(player, (err, row) => {
+        expect(row).toEqual({user: player, pass: '1234'});
         done();
       });
-
     });
+  });
+
+  it("Should not add the same player twice", function(done) {
+    // failure must happen or done is not called and test will fail
+    var handleFailure = function(err) {
+      if(err) {
+        done();
+      }
+    };
+    // One of the following will fail.
+    db.addPlayer('jonathan', '1234', handleFailure);
+    db.addPlayer('jonathan', '1234', handleFailure);
   });
 
   it("should not fail on non existent users", (done) => {
     db.getPlayer('martino', (err, row) => {
+      expect(row).toBe(undefined);
+      done();
+    });
+  });
+
+  it("should fail if a user is not provided", function(done) {
+    db.getPlayer(undefined, (err, row) => {
+      expect(err).not.toBe(undefined);
       expect(row).toBe(undefined);
       done();
     });

@@ -14,19 +14,16 @@ app.post('/index.html', urlParser, (req, res, next) => {
         return res.sendStatus(400);
     var user = req.body.user;
     var pass = req.body.pass;
-    var createUser = req.body.createUser;
-    var createPass = req.body.createPass;
     var msg  = 'Invalid request.';
 
-    if ((!user || !pass) && (!createUser || !createPass)) {
+    if (!user || !pass) {
         res.writeHead(400, {'Content-Type': 'text/html'});
         res.write('You must enter a username and a password');
         res.end();
         return; // don't send another header
     }
-    
+
     if(user && pass) {
-	    
     	db.getPlayer(user, (err, row) => {
         	if (!err) {
         	    if (row === undefined) {
@@ -46,25 +43,15 @@ app.post('/index.html', urlParser, (req, res, next) => {
         	res.write(msg);
         	res.end();
     	});
-    } else if(createUser && createPass) {
-    
-	db.addPlayer(createUser, createPass, (err, row) => {
-        	if (!err) {
-        	    if(row === undefined) {
-			    msg = 'Username ' + createUser + ' has been created.';
-		    	    res.redirect(302, 'game.html');
-			    return res.end();
-		    }
-        	}  else if(err.message.includes('UNIQUE constraint failed')) {
-			msg = 'ERROR: Username ' + createUser + ' already exists';
-		}  else {
-        		console.log(err);
-        	}
-        	res.writeHead(400, {'Content-Type': 'text/html'});
-        	res.write(msg);
-        	res.end();
-    	});
     }
+}).post('/registerPlayer', urlParser, function(req, res, next) {
+  db.addPlayer(req.body.user, req.body.pass, function() {
+    res.writeHead(200, {'Content-Type': 'text/html'});
+    res.end();
+  }, function() {
+    res.writeHead(409, {'Content-Type': 'text/html'});
+    res.end();
+  });
 });
 
 module.exports = {
