@@ -44,10 +44,8 @@ app.post('/index.html', urlParser, (req, res, next) => {
         	res.end();
     	});
     }
-});
-
-app.post('/registerPlayer', urlParser, function(req, res, next) {
-  db.addPlayer(req.body.createUser, req.body.createPass, function() {
+}).post('/registerPlayer', urlParser, function(req, res, next) {
+  db.addPlayer(req.body.user, req.body.pass, function() {
     res.writeHead(200, {'Content-Type': 'text/html'});
     res.end();
   }, function() {
