@@ -8,8 +8,6 @@ function preload() {
   map.preLoad();
   player = new Player(game);
   player.preLoad();
-  enemy = new Enemy(game);
-  enemy.preLoad();
 }
 
 function create() {
@@ -27,7 +25,6 @@ function create() {
   pauseKey.onDown.add(pauseFunction, this);
 
   player.create(0, 32 * 15);
-  enemy.create(20, 32 * 15);
   game.physics.arcade.gravity.y = 500;
 }
 
@@ -38,6 +35,7 @@ function update() {
   map.setCollision(player);
 
   player.update();
+  map.update();
 
   timerText.text = 'Time: ' + (Math.round(game.time.now) / 1000).toFixed(1);
 }

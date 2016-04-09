@@ -1,11 +1,11 @@
-var Entity = function(game, health, name, walkSpeed, attackSpeed) {
+var Entity = function(game, name, health, walkSpeed, attackSpeed) {
   this._game = game;
-  this._health = health;
+  this._name = name;
+  this._health = health || 100;
   this._sprite = null;
   this._direction = 'right';
-  this._name = name;
-  this._WALK_FPS = walkSpeed;
-  this._ATTACK_FPS = attackSpeed;
+  this._WALK_FPS = walkSpeed || 5;
+  this._ATTACK_FPS = attackSpeed || 5;
   this._currentPlayingAnim = null;
   this._attacking = false;
   this._bulletPool = null;
@@ -42,6 +42,7 @@ Entity.prototype.attack = function() {
  * @param frame: starting frame of the Entity
  */
 Entity.prototype.create = function(x, y, frame) {
+  frame = frame || 'walkleft1.png';
   this._sprite = this._game.add.sprite(x, y, this._name, frame);
   this._game.physics.enable(this._sprite);
   this._sprite.body.collideWorldBounds = true;
@@ -65,3 +66,8 @@ Entity.prototype.addAnimation = function(name, frames, onComplete) {
 Entity.prototype.createBulletPool = function(name) {
   this._bulletPool = new BulletPool(this._game, name, this._sprite);
 }
+
+Entity.prototype.setCollision = function(layer) {
+  this._game.physics.arcade.collide(this._sprite, layer);
+}
+

@@ -1,7 +1,7 @@
 var Player = function(game) {
   this._STARTING_HEALTH = 3;
   this._MAX_HEALTH = 6;
-  Entity.call(this, game, this._STARTING_HEALTH, 'protagonist', 5, 5);
+  Entity.call(this, game, 'protagonist', this._STARTING_HEALTH, 5, 5);
   this._JUMP_FPS = 1.5; // frames per second
   this._WALK_SPEED = 250;
   this._score = 0;
@@ -63,6 +63,7 @@ Player.prototype.create = function(x, y) {
 
   carrotSprite = this._game.add.sprite(18, 48, 'carrot');
   carrotSprite.fixedToCamera = true;
+
   carrotText = this._game.add.text(this._carrotTextOffset, 58, 'x ' + this._carrotsCollected, textStyle);
   carrotText.fixedToCamera = true;
 
@@ -120,11 +121,6 @@ Player.prototype.attack = function() {
 Player.prototype._animComplete = function() {
   this._sprite.frameName = 'walk' + this._direction + '1.png';
   this._currentPlayingAnim = null;
-}
-
-Player.prototype.setCollision = function(layer) {
-  // TODO add collision with enemy sprites here also
-  this._game.physics.arcade.collide(this._sprite, layer);
 }
 
 Player.prototype.update = function() {

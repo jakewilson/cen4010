@@ -3,7 +3,7 @@ var Map = function(game) {
   this._map = null;
   this.layers = [];
   // TODO create instance of Enemy objects when we have it
-  this.enemies = [];
+  this._rangedEnemies = [];
   this.tofu = new Tofu(game);
   this.animal = new Animal(game);
   this.carrot = new Carrot(game);
@@ -36,7 +36,7 @@ Map.prototype.create = function() {
   this.setCollisionTiles();
   this.layers['First'].resizeWorld();
 
-  // this.createEnemies();
+  this.createEnemies();
 }
 
 Map.prototype.setCollisionTiles = function() {
@@ -56,6 +56,13 @@ Map.prototype.createLayers = function() {
   this.layers['Carrots'] = this._map.objects['Carrots'];
 }
 
+Map.prototype.update = function() {
+  var this_ = this;
+  this._rangedEnemies.forEach(function(ranger) {
+    ranger.setCollision(this_.layers['First']);
+  });
+}
+
 /**
  * Sets collisions between the player and all sprite groups (animal, tofu, carrot)
  *
@@ -68,13 +75,16 @@ Map.prototype.setCollision = function(player) {
 }
 
 Map.prototype.createEnemies = function() {
-  // enemy object layer
-  // TODO
-  var self = this;
+  this._createRangedEnemies();
+}
+
+Map.prototype._createRangedEnemies = function() {
+  var this_ = this;
   this.layers['Enemies'].forEach(function(enemy) {
-    self.enemies.push(enemy);
     if (enemy.name === 'Range') {
-      rangeSprite = self._game.add.sprite(enemy.x, enemy.y, 'range', 'walk1.png');
+      var ranger = new RangedEnemy(this_._game);
+      ranger.create(enemy.x, enemy.y);
+      this_._rangedEnemies.push(ranger);
     }
   });
 }
