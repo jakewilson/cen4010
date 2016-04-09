@@ -153,7 +153,7 @@ Player.prototype.update = function() {
     this.jump();
   }
 
-  scoreText.text = 'Score: ' + this._score;
+  scoreText.text = 'Score: ' + this.getScore();
   carrotText.text = 'x ' + this._carrotsCollected;
 }
 
