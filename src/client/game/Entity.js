@@ -96,5 +96,6 @@ Entity.prototype.hurt = function() {
   if (this._game.time.now > this._nextDamage) {
     this._nextDamage = this._game.time.now + this._damageRate;
     this._health -= 1;
+    // TODO play damage animation here
   }
 }
