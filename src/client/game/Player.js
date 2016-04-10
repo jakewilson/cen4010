@@ -199,7 +199,6 @@ Player.prototype._drawHealth = function() {
 
 /**
  * Heals the player by the specified amount 
- * @param amt: the amount to heal the player 
  * @return: the new health
  */
 Player.prototype.heal = function() {

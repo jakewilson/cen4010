@@ -9,7 +9,7 @@ var Entity = function(game, name, health, walkSpeed, attackSpeed, damageRate) {
   this._currentPlayingAnim = null;
   this._attacking = false;
   this._bulletPool = null;
-  this._damageRate = damageRate;
+  this._damageRate = damageRate || 1500;
   this._nextDamage = 0;
 }
 
