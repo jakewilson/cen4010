@@ -1,7 +1,7 @@
 var Player = function(game) {
   this._STARTING_HEALTH = 3;
   this._MAX_HEALTH = 6;
-  Entity.call(this, game, 'protagonist', this._STARTING_HEALTH, 5, 5);
+  Entity.call(this, game, 'protagonist', this._STARTING_HEALTH, 5, 5, 1500);
   this._JUMP_FPS = 1.5; // frames per second
   this._WALK_SPEED = 250;
   this._score = 0;
@@ -15,7 +15,6 @@ var Player = function(game) {
   this._scoreTextOffset = 425;
   this._carrotTextOffset = 48;
   this._carrotsCollected = 0;
-  this._timeDamaged = 0; 
 }
 
 /** Player inherits Entity */
@@ -199,25 +198,6 @@ Player.prototype._drawHealth = function() {
 }
 
 /**
- * Deals damage to the player as long as they haven't been
- * damaged in the last 1.5 seconds
- * @param amt: the amount to damage the player 
- * @return: the new health
- */
-Player.prototype.hurt = function(amt) {
-  if(this._timeDamaged === 0) {
-    this.timeDamaged = (this._game.time.now /1000);
-  }
-  if((this._game.time.now / 1000) - (this._timeDamaged) > 1.5) {
-    this._timeDamaged = (this._game.time.now / 1000);
-    this._health -= 1;
-    this._drawHealth();
-  }
-
-  return this._health;
-}
-
-/**
  * Heals the player by the specified amount 
  * @param amt: the amount to heal the player 
  * @return: the new health
@@ -229,4 +209,13 @@ Player.prototype.heal = function(amt) {
   }
 
   return this._health;
+}
+
+/**
+ * Calls entity's hurt function and redraws the player's health
+ * @param amt: the amount to hurt the player
+ */
+Player.prototype.hurt = function(amt) {
+  Entity.prototype.hurt.call(this, amt);
+  this._drawHealth();
 }
