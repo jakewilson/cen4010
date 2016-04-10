@@ -18,6 +18,8 @@ Map.prototype.preLoad = function() {
   this.carrot.preLoad();
   this.animal.preLoad();
   this.trash.preLoad();
+
+  this._game.load.atlasJSONHash('ranger', './assets/spritesheets/ranger.png', './assets/spritesheets/ranger.json');
   this._game.load.image('carrots', './assets/tiles/carrotsheet.png');
   this._game.load.image('tiles', './assets/tiles/tilesheet.png');
 }
