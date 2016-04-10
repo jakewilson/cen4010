@@ -60,11 +60,20 @@ Map.prototype.createLayers = function() {
   this.layers['Trash'] = this._map.objects['Trash'];
 }
 
-Map.prototype.update = function() {
+/**
+ * Updates the map
+ *
+ * @param player: the player
+ */
+Map.prototype.update = function(player) {
   var this_ = this;
   this._rangedEnemies.forEach(function(ranger) {
     ranger.setCollision(this_.layers['First']);
+    ranger.setCollisionWithPlayer(player);
   });
+
+  // set collisions with game objects (tofu, animals, carrots, trash cans)
+  this.setCollision(player);
 }
 
 /**

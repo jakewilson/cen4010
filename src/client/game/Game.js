@@ -21,21 +21,21 @@ function create() {
   var textStyle = { font: "18px Arial", fill: "#ffffff", align: "left"};
   timerText = game.add.text(800, 18, 'Time: ', textStyle);
   timerText.fixedToCamera = true;
+
   pauseKey = game.input.keyboard.addKey(Phaser.Keyboard.ESC);
   pauseKey.onDown.add(pauseFunction, this);
 
   player.create(0, 32 * 15);
+
   game.physics.arcade.gravity.y = 500;
 }
 
 function update() {
   player.setCollision(map.layers['First']);
 
-  // set collisions with game objects (tofu, animals, carrots, trash cans)
-  map.setCollision(player);
 
   player.update();
-  map.update();
+  map.update(player);
 
   timerText.text = 'Time: ' + (Math.round(game.time.now) / 1000).toFixed(1);
 }
