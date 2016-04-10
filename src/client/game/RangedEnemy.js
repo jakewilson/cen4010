@@ -7,6 +7,10 @@ var RangedEnemy = function(game) {
 RangedEnemy.prototype = Object.create(Entity.prototype);
 RangedEnemy.prototype.constructor = RangedEnemy;
 
+RangedEnemy.prototype.preLoad = function() {
+  Entity.prototype.preLoad.call(this);
+}
+
 RangedEnemy.prototype.create = function(x, y, frame) {
   Entity.prototype.create.call(this, x, y, frame);
   this._sprite.body.immovable = true;

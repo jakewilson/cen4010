@@ -2,9 +2,10 @@ var Map = function(game) {
   this._game = game;
   this._map = null;
   this.layers = [];
-  // TODO create instance of Enemy objects when we have it
+
   this._rangedEnemies = [];
   this._meleeEnemies = [];
+
   this.tofu = new Tofu(game);
   this.animal = new Animal(game);
   this.carrot = new Carrot(game);
@@ -21,8 +22,10 @@ Map.prototype.preLoad = function() {
   this.trash.preLoad();
 
   this._game.load.atlasJSONHash('ranger', './assets/spritesheets/ranger.png', './assets/spritesheets/ranger.json');
+  this._game.load.image('meat', './assets/spritesheets/banana.png');
+
   this._game.load.atlasJSONHash('butcher', './assets/spritesheets/butcher.png', './assets/spritesheets/butcher.json');
-  this._game.load.image('carrots', './assets/tiles/carrotsheet.png');
+
   this._game.load.image('tiles', './assets/tiles/tilesheet.png');
 }
 
@@ -55,6 +58,8 @@ Map.prototype.setCollisionTiles = function() {
 
 Map.prototype.createLayers = function() {
   this.layers['First'] = this._map.createLayer('First');
+
+  // object layers
   this.layers['Enemies'] = this._map.objects['Enemies'];
   this.layers['Tofu'] = this._map.objects['Tofu'];
   this.layers['Animals'] = this._map.objects['Animals'];
@@ -68,21 +73,19 @@ Map.prototype.createLayers = function() {
  * @param player: the player
  */
 Map.prototype.update = function(player) {
-  var this_ = this;
-  this._rangedEnemies.forEach(function(ranger) {
-    ranger.setCollision(this_.layers['First']);
-    ranger.setCollisionWithPlayer(player);
-    player.setBulletPoolCollision(ranger);
-  });
-
-  this._meleeEnemies.forEach(function(butcher) {
-    butcher.setCollision(this_.layers['First']);
-    butcher.setCollisionWithPlayer(player);
-    player.setBulletPoolCollision(butcher);
-  });
-
+  this._setEnemyCollisions(this._rangedEnemies, player);
+  this._setEnemyCollisions(this._meleeEnemies, player);
   // set collisions with game objects (tofu, animals, carrots, trash cans)
   this.setCollision(player);
+}
+
+Map.prototype._setEnemyCollisions = function(enemies, player) {
+  var this_ = this;
+  enemies.forEach(function(enemy) {
+    enemy.setCollision(this_.layers['First']); // set collision with tiles
+    enemy.setCollisionWithPlayer(player);
+    player.setBulletPoolCollision(enemy);
+  });
 }
 
 /**
