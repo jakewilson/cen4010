@@ -18,7 +18,7 @@ Trash.prototype.create = function(spriteObjects, startingFrameIdx) {
 
 Trash.prototype.setCollision = function(player) {
   var onCollide = function(player_sprite, trash) {
-    player.hurt(1);
+    player.hurt();
   };
    this._game.physics.arcade.collide(player.getSprite(), this._group, onCollide, null, this);
 }

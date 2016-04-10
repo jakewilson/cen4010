@@ -74,13 +74,13 @@ Entity.prototype.setCollision = function(layer) {
 }
 
 /**
- * Deals damage to an entity at their damageRate
+ * Deals 1 damage to an entity at their damageRate
  * @param amt: the amount to damage the player 
  * @return: the new health
  */
-Entity.prototype.hurt = function(amt) {
+Entity.prototype.hurt = function() {
   if (this._game.time.now > this._nextDamage) {
     this._nextDamage = this._game.time.now + this._damageRate;
-    this._health -= amt;
+    this._health -= 1;
   }
 }

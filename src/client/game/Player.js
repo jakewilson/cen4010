@@ -202,20 +202,16 @@ Player.prototype._drawHealth = function() {
  * @param amt: the amount to heal the player 
  * @return: the new health
  */
-Player.prototype.heal = function(amt) {
-  if (amt) {
-    this._health += amt;
-    this._drawHealth();
-  }
-
+Player.prototype.heal = function() {
+  this._health += 1;
+  this._drawHealth();
   return this._health;
 }
 
 /**
  * Calls entity's hurt function and redraws the player's health
- * @param amt: the amount to hurt the player
  */
-Player.prototype.hurt = function(amt) {
-  Entity.prototype.hurt.call(this, amt);
+Player.prototype.hurt = function() {
+  Entity.prototype.hurt.call(this);
   this._drawHealth();
 }
