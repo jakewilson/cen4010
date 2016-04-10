@@ -1,4 +1,4 @@
-var Entity = function(game, name, health, walkSpeed, attackSpeed) {
+var Entity = function(game, name, health, walkSpeed, attackSpeed, damageRate) {
   this._game = game;
   this._name = name;
   this._health = health || 100;
@@ -9,6 +9,8 @@ var Entity = function(game, name, health, walkSpeed, attackSpeed) {
   this._currentPlayingAnim = null;
   this._attacking = false;
   this._bulletPool = null;
+  this._damageRate = damageRate || 1500;
+  this._nextDamage = 0;
 }
 
 /**
@@ -72,6 +74,7 @@ Entity.prototype.setCollision = function(layer) {
 }
 
 /**
+<<<<<<< HEAD
  * Returns the sprite of the entity
  *
  * @return: the sprite of the entity
@@ -82,4 +85,16 @@ Entity.prototype.getSprite = function() {
 
 Entity.prototype.setBulletPoolCollision = function(entity) {
   this._bulletPool.setCollisionWithEntity(entity);
+}
+
+/**
+ * Deals 1 damage to an entity at their damageRate
+ * @param amt: the amount to damage the player 
+ * @return: the new health
+ */
+Entity.prototype.hurt = function() {
+  if (this._game.time.now > this._nextDamage) {
+    this._nextDamage = this._game.time.now + this._damageRate;
+    this._health -= 1;
+  }
 }

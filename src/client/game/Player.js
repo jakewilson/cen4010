@@ -1,7 +1,7 @@
 var Player = function(game) {
   this._STARTING_HEALTH = 3;
   this._MAX_HEALTH = 6;
-  Entity.call(this, game, 'protagonist', this._STARTING_HEALTH, 5, 5);
+  Entity.call(this, game, 'protagonist', this._STARTING_HEALTH, 5, 5, 1500);
   this._JUMP_FPS = 1.5; // frames per second
   this._WALK_SPEED = 250;
   this._score = 0;
@@ -189,16 +189,19 @@ Player.prototype._drawHealth = function() {
 }
 
 /**
- * Updates the players health by the specified amount
- *
- * @param amt: the amount to increase the health by
+ * Heals the player by the specified amount 
  * @return: the new health
  */
-Player.prototype.updateHealth = function(amt) {
-  if (amt) {
-    this._health += amt;
-    this._drawHealth();
-  }
-
+Player.prototype.heal = function() {
+  this._health += 1;
+  this._drawHealth();
   return this._health;
+}
+
+/**
+ * Calls entity's hurt function and redraws the player's health
+ */
+Player.prototype.hurt = function() {
+  Entity.prototype.hurt.call(this);
+  this._drawHealth();
 }
