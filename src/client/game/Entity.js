@@ -71,3 +71,15 @@ Entity.prototype.setCollision = function(layer) {
   this._game.physics.arcade.collide(this._sprite, layer);
 }
 
+/**
+ * Returns the sprite of the entity
+ *
+ * @return: the sprite of the entity
+ */
+Entity.prototype.getSprite = function() {
+  return this._sprite;
+}
+
+Entity.prototype.setBulletPoolCollision = function(entity) {
+  this._bulletPool.setCollisionWithEntity(entity);
+}

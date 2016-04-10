@@ -19,7 +19,6 @@ RangedEnemy.prototype.create = function(x, y, frame) {
 RangedEnemy.prototype.setCollisionWithPlayer = function(player) {
   var onCollision = function(player_sprite, enemy_sprite) {
     // TODO player.hurt()
-    console.log('hi');
   };
   this._game.physics.arcade.collide(player.getSprite(), this._sprite, onCollision);
 }

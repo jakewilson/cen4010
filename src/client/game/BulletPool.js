@@ -46,3 +46,15 @@ BulletPool.prototype.fireBullet = function(x, y, dir) {
     }
   }
 }
+
+/**
+ * Sets a collision with the pool and an entity
+ */
+BulletPool.prototype.setCollisionWithEntity = function(entity) {
+  var onOverlap = function(sprite, bullet) {
+    // hurt the sprite here
+    // entity.hurt()
+    bullet.kill();
+  };
+  this._game.physics.arcade.overlap(entity.getSprite(), this._pool, onOverlap);
+}

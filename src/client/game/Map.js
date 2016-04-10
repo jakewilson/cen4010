@@ -70,6 +70,7 @@ Map.prototype.update = function(player) {
   this._rangedEnemies.forEach(function(ranger) {
     ranger.setCollision(this_.layers['First']);
     ranger.setCollisionWithPlayer(player);
+    player.setBulletPoolCollision(ranger);
   });
 
   // set collisions with game objects (tofu, animals, carrots, trash cans)

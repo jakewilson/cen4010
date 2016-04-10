@@ -145,15 +145,6 @@ Player.prototype.update = function() {
   carrotText.text = 'x ' + this._carrotsCollected;
 }
 
-/**
- * Returns the sprite of the player
- *
- * @return: the sprite of the player
- */
-Player.prototype.getSprite = function() {
-  return this._sprite;
-}
-
 Player.prototype._sprint = function() {
 	if (!this._sprinting) {
 		this._WALK_SPEED = this._WALK_SPEED * 5;
