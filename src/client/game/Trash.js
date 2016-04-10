@@ -8,15 +8,17 @@ Trash.prototype.constructor = Trash;
 
 Trash.prototype.create = function(spriteObjects, startingFrameIdx) {
   TileSpriteGroup.prototype.create.call(this, spriteObjects, startingFrameIdx, 'anim');
+  this._group.setAll('body.immovable', true);
 
   this._group.children.forEach(function(child) {
     child.animations.play('anim', 5, true);
+    child.body.setSize(20, 21, 6, 43);
   });
 }
 
 Trash.prototype.setCollision = function(player) {
-  var onOverlap = function(player_sprite, Trash) {
-    // TODO
+  var onCollide = function(player_sprite, trash) {
+  //TODO Damage player
   };
-  TileSpriteGroup.prototype.setCollision.call(this, player, onOverlap);
+   this._game.physics.arcade.collide(player.getSprite(), this._group, onCollide, null, this);
 }

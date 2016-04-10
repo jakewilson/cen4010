@@ -74,6 +74,7 @@ Map.prototype.setCollision = function(player) {
   this.tofu.setCollision(player);
   this.carrot.setCollision(player);
   this.animal.setCollision(player);
+  this.trash.setCollision(player);
 }
 
 Map.prototype.createEnemies = function() {
