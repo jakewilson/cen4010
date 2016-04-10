@@ -1,5 +1,6 @@
 var Trash = function(game) {
   TileSpriteGroup.call(this, game, 'trash');
+  this._timeDamaged = 0; 
 }
 
 /** Animal inherits TileSpriteGroup */
@@ -18,7 +19,13 @@ Trash.prototype.create = function(spriteObjects, startingFrameIdx) {
 
 Trash.prototype.setCollision = function(player) {
   var onCollide = function(player_sprite, trash) {
-  //TODO Damage player
+    if(this._timeDamaged === 0) {
+      this.timeDamaged = (this._game.time.now /1000);
+    }
+    if((this._game.time.now / 1000) - (this._timeDamaged) > 1.5) {
+      this._timeDamaged = (this._game.time.now / 1000);
+      player.updateHealth(-1);
+    }
   };
    this._game.physics.arcade.collide(player.getSprite(), this._group, onCollide, null, this);
 }
