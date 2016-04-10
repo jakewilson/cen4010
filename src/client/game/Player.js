@@ -15,6 +15,7 @@ var Player = function(game) {
   this._scoreTextOffset = 425;
   this._carrotTextOffset = 48;
   this._carrotsCollected = 0;
+  this._timeDamaged = 0; 
 }
 
 /** Player inherits Entity */
@@ -198,12 +199,30 @@ Player.prototype._drawHealth = function() {
 }
 
 /**
- * Updates the players health by the specified amount
- *
- * @param amt: the amount to increase the health by
+ * Deals damage to the player as long as they haven't been
+ * damaged in the last 1.5 seconds
+ * @param amt: the amount to damage the player 
  * @return: the new health
  */
-Player.prototype.updateHealth = function(amt) {
+Player.prototype.hurt = function(amt) {
+  if(this._timeDamaged === 0) {
+    this.timeDamaged = (this._game.time.now /1000);
+  }
+  if((this._game.time.now / 1000) - (this._timeDamaged) > 1.5) {
+    this._timeDamaged = (this._game.time.now / 1000);
+    this._health -= 1;
+    this._drawHealth();
+  }
+
+  return this._health;
+}
+
+/**
+ * Heals the player by the specified amount 
+ * @param amt: the amount to heal the player 
+ * @return: the new health
+ */
+Player.prototype.heal = function(amt) {
   if (amt) {
     this._health += amt;
     this._drawHealth();
