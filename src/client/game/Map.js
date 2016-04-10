@@ -4,6 +4,7 @@ var Map = function(game) {
   this.layers = [];
   // TODO create instance of Enemy objects when we have it
   this._rangedEnemies = [];
+  this._meleeEnemies = [];
   this.tofu = new Tofu(game);
   this.animal = new Animal(game);
   this.carrot = new Carrot(game);
@@ -20,6 +21,7 @@ Map.prototype.preLoad = function() {
   this.trash.preLoad();
 
   this._game.load.atlasJSONHash('ranger', './assets/spritesheets/ranger.png', './assets/spritesheets/ranger.json');
+  this._game.load.atlasJSONHash('butcher', './assets/spritesheets/butcher.png', './assets/spritesheets/butcher.json');
   this._game.load.image('carrots', './assets/tiles/carrotsheet.png');
   this._game.load.image('tiles', './assets/tiles/tilesheet.png');
 }
@@ -73,6 +75,12 @@ Map.prototype.update = function(player) {
     player.setBulletPoolCollision(ranger);
   });
 
+  this._meleeEnemies.forEach(function(butcher) {
+    butcher.setCollision(this_.layers['First']);
+    butcher.setCollisionWithPlayer(player);
+    player.setBulletPoolCollision(butcher);
+  });
+
   // set collisions with game objects (tofu, animals, carrots, trash cans)
   this.setCollision(player);
 }
@@ -91,6 +99,7 @@ Map.prototype.setCollision = function(player) {
 
 Map.prototype.createEnemies = function() {
   this._createRangedEnemies();
+  this._createMeleeEnemies();
 }
 
 Map.prototype._createRangedEnemies = function() {
@@ -100,6 +109,17 @@ Map.prototype._createRangedEnemies = function() {
       var ranger = new RangedEnemy(this_._game);
       ranger.create(enemy.x, enemy.y);
       this_._rangedEnemies.push(ranger);
+    }
+  });
+}
+
+Map.prototype._createMeleeEnemies = function() {
+  var this_ = this;
+  this.layers['Enemies'].forEach(function(enemy) {
+    if (enemy.name === 'Melee') {
+      var butcher = new MeleeEnemy(this_._game);
+      butcher.create(enemy.x, enemy.y);
+      this_._meleeEnemies.push(butcher);
     }
   });
 }
