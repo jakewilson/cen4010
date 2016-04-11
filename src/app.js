@@ -1,3 +1,3 @@
 var server = require('./server/server');
 
-server.start(3000);
+server.start(process.env.MEATPOCALYPSE || 3000);
