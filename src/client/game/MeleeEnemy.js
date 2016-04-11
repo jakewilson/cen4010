@@ -1,6 +1,6 @@
 var MeleeEnemy = function(game) {
-  this._ENEMY_HEALTH = 200;
-  Entity.call(this, game, 'butcher', this._ENEMY_HEALTH, 5, 5);
+  this._ENEMY_HEALTH = 3;
+  Entity.call(this, game, 'butcher', this._ENEMY_HEALTH, 5, 5, 500);
 }
 
 // Enemy inherits from Entity

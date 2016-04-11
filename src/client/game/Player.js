@@ -28,6 +28,12 @@ Player.prototype.preLoad = function() {
   this._game.load.image('banana', './assets/spritesheets/banana.png');
 }
 
+Player.prototype.kill = function() {
+  Entity.prototype.kill.call(this);
+  // TODO play game over screen here
+  console.log('game over!');
+}
+
 /**
  * Creates the Player at the specified location
  * @param x: the x location of the Player

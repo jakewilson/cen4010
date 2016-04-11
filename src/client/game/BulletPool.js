@@ -53,7 +53,7 @@ BulletPool.prototype.fireBullet = function(x, y, dir) {
 BulletPool.prototype.setCollisionWithEntity = function(entity) {
   var onOverlap = function(sprite, bullet) {
     // hurt the sprite here
-    // entity.hurt()
+    entity.hurt()
     bullet.kill();
   };
   this._game.physics.arcade.overlap(entity.getSprite(), this._pool, onOverlap);

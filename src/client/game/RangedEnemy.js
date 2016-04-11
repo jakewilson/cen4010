@@ -1,6 +1,6 @@
 var RangedEnemy = function(game) {
-  this._ENEMY_HEALTH = 200;
-  Entity.call(this, game, 'ranger', this._ENEMY_HEALTH, 5, 5);
+  this._ENEMY_HEALTH = 2;
+  Entity.call(this, game, 'ranger', this._ENEMY_HEALTH, 5, 5, 500);
 }
 
 // Enemy inherits from Entity
