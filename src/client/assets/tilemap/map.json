@@ -43,8 +43,8 @@
                  "type":"",
                  "visible":true,
                  "width":31,
-                 "x":1602,
-                 "y":34
+                 "x":1572,
+                 "y":19
                 }, 
                 {
                  "height":27,
@@ -239,7 +239,7 @@
                  "visible":true,
                  "width":30,
                  "x":2593,
-                 "y":483
+                 "y":451
                 }, 
                 {
                  "height":24,
@@ -254,22 +254,7 @@
                  "visible":true,
                  "width":27,
                  "x":2979,
-                 "y":484
-                }, 
-                {
-                 "height":27,
-                 "id":23,
-                 "name":"Melee",
-                 "properties":
-                    {
-
-                    },
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":29,
-                 "x":3202,
-                 "y":483
+                 "y":454
                 }, 
                 {
                  "height":25,
