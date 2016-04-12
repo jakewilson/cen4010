@@ -9,7 +9,7 @@ Carrot.prototype.constructor = Carrot;
 Carrot.prototype.setCollision = function(player) {
   var onOverlap = function(player_sprite, carrot) {
     carrot.kill();
-    player.carrots += 1;
+    player.registerCarrotCollected();
   }
 
   TileSpriteGroup.prototype.setCollision.call(this, player, onOverlap);

@@ -1,4 +1,4 @@
-var Map = function(game) {
+var World = function(game) {
   this._game = game;
   this._map = null;
   this.layers = [];
@@ -12,7 +12,7 @@ var Map = function(game) {
   this.trash = new Trash(game);
 }
 
-Map.prototype.preLoad = function() {
+World.prototype.preLoad = function() {
   this._game.load.tilemap('map', './assets/tilemap/map.json', null, Phaser.Tilemap.TILED_JSON);
   this._game.load.image('background', './assets/tilemap/background.png');
 
@@ -29,7 +29,7 @@ Map.prototype.preLoad = function() {
   this._game.load.image('tiles', './assets/tiles/tilesheet.png');
 }
 
-Map.prototype.create = function() {
+World.prototype.create = function() {
   this._map = game.add.tilemap('map');
   this.createLayers();
 
@@ -47,7 +47,7 @@ Map.prototype.create = function() {
   this.createEnemies();
 }
 
-Map.prototype.setCollisionTiles = function() {
+World.prototype.setCollisionTiles = function() {
   this._map.setCollisionBetween(18, 21);
   this._map.setCollisionBetween(23, 25);
   this._map.setCollisionBetween(34, 35);
@@ -56,7 +56,7 @@ Map.prototype.setCollisionTiles = function() {
   this._map.setCollisionBetween(65, 69);
 }
 
-Map.prototype.createLayers = function() {
+World.prototype.createLayers = function() {
   this.layers['First'] = this._map.createLayer('First');
 
   // object layers
@@ -72,14 +72,14 @@ Map.prototype.createLayers = function() {
  *
  * @param player: the player
  */
-Map.prototype.update = function(player) {
+World.prototype.update = function(player) {
   this._setEnemyCollisions(this._rangedEnemies, player);
   this._setEnemyCollisions(this._meleeEnemies, player);
   // set collisions with game objects (tofu, animals, carrots, trash cans)
   this.setCollision(player);
 }
 
-Map.prototype._setEnemyCollisions = function(enemies, player) {
+World.prototype._setEnemyCollisions = function(enemies, player) {
   var this_ = this;
   enemies.forEach(function(enemy) {
     enemy.setCollision(this_.layers['First']); // set collision with tiles
@@ -93,19 +93,19 @@ Map.prototype._setEnemyCollisions = function(enemies, player) {
  *
  * @param player: the player
  */
-Map.prototype.setCollision = function(player) {
+World.prototype.setCollision = function(player) {
   this.tofu.setCollision(player);
   this.carrot.setCollision(player);
   this.animal.setCollision(player);
   this.trash.setCollision(player);
 }
 
-Map.prototype.createEnemies = function() {
+World.prototype.createEnemies = function() {
   this._createRangedEnemies();
   this._createMeleeEnemies();
 }
 
-Map.prototype._createRangedEnemies = function() {
+World.prototype._createRangedEnemies = function() {
   var this_ = this;
   this.layers['Enemies'].forEach(function(enemy) {
     if (enemy.name === 'Range') {
@@ -116,7 +116,7 @@ Map.prototype._createRangedEnemies = function() {
   });
 }
 
-Map.prototype._createMeleeEnemies = function() {
+World.prototype._createMeleeEnemies = function() {
   var this_ = this;
   this.layers['Enemies'].forEach(function(enemy) {
     if (enemy.name === 'Melee') {

@@ -1,10 +1,12 @@
 var width = 900, height = (21 * 32) - 8;
+var pauseTime = 0, tmpPauseTime = 0;
+
 var game = new Phaser.Game(width, height, Phaser.AUTO, 'meatpocalypse', { preload: preload, create: create, update: update});
 
 var map, layer, player, timerText;
 
 function preload() {
-  map = new Map(game);
+  map = new World(game);
   map.preLoad();
   player = new Player(game);
   player.preLoad();
@@ -37,9 +39,14 @@ function update() {
   player.update();
   map.update(player);
 
-  timerText.text = 'Time: ' + (Math.round(game.time.now) / 1000).toFixed(1);
+  timerText.text = 'Time: ' + ((Math.round(game.time.now) - pauseTime) / 1000).toFixed(1);
 }
 
 function pauseFunction() {
   game.paused = !game.paused;
+  if(game.paused) {
+    tmpPauseTime = game.time.now;
+  } else {
+    pauseTime += (game.time.now - tmpPauseTime);
+  }
 }

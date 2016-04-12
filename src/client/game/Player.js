@@ -4,7 +4,6 @@ var Player = function(game) {
   Entity.call(this, game, 'protagonist', this._STARTING_HEALTH, 5, 5, 1500);
   this._JUMP_FPS = 1.5; // frames per second
   this._WALK_SPEED = 250;
-  this._score = 0;
   this._jumping = false;
   this._sprinting = false;
   this._cursors = null;
@@ -12,9 +11,18 @@ var Player = function(game) {
   this._healthY = 10;
   this._healthX = 30;
   this._tofuTextOffset = 18;
+
+  this._score = 0;
   this._scoreTextOffset = 425;
-  this._carrotTextOffset = 48;
+
   this._carrotsCollected = 0;
+  this._animalsRescued = 0;
+  this._carrotMultiplier = 10;
+  this._animalMultiplier = 1000;
+  this._enemiesKilled = 0;
+  this._enemyMultiplier = 100;
+
+  this._carrotTextOffset = 48;
 }
 
 /** Player inherits Entity */
@@ -147,7 +155,7 @@ Player.prototype.update = function() {
     this.jump();
   }
 
-  scoreText.text = 'Score: ' + this._score;
+  scoreText.text = 'Score: ' + this.getScore();
   carrotText.text = 'x ' + this._carrotsCollected;
 }
 
@@ -160,20 +168,6 @@ Player.prototype._sprint = function() {
  		this._sprinting = false; 
 	}
 }
-
-/**
- * Increases the score by the amount specified
- *
- * @param amt: the amount to increase the score by
- * @return: the new score
- */
-Player.prototype.updateScore = function(amt) {
-  if (amt)
-    this._score += amt;
-
-  return this._score;
-}
-
 
 Player.prototype._createHealthPool = function() {
   this._healthPool = this._game.add.group();
@@ -210,4 +204,26 @@ Player.prototype.heal = function() {
 Player.prototype.hurt = function() {
   Entity.prototype.hurt.call(this);
   this._drawHealth();
+}
+
+Player.prototype.getCarrotsCollected = function() {
+  return this._carrotsCollected;
+}
+
+Player.prototype.getRescuedAnimals = function() {
+  return this._animalsRescued;
+}
+
+Player.prototype.registerCarrotCollected = function() {
+  this._carrotsCollected++;
+}
+
+Player.prototype.registerAnimalRescued = function() {
+  this._animalsRescued++;
+}
+
+Player.prototype.getScore = function() {
+  return (this._carrotsCollected * this._carrotMultiplier) +
+    (this._animalsRescued * this._animalMultiplier) +
+    (this._enemiesKilled * this._enemyMultiplier);
 }
