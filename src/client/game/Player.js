@@ -140,6 +140,10 @@ Player.prototype._animComplete = function() {
 Player.prototype.update = function() {
   // TODO
   this._sprite.body.velocity.x = 0;
+  console.log("This is the game height: " + this._game.height);
+  if((this._sprite.y + this._sprite.body.height) === (this._game.height + 5)) {
+    this.kill();
+  }
 
   if (this._attackButton.isDown) {
     this.attack();

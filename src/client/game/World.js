@@ -54,6 +54,7 @@ World.prototype.setCollisionTiles = function() {
   this._map.setCollisionBetween(39, 41);
   this._map.setCollisionBetween(50, 51);
   this._map.setCollisionBetween(65, 69);
+  this._map.setCollision(150);
 }
 
 World.prototype.createLayers = function() {
