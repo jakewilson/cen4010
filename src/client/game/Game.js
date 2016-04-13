@@ -6,7 +6,6 @@ var map, layer, player, timerText;
 
 var loadState = {
   preload: function() {
-    console.log('hi');
   },
 
   create: function() {

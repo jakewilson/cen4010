@@ -74,7 +74,15 @@ Entity.prototype.setCollision = function(layer) {
 }
 
 /**
-<<<<<<< HEAD
+ * Updates the Entity
+ */
+Entity.prototype.update = function() {
+  if ((this._sprite.y + this._sprite.body.height) >= (this._game.height)) {
+    this.kill();
+  }
+}
+
+/**
  * Returns the sprite of the entity
  *
  * @return: the sprite of the entity

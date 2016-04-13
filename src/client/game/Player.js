@@ -138,11 +138,8 @@ Player.prototype._animComplete = function() {
 }
 
 Player.prototype.update = function() {
-  // TODO
+  Entity.prototype.update.call(this);
   this._sprite.body.velocity.x = 0;
-  if ((this._sprite.y + this._sprite.body.height) >= (this._game.height)) {
-    this.kill();
-  }
 
   if (this._attackButton.isDown) {
     this.attack();
