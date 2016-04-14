@@ -11,6 +11,7 @@ var Entity = function(game, name, health, walkSpeed, attackSpeed, damageRate) {
   this._bulletPool = null;
   this._damageRate = damageRate || 1500;
   this._nextDamage = 0;
+  this._hurting = false;
 }
 
 /**
@@ -80,6 +81,14 @@ Entity.prototype.update = function() {
   if ((this._sprite.y + this._sprite.body.height) >= (this._game.height)) {
     this.kill();
   }
+
+  if (this._hurting) {
+    this._sprite.tint = 0xFF0000; // give the Entity a red tint to show taking damage
+    if (this._game.time.now > this._nextDamage) {
+      this._hurting = false;
+      this._sprite.tint = 0xFFFFFF; // remove the tint
+    }
+  }
 }
 
 /**
@@ -104,6 +113,7 @@ Entity.prototype.hurt = function() {
   if (this._game.time.now > this._nextDamage) {
     this._nextDamage = this._game.time.now + this._damageRate;
     this._health -= 1;
+    this._hurting = true;
     // TODO play damage animation here
     if (this._health === 0) {
       this.kill();

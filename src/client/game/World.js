@@ -74,15 +74,16 @@ World.prototype.createLayers = function() {
  * @param player: the player
  */
 World.prototype.update = function(player) {
-  this._setEnemyCollisions(this._rangedEnemies, player);
-  this._setEnemyCollisions(this._meleeEnemies, player);
+  this._updateEnemy(this._rangedEnemies, player);
+  this._updateEnemy(this._meleeEnemies, player);
   // set collisions with game objects (tofu, animals, carrots, trash cans)
   this.setCollision(player);
 }
 
-World.prototype._setEnemyCollisions = function(enemies, player) {
+World.prototype._updateEnemy = function(enemies, player) {
   var this_ = this;
   enemies.forEach(function(enemy) {
+    enemy.update();
     enemy.setCollision(this_.layers['First']); // set collision with tiles
     enemy.setCollisionWithPlayer(player);
     player.setBulletPoolCollision(enemy);

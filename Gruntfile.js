@@ -8,14 +8,15 @@ module.exports = function(grunt) {
     'BulletPool.js',
     'RangedEnemy.js',
     'MeleeEnemy.js',
-    'Game.js',
     'World.js',
     'Tofu.js',
     'Trash.js',
     'Player.js',
+    'Game.js',
   ].map(function(it) {
     return 'src/client/game/' + it;
   });
+
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
     uglify: {
