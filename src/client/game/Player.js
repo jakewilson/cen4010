@@ -1,7 +1,7 @@
 var Player = function(game) {
   this._STARTING_HEALTH = 3;
   this._MAX_HEALTH = 6;
-  Entity.call(this, game, this._STARTING_HEALTH, 'protagonist', 5, 5);
+  Entity.call(this, game, 'protagonist', this._STARTING_HEALTH, 5, 5, 1500);
   this._JUMP_FPS = 1.5; // frames per second
   this._WALK_SPEED = 250;
   this._jumping = false;
@@ -34,6 +34,12 @@ var scoreText, carrotSprite, carrotText;
 Player.prototype.preLoad = function() {
   Entity.prototype.preLoad.call(this);
   this._game.load.image('banana', './assets/spritesheets/banana.png');
+}
+
+Player.prototype.kill = function() {
+  Entity.prototype.kill.call(this);
+  // TODO play game over screen here
+  console.log('game over!');
 }
 
 /**
@@ -71,6 +77,7 @@ Player.prototype.create = function(x, y) {
 
   carrotSprite = this._game.add.sprite(18, 48, 'carrot');
   carrotSprite.fixedToCamera = true;
+
   carrotText = this._game.add.text(this._carrotTextOffset, 58, 'x ' + this._carrotsCollected, textStyle);
   carrotText.fixedToCamera = true;
 
@@ -130,13 +137,8 @@ Player.prototype._animComplete = function() {
   this._currentPlayingAnim = null;
 }
 
-Player.prototype.setCollision = function(layer) {
-  // TODO add collision with enemy sprites here also
-  this._game.physics.arcade.collide(this._sprite, layer);
-}
-
 Player.prototype.update = function() {
-  // TODO
+  Entity.prototype.update.call(this);
   this._sprite.body.velocity.x = 0;
 
   if (this._attackButton.isDown) {
@@ -155,15 +157,6 @@ Player.prototype.update = function() {
 
   scoreText.text = 'Score: ' + this.getScore();
   carrotText.text = 'x ' + this._carrotsCollected;
-}
-
-/**
- * Returns the sprite of the player
- *
- * @return: the sprite of the player
- */
-Player.prototype.getSprite = function() {
-  return this._sprite;
 }
 
 Player.prototype._sprint = function() {
@@ -196,18 +189,21 @@ Player.prototype._drawHealth = function() {
 }
 
 /**
- * Updates the players health by the specified amount
- *
- * @param amt: the amount to increase the health by
+ * Heals the player by the specified amount 
  * @return: the new health
  */
-Player.prototype.updateHealth = function(amt) {
-  if (amt) {
-    this._health += amt;
-    this._drawHealth();
-  }
-
+Player.prototype.heal = function() {
+  this._health += 1;
+  this._drawHealth();
   return this._health;
+}
+
+/**
+ * Calls entity's hurt function and redraws the player's health
+ */
+Player.prototype.hurt = function() {
+  Entity.prototype.hurt.call(this);
+  this._drawHealth();
 }
 
 Player.prototype.getCarrotsCollected = function() {
