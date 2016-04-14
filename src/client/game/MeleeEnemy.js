@@ -10,7 +10,7 @@ MeleeEnemy.prototype.constructor = MeleeEnemy;
 MeleeEnemy.prototype.create = function(x, y, frame) {
   Entity.prototype.create.call(this, x, y, frame);
   this._sprite.body.immovable = true;
-  //this._sprite.body.setSize(33, 67, 33, 10);
+  this._sprite.body.setSize(29, 59, 18, 28);
 }
 
 /**
