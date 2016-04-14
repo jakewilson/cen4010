@@ -7,7 +7,6 @@ var map, layer, player, timerText;
 var loadState = {
   preload: function() {
   },
-
   create: function() {
     game.physics.startSystem(Phaser.Physics.ARCADE);
     game.state.start('play');
