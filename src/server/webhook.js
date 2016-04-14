@@ -6,7 +6,8 @@ var bash = require('child_process').exec;
 var urlParser = bodyParser.urlencoded({extended: false});
 
 app.post('/', urlParser, (req, res, next) => {
-  bash("git pull -f origin master");
+  bash("git pull -f origin deploy");
+  bash("grunt");
   res.sendStatus(200);
   console.log("Pull triggered at " + new Date());
   res.end();
