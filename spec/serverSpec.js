@@ -49,7 +49,7 @@ describe("Server", function() {
         }
       };
       var req = http.request(options, (res) => {
-        expect(res.statusCode).toBe(400);
+        expect(res.statusCode).toBe(400); // bad request
         done();
       });
       req.write(msg);
