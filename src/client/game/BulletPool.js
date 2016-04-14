@@ -1,6 +1,6 @@
 var NUM_BULLETS = 10;
 var BULLET_VELOCITY = 400;
-var FIRE_RATE = 200; // in ms
+var FIRE_RATE = 350; // in ms
 
 /**
  * Constructs a BulletPool
@@ -45,4 +45,27 @@ BulletPool.prototype.fireBullet = function(x, y, dir) {
       bullet.body.velocity.x = BULLET_VELOCITY * (-1);
     }
   }
+}
+
+/**
+ * Sets a collision with the pool and a tilemap layer
+ * @param layer: the layer to set the collision with
+ */
+BulletPool.prototype.setCollisionWithLayer = function(layer) {
+  var onCollision = function(bullet, layer) {
+    bullet.kill();
+  };
+  this._game.physics.arcade.collide(layer, this._pool, onCollision);
+}
+
+/**
+ * Sets a collision with the pool and an entity
+ * @param entity: the entity to set the collision with
+ */
+BulletPool.prototype.setCollisionWithEntity = function(entity) {
+  var onOverlap = function(sprite, bullet) {
+    entity.hurt()
+    bullet.kill();
+  };
+  this._game.physics.arcade.overlap(entity.getSprite(), this._pool, onOverlap);
 }

@@ -1,47 +1,54 @@
 var width = 900, height = (21 * 32) - 8;
 var pauseTime = 0, tmpPauseTime = 0;
 
-var game = new Phaser.Game(width, height, Phaser.AUTO, 'meatpocalypse', { preload: preload, create: create, update: update});
-
+var game = new Phaser.Game(width, height, Phaser.AUTO, 'meatpocalypse');
 var map, layer, player, timerText;
 
-function preload() {
-  map = new World(game);
-  map.preLoad();
-  player = new Player(game);
-  player.preLoad();
-  enemy = new Enemy(game);
-  enemy.preLoad();
-}
+var loadState = {
+  preload: function() {
+  },
+  create: function() {
+    game.physics.startSystem(Phaser.Physics.ARCADE);
+    game.state.start('play');
+  }
+};
 
-function create() {
-  game.physics.startSystem(Phaser.Physics.ARCADE);
+var playState = {
+  preload: function() {
+    map = new World(game);
+    map.preLoad();
+    player = new Player(game);
+    player.preLoad();
+  },
 
-  bg = game.add.tileSprite(0, 0, width, height, 'background');
-  bg.fixedToCamera = true;
+  create: function() {
+    bg = game.add.tileSprite(0, 0, width, height, 'background');
+    bg.fixedToCamera = true;
+  
+    map.create();
+  
+    var textStyle = { font: "18px Arial", fill: "#ffffff", align: "left"};
+    timerText = game.add.text(800, 18, 'Time: ', textStyle);
+    timerText.fixedToCamera = true;
+  
+    pauseKey = game.input.keyboard.addKey(Phaser.Keyboard.ESC);
+    pauseKey.onDown.add(pauseFunction, this);
+  
+    player.create(0, 32 * 15);
+  
+    game.physics.arcade.gravity.y = 500;
+  },
 
-  map.create();
-
-  var textStyle = { font: "18px Arial", fill: "#ffffff", align: "left"};
-  timerText = game.add.text(800, 18, 'Time: ', textStyle);
-  timerText.fixedToCamera = true;
-  pauseKey = game.input.keyboard.addKey(Phaser.Keyboard.ESC);
-  pauseKey.onDown.add(pauseFunction, this);
-
-  player.create(0, 32 * 15);
-  enemy.create(20, 32 * 15);
-  game.physics.arcade.gravity.y = 500;
-}
-
-function update() {
-  player.setCollision(map.layers['First']);
-
-  // set collisions with game objects (tofu, animals, carrots, trash cans)
-  map.setCollision(player);
-
-  player.update();
-  timerText.text = 'Time: ' + ((Math.round(game.time.now) - pauseTime) / 1000).toFixed(1);
-}
+  update: function() {
+    player.setCollision(map.layers['First']);
+  
+  
+    player.update();
+    map.update(player);
+  
+    timerText.text = 'Time: ' + ((Math.round(game.time.now) - pauseTime) / 1000).toFixed(1);
+  }
+};
 
 function pauseFunction() {
   game.paused = !game.paused;
@@ -51,3 +58,7 @@ function pauseFunction() {
     pauseTime += (game.time.now - tmpPauseTime);
   }
 }
+
+game.state.add('load', loadState, true);
+game.state.add('play', playState);
+
