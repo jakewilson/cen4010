@@ -101,7 +101,13 @@ Entity.prototype.getSprite = function() {
 }
 
 Entity.prototype.setBulletPoolCollision = function(entity) {
-  this._bulletPool.setCollisionWithEntity(entity);
+  if (this._bulletPool)
+    this._bulletPool.setCollisionWithEntity(entity);
+}
+
+Entity.prototype.setBulletPoolCollisionWithLayer = function(layer) {
+  if (this._bulletPool)
+    this._bulletPool.setCollisionWithLayer(layer);
 }
 
 /**

@@ -47,6 +47,13 @@ BulletPool.prototype.fireBullet = function(x, y, dir) {
   }
 }
 
+BulletPool.prototype.setCollisionWithLayer = function(layer) {
+  var onCollision = function(bullet, layer) {
+    bullet.kill();
+  };
+  this._game.physics.arcade.collide(layer, this._pool, onCollision);
+}
+
 /**
  * Sets a collision with the pool and an entity
  */

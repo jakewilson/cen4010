@@ -78,6 +78,7 @@ World.prototype.update = function(player) {
   this._updateEnemy(this._meleeEnemies, player);
   // set collisions with game objects (tofu, animals, carrots, trash cans)
   this.setCollision(player);
+  player.setBulletPoolCollisionWithLayer(this.layers['First']);
 }
 
 World.prototype._updateEnemy = function(enemies, player) {
@@ -86,6 +87,8 @@ World.prototype._updateEnemy = function(enemies, player) {
     enemy.update();
     enemy.setCollision(this_.layers['First']); // set collision with tiles
     enemy.setCollisionWithPlayer(player);
+    enemy.setBulletPoolCollision(player);
+    enemy.setBulletPoolCollisionWithLayer(this_.layers['First']);
     player.setBulletPoolCollision(enemy);
   });
 }
