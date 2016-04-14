@@ -435,6 +435,21 @@
                  "width":26,
                  "x":6436,
                  "y":67
+                }, 
+                {
+                 "height":30,
+                 "id":324,
+                 "name":"Boss",
+                 "properties":
+                    {
+
+                    },
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":35,
+                 "x":9899,
+                 "y":388
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -2456,7 +2471,7 @@
          "x":0,
          "y":0
         }],
- "nextobjectid":324,
+ "nextobjectid":325,
  "orientation":"orthogonal",
  "properties":
     {
