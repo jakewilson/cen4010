@@ -1,5 +1,5 @@
 var Player = function(game) {
-  this._accountId = window.location.search.split('=')[1]
+  this._accountId = parseInt(window.location.search.split('=')[1]);
   this._STARTING_HEALTH = 3;
   this._MAX_HEALTH = 6;
   Entity.call(this, game, 'protagonist', this._STARTING_HEALTH, 5, 5, 1500);
@@ -238,4 +238,17 @@ Player.prototype.getScore = function() {
   return (this._carrotsCollected * this._carrotMultiplier) +
     (this._animalsRescued * this._animalMultiplier) +
     (this._enemiesKilled * this._enemyMultiplier);
+}
+
+Player.prototype.getStats = function() {
+  return {
+    score: this.getScore(),
+    shotsFired: this._shotsFired,
+    carrotsCollected: this._carrotsCollected,
+    animalsRescued: this._animalsRescued,
+    enemiesKilled: this._enemiesKilled,
+    accountId: this._accountId,
+    // Gross, global variable.
+    time: elapsedTime,
+  }
 }
