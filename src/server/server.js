@@ -25,34 +25,34 @@ app.post('/at/index.html', urlParser, (req, res, next) => {
 
     if(user && pass) {
       db.getPlayer(user, (err, row) => {
-          if (err) {
-            console.log(err);
-            return;
-          }
-          if (row === undefined) {
-            res.write('Username "' + user + '" does not exist.');
-            res.end();
-            return;
-          }
-          var timeout = 30; //seconds
-
-          if(row.passwordAttempts > 3 && ((+new Date()) - row.lastAttempt)/1000 < timeout) {
-            var remaingingTime = parseInt(timeout - ((+new Date()) - row.lastAttempt)/1000);
-            res.write("Account '" + user + "' is locked for "+remaingingTime+" seconds.");
-            res.end();
-            return;
-          }
-          if (row.password === pass) {
-            res.redirect(302, 'game.html');
-            db.clearAttempts(row.playerid);
-            return res.end();
-          } else {
-
-            db.invalidAttempt(row.playerid);
-            res.write('Invalid password.');
-            res.end();
-          }
+        if (err) {
+          console.log(err);
+          return;
+        }
+        if (row === undefined) {
+          res.write('Username "' + user + '" does not exist.');
           res.end();
+          return;
+        }
+        var timeout = 30; //seconds
+
+        if(row.passwordAttempts > 3 && ((+new Date()) - row.lastAttempt)/1000 < timeout) {
+          var remaingingTime = parseInt(timeout - ((+new Date()) - row.lastAttempt)/1000);
+          res.write("Account '" + user + "' is locked for "+remaingingTime+" seconds.");
+          res.end();
+          return;
+        }
+        if (row.password === pass) {
+          res.redirect(302, 'game.html');
+          db.clearAttempts(row.playerid);
+          return res.end();
+        } else {
+
+          db.invalidAttempt(row.playerid);
+          res.write('Invalid password.');
+          res.end();
+        }
+        res.end();
       });
     }
 }).post('/registerPlayer', urlParser, function(req, res, next) {
