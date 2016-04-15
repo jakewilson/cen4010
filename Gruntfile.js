@@ -14,7 +14,7 @@ module.exports = function(grunt) {
     'Player.js',
     'Game.js',
   ].map(function(it) {
-    return 'src/client/game/' + it;
+    return 'src/client/at/game/' + it;
   });
 
   grunt.initConfig({
