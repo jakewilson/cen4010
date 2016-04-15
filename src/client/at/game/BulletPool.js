@@ -44,7 +44,9 @@ BulletPool.prototype.fireBullet = function(x, y, dir) {
     } else {
       bullet.body.velocity.x = BULLET_VELOCITY * (-1);
     }
+    return true;
   }
+  return false;
 }
 
 /**

@@ -43,7 +43,7 @@ app.post('/at/index.html', urlParser, (req, res, next) => {
           return;
         }
         if (row.password === pass) {
-          res.redirect(302, 'game.html');
+          res.redirect(302, 'game.html?a='+row.playerid);
           db.clearAttempts(row.playerid);
           return res.end();
         } else {
