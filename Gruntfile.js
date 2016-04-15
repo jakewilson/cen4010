@@ -25,7 +25,7 @@ module.exports = function(grunt) {
       },
       build: {
         src: paths,
-        dest: 'src/client/meatpocalypse.min.js'
+        dest: 'src/client/at/meatpocalypse.min.js'
       }
     }
   });
