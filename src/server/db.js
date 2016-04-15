@@ -87,10 +87,13 @@ module.exports = {
   },
 
   invalidAttempt: function(playerid) {
-    db.run("UPDATE players " +
+    var a = "UPDATE players " +
       " set passwordAttempts = passwordAttempts+1," +
-      " lastAttempt = ? " +
-      " where playerid = ?;", playerid, (+new Date()));
+      " lastAttempt = " + (+new Date()) +
+      " where playerid = ?;";
+    console.log(a);
+    player = playerid | 0;
+    db.run(a, playerid);
   },
 
   clearAttempts: function(playerid) {

@@ -34,16 +34,20 @@ app.post('/at/index.html', urlParser, (req, res, next) => {
             res.end();
             return;
           }
-          if(row.passwordAttempts > 3 && (+new Date()) - row.lastAttempt < 30000) {// 30 seconds
-            res.write("Account '" + user + "' is locked for 30 seconds.");
+          var timeout = 30; //seconds
+
+          if(row.passwordAttempts > 3 && ((+new Date()) - row.lastAttempt)/1000 < timeout) {
+            var remaingingTime = parseInt(timeout - ((+new Date()) - row.lastAttempt)/1000);
+            res.write("Account '" + user + "' is locked for "+remaingingTime+" seconds.");
             res.end();
+            return;
           }
           if (row.password === pass) {
             res.redirect(302, 'game.html');
             db.clearAttempts(row.playerid);
             return res.end();
           } else {
-            console.log("bad password for playerid: " + row.playerid);
+
             db.invalidAttempt(row.playerid);
             res.write('Invalid password.');
             res.end();
