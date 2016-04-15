@@ -42,7 +42,7 @@ describe("Server", function() {
       var options = {
         port: 3000,
         method: 'POST',
-        path: '/index.html',
+        path: '/at/index.html',
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded',
           'Content-Length': msg.length
@@ -62,7 +62,7 @@ describe("Server", function() {
       var options = {
         port: 3000,
         method: 'POST',
-        path: '/index.html',
+        path: '/at/index.html',
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded',
           'Content-Length': msg.length
@@ -92,7 +92,7 @@ describe("Server", function() {
 
     it("properly registers a player", function(done) {
       var req = http.request(http_options, (res) => {
-        expect(res.statusCode).toBe(200);
+        expect(res.statusCode).toBe(302);
 
         assertPlayerExists(testUser, done);
       });

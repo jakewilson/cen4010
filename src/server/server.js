@@ -24,25 +24,32 @@ app.post('/at/index.html', urlParser, (req, res, next) => {
     }
 
     if(user && pass) {
-    	db.getPlayer(user, (err, row) => {
-        	if (!err) {
-        	    if (row === undefined) {
-        	        msg = 'Username ' + user + ' does not exist.';
-        	    } else {
-        	        if (row.pass === pass) {
-        	            res.redirect(302, 'game.html');
-        	            return res.end();
-        	        } else {
-        	            msg = 'Invalid password.';
-        	        }
-        	    }
-        	} else {
-        	    console.log(err);
-        	}
-        	res.writeHead(400, {'Content-Type': 'text/html'});
-        	res.write(msg);
-        	res.end();
-    	});
+      db.getPlayer(user, (err, row) => {
+          if (err) {
+            console.log(err);
+            return;
+          }
+          if (row === undefined) {
+            res.write('Username "' + user + '" does not exist.');
+            res.end();
+            return;
+          }
+          if(row.passwordAttempts > 3 && (+new Date()) - row.lastAttempt < 30000) {// 30 seconds
+            res.write("Account '" + user + "' is locked for 30 seconds.");
+            res.end();
+          }
+          if (row.password === pass) {
+            res.redirect(302, 'game.html');
+            db.clearAttempts(row.playerid);
+            return res.end();
+          } else {
+            console.log("bad password for playerid: " + row.playerid);
+            db.invalidAttempt(row.playerid);
+            res.write('Invalid password.');
+            res.end();
+          }
+          res.end();
+      });
     }
 }).post('/registerPlayer', urlParser, function(req, res, next) {
   db.addPlayer(req.body.user, req.body.pass, function() {
