@@ -20,9 +20,9 @@ var Player = function(game) {
   this._carrotsCollected = 0;
   this._animalsRescued = 0;
   this._carrotMultiplier = 10;
-  this._animalMultiplier = 250;
+  this._animalMultiplier = 100;
   this._enemiesKilled = 0;
-  this._enemyMultiplier = 100;
+  this._enemyMultiplier = 20;
 
   this._carrotTextOffset = 48;
 }

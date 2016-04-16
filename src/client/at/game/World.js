@@ -92,6 +92,7 @@ World.prototype._updateEnemy = function(enemies, player) {
     player.setBulletPoolCollision(enemy);
     if (enemy.isDead()) {
       player.enemyKilled(enemy);
+      enemies.splice(enemies.indexOf(enemy), 1);
     }
   });
 }
