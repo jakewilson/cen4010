@@ -17,19 +17,21 @@ app.post('/at/index.html', urlParser, (req, res, next) => {
     var msg  = 'Invalid request.';
 
     if (!user || !pass) {
-        res.writeHead(400, {'Content-Type': 'text/html'});
-        res.write('You must enter a username and a password');
-        res.end();
-        return; // don't send another header
+      res.writeHead(400, {'Content-Type': 'text/html'});
+      res.write('You must enter a username and a password');
+      res.end();
+      return; // don't send another header
     }
 
     if(user && pass) {
+
       db.getPlayer(user, (err, row) => {
         if (err) {
           console.log(err);
           return;
         }
         if (row === undefined) {
+          res.writeHead(400, {'Content-Type': 'text/html'});
           res.write('Username "' + user + '" does not exist.');
           res.end();
           return;

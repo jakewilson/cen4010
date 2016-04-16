@@ -55,7 +55,7 @@ module.exports = {
       // only add the player if they don't already exist!
       if(row === undefined) {
         db.serialize(function() {
-          db.run("INSERT INTO players(username, password, passwordAttempts) VALUES (?, ?, 0)", user, pass, callback);
+          db.run("INSERT INTO players(username, password, passwordAttempts, lastAttempt) VALUES (?, ?, 0, 0)", user, pass, callback);
         });
       } else if(failure !== undefined) {
         failure();
@@ -87,13 +87,11 @@ module.exports = {
   },
 
   invalidAttempt: function(playerid) {
-    var a = "UPDATE players " +
+    var sql = "UPDATE players " +
       " set passwordAttempts = passwordAttempts+1," +
       " lastAttempt = " + (+new Date()) +
       " where playerid = ?;";
-    console.log(a);
-    player = playerid | 0;
-    db.run(a, playerid);
+    db.run(sql, playerid);
   },
 
   clearAttempts: function(playerid) {
@@ -102,7 +100,8 @@ module.exports = {
 
   clear: function() {
     db.serialize(function() {
-      db.run("DELETE FROM players; DELETE FROM playerStatistics");
+      db.run("DELETE FROM players;");
+      db.run("DELETE FROM playerStatistics;");
     });
   },
 
