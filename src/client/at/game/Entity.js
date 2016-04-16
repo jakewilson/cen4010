@@ -27,6 +27,7 @@ Entity.prototype.preLoad = function() {
 Entity.prototype.kill = function() {
   // TODO remove sprite from screen iff on screen
   this._sprite.kill();
+  player.enemyKilled(this._name);
 }
 
 /**

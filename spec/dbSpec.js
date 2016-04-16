@@ -25,7 +25,7 @@ describe("Database", function() {
     db.addPlayer(player, '1234', (err) => {
       expect(err).toBe(null);
       db.getPlayer(player, (err, row) => {
-        expect(row).toEqual({user: player, pass: '1234'});
+        expect(row).toEqual({playerid: 1, username: player, password: '1234', passwordAttempts: 0});
         done();
       });
     });
