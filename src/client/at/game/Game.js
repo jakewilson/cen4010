@@ -1,6 +1,6 @@
 var width = 900, height = (21 * 32) - 8;
-var elapsedTime, 
-  pauseTime = 0, 
+var elapsedTime,
+  pauseTime = 0,
   tmpPauseTime = 0;
 
 var game = new Phaser.Game(width, height, Phaser.AUTO, 'meatpocalypse');

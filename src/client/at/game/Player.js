@@ -230,7 +230,6 @@ Player.prototype.registerAnimalRescued = function() {
 }
 
 Player.prototype.enemyKilled = function(type) {
-  // Different points based on enemy type?
   this._enemiesKilled++;
 }
 
@@ -248,7 +247,6 @@ Player.prototype.getStats = function() {
     animalsRescued: this._animalsRescued,
     enemiesKilled: this._enemiesKilled,
     accountId: this._accountId,
-    // Gross, global variable.
-    time: elapsedTime,
+    time: 0, // to be filled in later
   }
 }

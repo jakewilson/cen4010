@@ -90,6 +90,9 @@ World.prototype._updateEnemy = function(enemies, player) {
     enemy.setBulletPoolCollision(player);
     enemy.setBulletPoolCollisionWithLayer(this_.layers['First']);
     player.setBulletPoolCollision(enemy);
+    if (enemy.isDead()) {
+      player.enemyKilled(enemy);
+    }
   });
 }
 
