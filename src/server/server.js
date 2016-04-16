@@ -9,7 +9,7 @@ var server;
 
 db.create('meatpocalypse.db');
 
-app.post('/index.html', urlParser, (req, res, next) => {
+app.post('/at/index.html', urlParser, (req, res, next) => {
     if (!req.body)
         return res.sendStatus(400);
     var user = req.body.user;
@@ -46,13 +46,16 @@ app.post('/index.html', urlParser, (req, res, next) => {
     }
 }).post('/registerPlayer', urlParser, function(req, res, next) {
   db.addPlayer(req.body.user, req.body.pass, function() {
-    res.redirect(302, 'game.html');
+    res.redirect(302, 'at/game.html');
     res.end();
   }, function() {
     res.writeHead(409, {'Content-Type': 'text/html'});
     res.write('Player already exists!');
     res.end();
   });
+}).get('/', function(req, res, next) {
+  res.redirect(302, 'at/index.html');
+  res.end();
 });
 
 module.exports = {
