@@ -13,29 +13,29 @@ var loadState = {
 
   create: function() {
     game.physics.startSystem(Phaser.Physics.ARCADE);
-    game.state.start('mainMenu'); 
+    game.state.start('mainMenu');
   }
 };
 
 var mainMenu = {
 	create: function() {
-		game.add.image(game.world.centerX, game.world.centerY, 'background').anchor.set(0.5);
-		quit = game.add.button(675, 250, 'quit', quitClick, this, 'RQuit.png', 'WQuit.png', 'RQuit.png');
-		play_button = game.add.button(50, 260, 'play', actionOnClick, this, 'RPlayButton.png', 'WPlay.png', 'RPlayButton.png');
-		highScore_button = game.add.button(250, 495, 'highScore', hsClick, this, 'WRHS.png', 'RWHS.png', 'WRHS.png');
+    game.add.image(game.world.centerX, game.world.centerY, 'background').anchor.set(0.5);
+    quit = game.add.button(675, 250, 'quit', quitClick, this, 'RQuit.png', 'WQuit.png', 'RQuit.png');
+    play_button = game.add.button(50, 260, 'play', actionOnClick, this, 'RPlayButton.png', 'WPlay.png', 'RPlayButton.png');
+    highScore_button = game.add.button(250, 495, 'highScore', hsClick, this, 'WRHS.png', 'RWHS.png', 'WRHS.png');
 
-		function actionOnClick () {
-			game.state.start('play');
-		}	    
+    function actionOnClick() {
+      game.state.start('play');
+    }
 		
-		function hsClick () {
-			window.location = "http://meatpocalypse.me/highScore.html";
-		}	    
+    function hsClick() {
+      window.location = "http://meatpocalypse.me/highScore.html";
+    }
 		
-		function quitClick () {
-			window.location = "http://meatpocalypse.me/index.html";
-		}	    
-	}
+    function quitClick() {
+      window.location = "http://meatpocalypse.me/index.html";
+    }
+  }
 };
 
 var playState = {
