@@ -1,16 +1,40 @@
-var width = 900, height = (21 * 32) - 8;
-var pauseTime = 0, tmpPauseTime = 0;
+var width = 900, height = (21 * 32) - 8; var pauseTime = 0, tmpPauseTime = 0;
 
 var game = new Phaser.Game(width, height, Phaser.AUTO, 'meatpocalypse');
 var map, layer, player, timerText;
 
 var loadState = {
   preload: function() {
+	game.load.atlasJSONHash('highScore', '../images/mainMenuInverted.png', '../images/mainMenuInverted.json');	
+	game.load.atlasJSONHash('quit', '../images/mainMenuInverted.png', '../images/mainMenuInverted.json');	
+	game.load.atlasJSONHash('play', '../images/mainMenuInverted.png', '../images/mainMenuInverted.json');	
+	game.load.image('background', '../images/MainMenu.png');	
   },
 
   create: function() {
     game.physics.startSystem(Phaser.Physics.ARCADE);
-    game.state.start('play');
+    game.state.start('mainMenu');
+  }
+};
+
+var mainMenu = {
+	create: function() {
+    game.add.image(game.world.centerX, game.world.centerY, 'background').anchor.set(0.5);
+    quit = game.add.button(675, 250, 'quit', quitClick, this, 'RQuit.png', 'WQuit.png', 'RQuit.png');
+    play_button = game.add.button(50, 260, 'play', actionOnClick, this, 'RPlayButton.png', 'WPlay.png', 'RPlayButton.png');
+    highScore_button = game.add.button(250, 495, 'highScore', hsClick, this, 'WRHS.png', 'RWHS.png', 'WRHS.png');
+
+    function actionOnClick() {
+      game.state.start('play');
+    }
+		
+    function hsClick() {
+      window.location = "http://meatpocalypse.me/highScore.html";
+    }
+		
+    function quitClick() {
+      window.location = "http://meatpocalypse.me/index.html";
+    }
   }
 };
 
@@ -65,5 +89,6 @@ function pauseFunction() {
 }
 
 game.state.add('load', loadState, true);
+game.state.add('mainMenu', mainMenu);
 game.state.add('play', playState);
 
