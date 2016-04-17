@@ -5,20 +5,20 @@ var map, layer, player, timerText;
 
 var loadState = {
   preload: function() {
-	game.load.atlasJSONHash('highScore', '../images/mainMenuInverted.png', '../images/mainMenuInverted.json');	
-	game.load.atlasJSONHash('quit', '../images/mainMenuInverted.png', '../images/mainMenuInverted.json');	
-	game.load.atlasJSONHash('play', '../images/mainMenuInverted.png', '../images/mainMenuInverted.json');	
-	game.load.image('background', '../images/MainMenu.png');	
+    game.load.atlasJSONHash('highScore', '../images/mainMenuInverted.png', '../images/mainMenuInverted.json');	
+    game.load.atlasJSONHash('quit', '../images/mainMenuInverted.png', '../images/mainMenuInverted.json');	
+    game.load.atlasJSONHash('play', '../images/mainMenuInverted.png', '../images/mainMenuInverted.json');	
+    game.load.image('background', '../images/MainMenu.png');	
   },
 
   create: function() {
     game.physics.startSystem(Phaser.Physics.ARCADE);
-    game.state.start('mainMenu');
+    game.state.start('play');
   }
 };
 
 var mainMenu = {
-	create: function() {
+  create: function() {
     game.add.image(game.world.centerX, game.world.centerY, 'background').anchor.set(0.5);
     quit = game.add.button(675, 250, 'quit', quitClick, this, 'RQuit.png', 'WQuit.png', 'RQuit.png');
     play_button = game.add.button(50, 260, 'play', actionOnClick, this, 'RPlayButton.png', 'WPlay.png', 'RPlayButton.png');
@@ -29,11 +29,11 @@ var mainMenu = {
     }
 		
     function hsClick() {
-      window.location = "http://meatpocalypse.me/highScore.html";
+      window.location = "/highScore.html";
     }
 		
     function quitClick() {
-      window.location = "http://meatpocalypse.me/index.html";
+      window.location = "/index.html";
     }
   }
 };
