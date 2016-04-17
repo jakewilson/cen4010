@@ -3,7 +3,6 @@ var Player = function(game) {
   this._MAX_HEALTH = 6;
   Entity.call(this, game, 'protagonist', this._STARTING_HEALTH, 5, 5, 1500);
   this._JUMP_FPS = 1.5; // frames per second
-  this._WALK_SPEED = 250;
   this._jumping = false;
   this._sprinting = false;
   this._cursors = null;
@@ -50,14 +49,6 @@ Player.prototype.kill = function() {
 Player.prototype.create = function(x, y) {
   Entity.prototype.create.call(this, x, y, 'walkright1.png'); // initialize this._sprite
 
-  this.addAnimation('walkright', ['walkright2.png', 'walkright3.png', 'walkright4.png'], this._animComplete);
-  this.addAnimation('jumpright', ['jumpright1.png'], this._animComplete);
-  this.addAnimation('attackright', ['attackright2.png', 'attackright3.png', 'attackright4.png'], this._animComplete)
-
-  this.addAnimation('walkleft', ['walkleft2.png', 'walkleft3.png', 'walkleft4.png'], this._animComplete);
-  this.addAnimation('jumpleft', ['jumpleft1.png'], this._animComplete);
-  this.addAnimation('attackleft', ['attackleft2.png', 'attackleft3.png', 'attackleft4.png'], this._animComplete)
-
   this.createBulletPool('banana');
 
   this._sprite.body.setSize(5, 58, 30, 3);
@@ -102,24 +93,6 @@ Player.prototype.jump = function() {
 }
 
 /**
- * Moves the Player horizontally
- * @param direction: the direction to move the player
- */
-Player.prototype.move = function(direction) {
-  if (direction === 'right') {
-    this._direction = 'right'; 
-    this._sprite.body.velocity.x = this._WALK_SPEED;
-  } else if (direction === 'left') {
-    this._direction = 'left';
-    this._sprite.body.velocity.x = -1 * this._WALK_SPEED;
-  }
-
-  if (this._currentPlayingAnim === null || this._currentPlayingAnim.name.indexOf('walk') >= 0) {
-    this._currentPlayingAnim = this._sprite.animations.play('walk' + this._direction, this._WALK_FPS);
-  }
-}
-
-/**
  * Sets the attack animation and shoots a projectile
 */
 Player.prototype.attack = function() {
@@ -128,18 +101,8 @@ Player.prototype.attack = function() {
   this._bulletPool.fireBullet(this._sprite.x + offset, this._sprite.y + (this._sprite.height / 4), this._direction);
 }
 
-/**
- * Called when any Animation completes. Sets the sprite frame
- * to the initial walking frame
- */
-Player.prototype._animComplete = function() {
-  this._sprite.frameName = 'walk' + this._direction + '1.png';
-  this._currentPlayingAnim = null;
-}
-
 Player.prototype.update = function() {
   Entity.prototype.update.call(this);
-  this._sprite.body.velocity.x = 0;
 
   if (this._attackButton.isDown) {
     this.attack();

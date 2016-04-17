@@ -10,6 +10,8 @@ var World = function(game) {
   this.animal = new Animal(game);
   this.carrot = new Carrot(game);
   this.trash = new Trash(game);
+
+  this.enemy =  null;
 }
 
 World.prototype.preLoad = function() {
@@ -45,6 +47,7 @@ World.prototype.create = function() {
   this.layers['First'].resizeWorld();
 
   this.createEnemies();
+  this.enemy = this._rangedEnemies[0];
 }
 
 World.prototype.setCollisionTiles = function() {
@@ -74,7 +77,8 @@ World.prototype.createLayers = function() {
  * @param player: the player
  */
 World.prototype.update = function(player) {
-  this._updateEnemy(this._rangedEnemies, player);
+  //this._updateEnemy(this._rangedEnemies, player);
+  this._updateEnemy([this._rangedEnemies[0]], player);
   this._updateEnemy(this._meleeEnemies, player);
   // set collisions with game objects (tofu, animals, carrots, trash cans)
   this.setCollision(player);
@@ -84,8 +88,8 @@ World.prototype.update = function(player) {
 World.prototype._updateEnemy = function(enemies, player) {
   var this_ = this;
   enemies.forEach(function(enemy) {
-    enemy.update();
-    enemy.setCollision(this_.layers['First']); // set collision with tiles
+    enemy.update(player, this_.layers['First']);
+    enemy.setCollision(this_.layers['First']);
     enemy.setCollisionWithPlayer(player);
     enemy.setBulletPoolCollision(player);
     enemy.setBulletPoolCollisionWithLayer(this_.layers['First']);
@@ -130,4 +134,8 @@ World.prototype._createMeleeEnemies = function() {
       this_._meleeEnemies.push(butcher);
     }
   });
+}
+
+World.prototype.render = function() {
+  this.enemy.render();
 }

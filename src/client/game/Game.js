@@ -48,6 +48,10 @@ var playState = {
     map.update(player);
   
     timerText.text = 'Time: ' + ((Math.round(game.time.now) - pauseTime) / 1000).toFixed(1);
+  },
+
+  render: function() {
+    map.render();
   }
 };
 

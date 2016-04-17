@@ -6,6 +6,7 @@ var Entity = function(game, name, health, walkSpeed, attackSpeed, damageRate) {
   this._direction = 'right';
   this._WALK_FPS = walkSpeed || 5;
   this._ATTACK_FPS = attackSpeed || 5;
+  this._WALK_SPEED = 250;
   this._currentPlayingAnim = null;
   this._attacking = false;
   this._bulletPool = null;
@@ -49,6 +50,15 @@ Entity.prototype.create = function(x, y, frame) {
   this._sprite = this._game.add.sprite(x, y, this._name, frame);
   this._game.physics.enable(this._sprite);
   this._sprite.body.collideWorldBounds = true;
+
+  this.addAnimation('walkright', ['walkright2.png', 'walkright3.png', 'walkright4.png'], this._animComplete);
+  this.addAnimation('jumpright', ['jumpright1.png'], this._animComplete);
+  this.addAnimation('attackright', ['attackright2.png', 'attackright3.png', 'attackright4.png'], this._animComplete)
+
+  this.addAnimation('walkleft', ['walkleft2.png', 'walkleft3.png', 'walkleft4.png'], this._animComplete);
+  this.addAnimation('jumpleft', ['jumpleft1.png'], this._animComplete);
+  this.addAnimation('attackleft', ['attackleft2.png', 'attackleft3.png', 'attackleft4.png'], this._animComplete)
+
 }
 
 /**
@@ -62,6 +72,15 @@ Entity.prototype.addAnimation = function(name, frames, onComplete) {
 }
 
 /**
+ * Called when any Animation completes. Sets the sprite frame
+ * to the initial walking frame
+ */
+Entity.prototype._animComplete = function() {
+  this._sprite.frameName = 'walk' + this._direction + '1.png';
+  this._currentPlayingAnim = null;
+}
+
+/**
  * Creates the Bullet Pool for the Entity
  * @param game: the game object
  * @param path: the path to the bullet image
@@ -70,15 +89,16 @@ Entity.prototype.createBulletPool = function(name) {
   this._bulletPool = new BulletPool(this._game, name, this._sprite);
 }
 
-Entity.prototype.setCollision = function(layer) {
-  this._game.physics.arcade.collide(this._sprite, layer);
+Entity.prototype.setCollision = function(layer, callback) {
+  this._game.physics.arcade.collide(this._sprite, layer, callback);
 }
 
 /**
  * Updates the Entity
  */
 Entity.prototype.update = function() {
-  if ((this._sprite.y + this._sprite.body.height) >= (this._game.height)) {
+  this._sprite.body.velocity.x = 0;
+  if ((this._sprite.y + this._sprite.height) >= (this._game.height)) {
     this.kill();
   }
 
@@ -125,4 +145,26 @@ Entity.prototype.hurt = function() {
       this.kill();
     }
   }
+}
+
+/**
+ * Moves the Entity horizontally
+ * @param direction: the direction to move the entity
+ */
+Entity.prototype.move = function(direction) {
+  if (direction === 'right') {
+    this._direction = 'right'; 
+    this._sprite.body.velocity.x = this._WALK_SPEED;
+  } else if (direction === 'left') {
+    this._direction = 'left';
+    this._sprite.body.velocity.x = -1 * this._WALK_SPEED;
+  }
+
+  if (this._currentPlayingAnim === null || this._currentPlayingAnim.name.indexOf('walk') >= 0) {
+    this._currentPlayingAnim = this._sprite.animations.play('walk' + this._direction, this._WALK_FPS);
+  }
+}
+
+Entity.prototype.switchDirection = function() {
+  this._direction = this._direction === 'left' ? 'right' : 'left';
 }
