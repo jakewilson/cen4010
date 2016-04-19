@@ -54,6 +54,7 @@ Player.prototype.create = function(x, y) {
   this.createBulletPool('banana');
 
   this._sprite.body.setSize(5, 58, 30, 3);
+  this._sprite.body.gravity.y = 300;
 
   // follow the player
   this._game.camera.follow(this._sprite);
@@ -81,7 +82,6 @@ Player.prototype.create = function(x, y) {
 
 /**
  * Plays the Jump animation and gives the player an upward velocity
- * // TODO need to redo this whole function - it sucks
  */
 Player.prototype.jump = function() {
   if (this._sprite.body.onFloor()) {
