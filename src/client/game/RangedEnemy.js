@@ -1,7 +1,7 @@
 var RangedEnemy = function(game) {
   this._ENEMY_HEALTH = 2;
   Entity.call(this, game, 'ranger', this._ENEMY_HEALTH, 5, 5, 500);
-  this._ATTACK_RANGE = 32 * 10;
+  this._ATTACK_RANGE = 32 * 10; // 10 tiles
   this._STATES = {
     IDLE: 0,
     PATROL: 1,
@@ -12,7 +12,7 @@ var RangedEnemy = function(game) {
   this._direction = 'left';
 }
 
-// Enemy inherits from Entity
+// RangedEnemy inherits from Entity
 RangedEnemy.prototype = Object.create(Entity.prototype);
 RangedEnemy.prototype.constructor = RangedEnemy;
 
@@ -37,7 +37,7 @@ RangedEnemy.prototype.setCollisionWithPlayer = function(player) {
   this._game.physics.arcade.collide(player.getSprite(), this._sprite, onCollision);
 }
 
-RangedEnemy.prototype.update = function(player, layer) {
+RangedEnemy.prototype.update = function(player) {
   Entity.prototype.update.call(this);
   switch (this._state) {
     case this._STATES.PATROL:
@@ -48,19 +48,15 @@ RangedEnemy.prototype.update = function(player, layer) {
       break;
   }
 
-  if (this._sprite.body.blocked.left) {
-    console.log('hi');
-  }
   this._state = this.playerInRange(player) ? this._STATES.ATTACK : this._STATES.PATROL;
 }
 
 RangedEnemy.prototype._patrol = function() {
-  this.move(this._direction);
-  //if (this._sprite.body.velocity.x === 0) {
-  if (this._sprite.body.blocked.left) {
-    console.log('hi');
+  if (Math.abs(this._totalDist) > this._MAX_PATROL_DIST) {
     Entity.prototype.switchDirection.call(this);
   }
+  this.move(this._direction);
+  this._totalDist += this._sprite.body.deltaX();
 }
 
 RangedEnemy.prototype.playerInRange = function(player) {
@@ -68,5 +64,8 @@ RangedEnemy.prototype.playerInRange = function(player) {
 }
 
 RangedEnemy.prototype.render = function() {
-  this._game.debug.bodyInfo(this._sprite, 100, 100);
+  if (this._sprite.body.blocked.left || this._sprite.body.blocked.right) {
+    Entity.prototype.switchDirection.call(this);
+  }
+  //this._game.debug.bodyInfo(this._sprite, 100, 100);
 }
