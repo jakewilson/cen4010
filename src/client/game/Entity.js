@@ -13,6 +13,8 @@ var Entity = function(game, name, health, walkSpeed, attackSpeed, damageRate) {
   this._damageRate = damageRate || 1500;
   this._nextDamage = 0;
   this._hurting = false;
+  this._totalDist = 0;
+  this._MAX_PATROL_DIST = 32 * 5; // 5 tiles
 }
 
 /**
@@ -26,7 +28,6 @@ Entity.prototype.preLoad = function() {
  * Kills the Entity
  */
 Entity.prototype.kill = function() {
-  // TODO remove sprite from screen iff on screen
   this._sprite.kill();
 }
 
@@ -58,7 +59,6 @@ Entity.prototype.create = function(x, y, frame) {
   this.addAnimation('walkleft', ['walkleft2.png', 'walkleft3.png', 'walkleft4.png'], this._animComplete);
   this.addAnimation('jumpleft', ['jumpleft1.png'], this._animComplete);
   this.addAnimation('attackleft', ['attackleft2.png', 'attackleft3.png', 'attackleft4.png'], this._animComplete)
-
 }
 
 /**
@@ -157,7 +157,7 @@ Entity.prototype.move = function(direction) {
     this._sprite.body.velocity.x = this._WALK_SPEED;
   } else if (direction === 'left') {
     this._direction = 'left';
-    this._sprite.body.velocity.x = -1 * this._WALK_SPEED;
+    this._sprite.body.velocity.x = -this._WALK_SPEED;
   }
 
   if (this._currentPlayingAnim === null || this._currentPlayingAnim.name.indexOf('walk') >= 0) {
@@ -167,4 +167,5 @@ Entity.prototype.move = function(direction) {
 
 Entity.prototype.switchDirection = function() {
   this._direction = this._direction === 'left' ? 'right' : 'left';
+  this._totalDist = 0;
 }

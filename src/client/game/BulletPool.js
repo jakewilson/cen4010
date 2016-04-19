@@ -1,6 +1,5 @@
 var NUM_BULLETS = 10;
 var BULLET_VELOCITY = 400;
-var FIRE_RATE = 350; // in ms
 
 /**
  * Constructs a BulletPool
@@ -22,6 +21,8 @@ var BulletPool = function(game, name) {
   this._pool.setAll('autoCull', true);
   this._pool.setAll('body.allowGravity', false);
   this._nextFire = 0;
+
+  this._FIRE_RATE = 350;
 }
 
 /**
@@ -37,7 +38,7 @@ BulletPool.prototype.fireBullet = function(x, y, dir) {
 
   // fire the bullet here
   if (bullet && this._game.time.now > this._nextFire) {
-    this._nextFire = this._game.time.now + FIRE_RATE;
+    this._nextFire = this._game.time.now + this._FIRE_RATE;
     bullet.reset(x, y);
     if (dir === 'right') {
       bullet.body.velocity.x = BULLET_VELOCITY;
@@ -68,4 +69,11 @@ BulletPool.prototype.setCollisionWithEntity = function(entity) {
     bullet.kill();
   };
   this._game.physics.arcade.overlap(entity.getSprite(), this._pool, onOverlap);
+}
+
+/**
+ * Sets the fire rate
+ */
+BulletPool.prototype.setFireRate = function(rate) {
+  this._FIRE_RATE = rate;
 }

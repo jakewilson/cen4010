@@ -24,7 +24,7 @@ World.prototype.preLoad = function() {
   this.trash.preLoad();
 
   this._game.load.atlasJSONHash('ranger', './assets/spritesheets/ranger.png', './assets/spritesheets/ranger.json');
-  this._game.load.image('meat', './assets/spritesheets/banana.png');
+  this._game.load.image('meat', './assets/spritesheets/meat.png');
 
   this._game.load.atlasJSONHash('butcher', './assets/spritesheets/butcher.png', './assets/spritesheets/butcher.json');
 
@@ -77,8 +77,7 @@ World.prototype.createLayers = function() {
  * @param player: the player
  */
 World.prototype.update = function(player) {
-  //this._updateEnemy(this._rangedEnemies, player);
-  this._updateEnemy([this._rangedEnemies[0]], player);
+  this._updateEnemy(this._rangedEnemies, player);
   this._updateEnemy(this._meleeEnemies, player);
   // set collisions with game objects (tofu, animals, carrots, trash cans)
   this.setCollision(player);
@@ -91,8 +90,8 @@ World.prototype._updateEnemy = function(enemies, player) {
     enemy.update(player, this_.layers['First']);
     enemy.setCollision(this_.layers['First']);
     enemy.setCollisionWithPlayer(player);
-    enemy.setBulletPoolCollision(player);
     enemy.setBulletPoolCollisionWithLayer(this_.layers['First']);
+    enemy.setBulletPoolCollision(player);
     player.setBulletPoolCollision(enemy);
   });
 }
@@ -137,5 +136,11 @@ World.prototype._createMeleeEnemies = function() {
 }
 
 World.prototype.render = function() {
-  this.enemy.render();
+  this.renderEnemies(this._rangedEnemies);
+}
+
+World.prototype.renderEnemies = function(enemies) {
+  enemies.forEach(function(enemy) {
+    enemy.render();
+  });
 }
