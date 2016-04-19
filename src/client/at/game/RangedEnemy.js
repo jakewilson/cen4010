@@ -48,12 +48,11 @@ RangedEnemy.prototype.update = function(player) {
       break;
 
     case this._STATES.ATTACK:
-      this._facePlayer(player);
       this.attack();
       break;
   }
 
-  this._state = this.playerInRange(player) ? this._STATES.ATTACK : this._STATES.PATROL;
+  this._state = this.playerInRange(player) && this.facingPlayer(player) ? this._STATES.ATTACK : this._STATES.PATROL;
 }
 
 RangedEnemy.prototype.attack = function() {
@@ -76,13 +75,10 @@ RangedEnemy.prototype._patrol = function() {
 /**
  * Face the player before attacking
  */
-RangedEnemy.prototype._facePlayer = function(player) {
+RangedEnemy.prototype.facingPlayer = function(player) {
   // get the relative location of the player to the enemy
   var playerDirection = this._sprite.body.x - player.getSprite().body.x > 0 ? 'left' : 'right';
-  if (this._direction != playerDirection) {
-    Entity.prototype.switchDirection.call(this);
-    this._sprite.frameName = 'walk' + this._direction + '1.png';
-  }
+  return playerDirection === this._direction;
 }
 
 RangedEnemy.prototype.playerInRange = function(player) {

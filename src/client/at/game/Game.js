@@ -1,4 +1,7 @@
-var width = 900, height = (21 * 32) - 8; var pauseTime = 0, tmpPauseTime = 0;
+var width = 900, height = (21 * 32) - 8;
+var elapsedTime,
+  pauseTime = 0,
+  tmpPauseTime = 0;
 
 var game = new Phaser.Game(width, height, Phaser.AUTO, 'meatpocalypse');
 var map, layer, player, timerText;
@@ -13,7 +16,6 @@ var loadState = {
     game.load.image('death', '../images/gameOver.png');	
     game.load.image('name', '../images/Meatpocalypse.png');	
   },
-
   create: function() {
     game.physics.startSystem(Phaser.Physics.ARCADE);
     game.state.start('mainMenu');
@@ -119,7 +121,8 @@ var playState = {
     player.update();
     map.update(player);
   
-    timerText.text = 'Time: ' + ((Math.round(game.time.now) - pauseTime) / 1000).toFixed(1);
+    elapsedTime = ((Math.round(game.time.now) - pauseTime) / 1000).toFixed(1);
+    timerText.text = 'Time: ' + elapsedTime;
   },
 
   render: function() {
