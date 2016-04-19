@@ -45,6 +45,7 @@ RangedEnemy.prototype.update = function(player) {
       break;
 
     case this._STATES.ATTACK:
+      this._facePlayer(player);
       break;
   }
 
@@ -59,11 +60,24 @@ RangedEnemy.prototype._patrol = function() {
   this._totalDist += this._sprite.body.deltaX();
 }
 
+/**
+ * Face the player before attacking
+ */
+RangedEnemy.prototype._facePlayer = function(player) {
+  // get the relative location of the player to the enemy
+  var playerDirection = this._sprite.body.x - player.getSprite().body.x > 0 ? 'left' : 'right';
+  if (this._direction != playerDirection) {
+    Entity.prototype.switchDirection.call(this);
+    this._sprite.frameName = 'walk' + this._direction + '1.png';
+  }
+}
+
 RangedEnemy.prototype.playerInRange = function(player) {
   return this._game.physics.arcade.distanceBetween(player.getSprite(), this._sprite) <= this._ATTACK_RANGE;
 }
 
 RangedEnemy.prototype.render = function() {
+  // for some reason these are only true in render, not in update
   if (this._sprite.body.blocked.left || this._sprite.body.blocked.right) {
     Entity.prototype.switchDirection.call(this);
   }
