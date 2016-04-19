@@ -28,7 +28,6 @@ Entity.prototype.preLoad = function() {
  * Kills the Entity
  */
 Entity.prototype.kill = function() {
-  // TODO remove sprite from screen iff on screen
   this._sprite.kill();
 }
 

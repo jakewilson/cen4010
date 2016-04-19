@@ -1,7 +1,7 @@
 var RangedEnemy = function(game) {
   this._ENEMY_HEALTH = 2;
   Entity.call(this, game, 'ranger', this._ENEMY_HEALTH, 5, 5, 500);
-  this._ATTACK_RANGE = 32 * 10; // 10 tiles
+  this._ATTACK_RANGE = 32 * 7; // 10 tiles
   this._STATES = {
     IDLE: 0,
     PATROL: 1,
@@ -24,6 +24,8 @@ RangedEnemy.prototype.create = function(x, y, frame) {
   Entity.prototype.create.call(this, x, y, frame);
   this._sprite.body.immovable = true;
   this._sprite.body.setSize(33, 67, 33, 10);
+  this.createBulletPool('meat');
+  this._bulletPool.setFireRate(1000);
   this._state = this._STATES.PATROL;
 }
 
@@ -38,6 +40,7 @@ RangedEnemy.prototype.setCollisionWithPlayer = function(player) {
 }
 
 RangedEnemy.prototype.update = function(player) {
+  if (!this._sprite.visible) return;
   Entity.prototype.update.call(this);
   switch (this._state) {
     case this._STATES.PATROL:
@@ -46,12 +49,22 @@ RangedEnemy.prototype.update = function(player) {
 
     case this._STATES.ATTACK:
       this._facePlayer(player);
+      this.attack();
       break;
   }
 
   this._state = this.playerInRange(player) ? this._STATES.ATTACK : this._STATES.PATROL;
 }
 
+RangedEnemy.prototype.attack = function() {
+  Entity.prototype.attack.call(this);
+  var offset = (this._direction === 'left') ? 0 : (3 * (this._sprite.width / 4));
+  this._bulletPool.fireBullet(this._sprite.x + offset, this._sprite.y + (this._sprite.height / 4), this._direction);
+}
+
+/**
+ * Walk back and forth until encountering the player
+ */
 RangedEnemy.prototype._patrol = function() {
   if (Math.abs(this._totalDist) > this._MAX_PATROL_DIST) {
     Entity.prototype.switchDirection.call(this);
@@ -78,7 +91,7 @@ RangedEnemy.prototype.playerInRange = function(player) {
 
 RangedEnemy.prototype.render = function() {
   // for some reason these are only true in render, not in update
-  if (this._sprite.body.blocked.left || this._sprite.body.blocked.right) {
+  if (this._sprite !== null && this._sprite.body.blocked.left || this._sprite.body.blocked.right) {
     Entity.prototype.switchDirection.call(this);
   }
   //this._game.debug.bodyInfo(this._sprite, 100, 100);
