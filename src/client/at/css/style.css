@@ -8,9 +8,6 @@ html {margin:0;padding:0;border:0;}body, div, span, object, iframe, h1, h2, h3, 
 ----------------------------------------------------------------------------------------------------*/
 html {
 	min-height: 100%;
-	background: url(../images/login.png) no-repeat center center fixed;
-	background-size: 750px 700px;
-	background-repeat: no-repeat;
 }
 body {
 	height: 100%;
@@ -21,7 +18,8 @@ body {
 	line-height: 20px;
 	min-width: 998px;
 	border-top:3px solid #919191;
-	background:url(../images/login.png) no-repeat center center fixed;	
+	background:url(../images/login.png) no-repeat center center fixed;
+	background-size: 100% 100%;
 }
 #wrapper {	
 	padding: 70px 0 0 0px;

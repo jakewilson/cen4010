@@ -10,6 +10,8 @@ var World = function(game) {
   this.animal = new Animal(game);
   this.carrot = new Carrot(game);
   this.trash = new Trash(game);
+
+  this.enemy =  null;
 }
 
 World.prototype.preLoad = function() {
@@ -22,7 +24,7 @@ World.prototype.preLoad = function() {
   this.trash.preLoad();
 
   this._game.load.atlasJSONHash('ranger', './assets/spritesheets/ranger.png', './assets/spritesheets/ranger.json');
-  this._game.load.image('meat', './assets/spritesheets/banana.png');
+  this._game.load.image('meat', './assets/spritesheets/meat.png');
 
   this._game.load.atlasJSONHash('butcher', './assets/spritesheets/butcher.png', './assets/spritesheets/butcher.json');
 
@@ -45,6 +47,7 @@ World.prototype.create = function() {
   this.layers['First'].resizeWorld();
 
   this.createEnemies();
+  this.enemy = this._rangedEnemies[0];
 }
 
 World.prototype.setCollisionTiles = function() {
@@ -84,11 +87,11 @@ World.prototype.update = function(player) {
 World.prototype._updateEnemy = function(enemies, player) {
   var this_ = this;
   enemies.forEach(function(enemy) {
-    enemy.update();
-    enemy.setCollision(this_.layers['First']); // set collision with tiles
+    enemy.update(player, this_.layers['First']);
+    enemy.setCollision(this_.layers['First']);
     enemy.setCollisionWithPlayer(player);
-    enemy.setBulletPoolCollision(player);
     enemy.setBulletPoolCollisionWithLayer(this_.layers['First']);
+    enemy.setBulletPoolCollision(player);
     player.setBulletPoolCollision(enemy);
     if (enemy.isDead()) {
       player.enemyKilled(enemy);
@@ -133,5 +136,15 @@ World.prototype._createMeleeEnemies = function() {
       butcher.create(enemy.x, enemy.y);
       this_._meleeEnemies.push(butcher);
     }
+  });
+}
+
+World.prototype.render = function() {
+  this.renderEnemies(this._rangedEnemies);
+}
+
+World.prototype.renderEnemies = function(enemies) {
+  enemies.forEach(function(enemy) {
+    enemy.render();
   });
 }

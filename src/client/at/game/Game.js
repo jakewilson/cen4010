@@ -8,10 +8,35 @@ var map, layer, player, timerText;
 
 var loadState = {
   preload: function() {
+    game.load.atlasJSONHash('highScore', '../images/mainMenuInverted.png', '../images/mainMenuInverted.json');	
+    game.load.atlasJSONHash('quit', '../images/mainMenuInverted.png', '../images/mainMenuInverted.json');	
+    game.load.atlasJSONHash('play', '../images/mainMenuInverted.png', '../images/mainMenuInverted.json');	
+    game.load.image('background', '../images/MainMenu.png');	
   },
   create: function() {
     game.physics.startSystem(Phaser.Physics.ARCADE);
     game.state.start('play');
+  }
+};
+
+var mainMenu = {
+  create: function() {
+    game.add.image(game.world.centerX, game.world.centerY, 'background').anchor.set(0.5);
+    quit = game.add.button(675, 250, 'quit', quitClick, this, 'RQuit.png', 'WQuit.png', 'RQuit.png');
+    play_button = game.add.button(50, 260, 'play', actionOnClick, this, 'RPlayButton.png', 'WPlay.png', 'RPlayButton.png');
+    highScore_button = game.add.button(250, 495, 'highScore', hsClick, this, 'WRHS.png', 'RWHS.png', 'WRHS.png');
+
+    function actionOnClick() {
+      game.state.start('play');
+    }
+		
+    function hsClick() {
+      window.location = "/highScore.html";
+    }
+		
+    function quitClick() {
+      window.location = "/index.html";
+    }
   }
 };
 
@@ -50,6 +75,10 @@ var playState = {
   
     elapsedTime = ((Math.round(game.time.now) - pauseTime) / 1000).toFixed(1);
     timerText.text = 'Time: ' + elapsedTime;
+  },
+
+  render: function() {
+    map.render();
   }
 };
 
@@ -63,5 +92,6 @@ function pauseFunction() {
 }
 
 game.state.add('load', loadState, true);
+game.state.add('mainMenu', mainMenu);
 game.state.add('play', playState);
 
