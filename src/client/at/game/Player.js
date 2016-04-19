@@ -1,4 +1,5 @@
 var Player = function(game) {
+  this._accountId = parseInt(window.location.search.split('=')[1]);
   this._STARTING_HEALTH = 3;
   this._MAX_HEALTH = 6;
   Entity.call(this, game, 'protagonist', this._STARTING_HEALTH, 5, 5, 1500);
@@ -14,12 +15,13 @@ var Player = function(game) {
   this._score = 0;
   this._scoreTextOffset = 425;
 
+  this._shotsFired = 0;
   this._carrotsCollected = 0;
   this._animalsRescued = 0;
   this._carrotMultiplier = 10;
-  this._animalMultiplier = 1000;
+  this._animalMultiplier = 100;
   this._enemiesKilled = 0;
-  this._enemyMultiplier = 100;
+  this._enemyMultiplier = 20;
 
   this._carrotTextOffset = 48;
 }
@@ -98,7 +100,12 @@ Player.prototype.jump = function() {
 Player.prototype.attack = function() {
   Entity.prototype.attack.call(this);
   var offset = (this._direction === 'left') ? 0 : (3 * (this._sprite.width / 4));
-  this._bulletPool.fireBullet(this._sprite.x + offset, this._sprite.y + (this._sprite.height / 4), this._direction);
+  var shot = this._bulletPool.fireBullet(this._sprite.x + offset,
+    this._sprite.y + (this._sprite.height / 4),
+    this._direction);
+  if(shot) {
+    this._shotsFired += 1;
+  }
 }
 
 Player.prototype.update = function() {
@@ -185,8 +192,24 @@ Player.prototype.registerAnimalRescued = function() {
   this._animalsRescued++;
 }
 
+Player.prototype.enemyKilled = function(type) {
+  this._enemiesKilled++;
+}
+
 Player.prototype.getScore = function() {
   return (this._carrotsCollected * this._carrotMultiplier) +
     (this._animalsRescued * this._animalMultiplier) +
     (this._enemiesKilled * this._enemyMultiplier);
+}
+
+Player.prototype.getStats = function() {
+  return {
+    score: this.getScore(),
+    shotsFired: this._shotsFired,
+    carrotsCollected: this._carrotsCollected,
+    animalsRescued: this._animalsRescued,
+    enemiesKilled: this._enemiesKilled,
+    accountId: this._accountId,
+    time: 0, // to be filled in later
+  }
 }

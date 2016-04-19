@@ -169,3 +169,7 @@ Entity.prototype.switchDirection = function() {
   this._direction = this._direction === 'left' ? 'right' : 'left';
   this._totalDist = 0;
 }
+
+Entity.prototype.isDead = function() {
+  return !this._sprite.alive;
+}
