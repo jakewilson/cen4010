@@ -36,11 +36,11 @@ var mainMenu = {
     }
 		
     function hsClick() {
-      window.location = "/highScore.html";
+      window.location = "/at/highScore.html";
     }
 		
     function quitClick() {
-      window.location = "/index.html";
+      window.location = "/at/index.html";
     }
   }
 };
@@ -79,11 +79,11 @@ var victoryScreen = {
     }
 		
     function hsClick() {
-      window.location = "/highScore.html";
+      window.location = "/at/highScore.html";
     }
 		
     function quitClick() {
-      window.location = "/index.html";
+      window.location = "/at/index.html";
     }
   }
 };
