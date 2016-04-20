@@ -39,7 +39,7 @@ Player.prototype.preLoad = function() {
 
 Player.prototype.kill = function() {
   Entity.prototype.kill.call(this);
-  // TODO play game over screen here
+  this._game.state.start('deathScreen');
   console.log('game over!');
 }
 
