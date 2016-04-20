@@ -5,7 +5,7 @@ var Player = function(game) {
   Entity.call(this, game, 'protagonist', this._STARTING_HEALTH, 5, 5, 1500);
   this._JUMP_FPS = 1.5; // frames per second
   this._jumping = false;
-  this._sprinting = false;
+  this._god = false;
   this._cursors = null;
   this._healthPool = null;
   this._healthY = 10;
@@ -45,7 +45,7 @@ Player.prototype.kill = function() {
 
 /**
  * Creates the Player at the specified location
- * @param x: the x location of the Player
+* @param x: the x location of the Player
  * @param y: the y location of the Player
  */
 Player.prototype.create = function(x, y) {
@@ -54,12 +54,12 @@ Player.prototype.create = function(x, y) {
   this.createBulletPool('banana');
 
   this._sprite.body.setSize(5, 58, 30, 3);
-
+  this._sprite.body.gravity.y = 300;
   // follow the player
   this._game.camera.follow(this._sprite);
 
-  this._sprintButton = this._game.input.keyboard.addKey(Phaser.Keyboard.D);
-  this._sprintButton.onDown.add(this._sprint, this);
+  this._godButton = this._game.input.keyboard.addKey(Phaser.Keyboard.D);
+  this._godButton.onDown.add(this._godMode, this);
 
   this._cursors = this._game.input.keyboard.createCursorKeys();
   this._attackButton = this._game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
@@ -129,13 +129,15 @@ Player.prototype.update = function() {
   carrotText.text = 'x ' + this._carrotsCollected;
 }
 
-Player.prototype._sprint = function() {
-	if (!this._sprinting) {
-		this._WALK_SPEED = this._WALK_SPEED * 5;
- 		this._sprinting = true; 
+Player.prototype._godMode = function() {
+	if (!this._god) {
+    //Uncomment this line to add in increased speed
+    //this._WALK_SPEED = this._WALK_SPEED * 5;
+ 		this._god = true; 
 	} else {
-		this._WALK_SPEED = this._WALK_SPEED / 5;
- 		this._sprinting = false; 
+    //Uncomment this line to reduce speed when exiting god mode
+	  //this._WALK_SPEED = this._WALK_SPEED / 5;
+ 		this._god = false;
 	}
 }
 
@@ -172,8 +174,10 @@ Player.prototype.heal = function() {
  * Calls entity's hurt function and redraws the player's health
  */
 Player.prototype.hurt = function() {
-  Entity.prototype.hurt.call(this);
-  this._drawHealth();
+  if (!this._god) {
+    Entity.prototype.hurt.call(this);
+    this._drawHealth();
+  }
 }
 
 Player.prototype.getCarrotsCollected = function() {
