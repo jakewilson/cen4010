@@ -45,7 +45,7 @@ Player.prototype.kill = function() {
 
 /**
  * Creates the Player at the specified location
-* @param x: the x location of the Player
+ * @param x: the x location of the Player
  * @param y: the y location of the Player
  */
 Player.prototype.create = function(x, y) {
@@ -55,7 +55,7 @@ Player.prototype.create = function(x, y) {
 
   this._sprite.body.setSize(5, 58, 30, 3);
   this._sprite.body.gravity.y = 300;
-  
+
   // follow the player
   this._game.camera.follow(this._sprite);
 
