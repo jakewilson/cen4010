@@ -130,15 +130,15 @@ Player.prototype.update = function() {
 }
 
 Player.prototype._godMode = function() {
-	if (!this._god) {
+  if (!this._god) {
     //Uncomment this line to add in increased speed
     //this._WALK_SPEED = this._WALK_SPEED * 5;
- 		this._god = true; 
-	} else {
+    this._god = true;
+  } else {
     //Uncomment this line to reduce speed when exiting god mode
-	  //this._WALK_SPEED = this._WALK_SPEED / 5;
- 		this._god = false;
-	}
+    //this._WALK_SPEED = this._WALK_SPEED / 5;
+    this._god = false;
+  }
 }
 
 Player.prototype._createHealthPool = function() {
