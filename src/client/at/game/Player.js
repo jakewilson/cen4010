@@ -210,6 +210,6 @@ Player.prototype.getStats = function() {
     animalsRescued: this._animalsRescued,
     enemiesKilled: this._enemiesKilled,
     accountId: this._accountId,
-    time: 0, // to be filled in later
+    time: this._game.getElapsedTime(),
   }
 }

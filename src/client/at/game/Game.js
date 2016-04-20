@@ -95,3 +95,7 @@ game.state.add('load', loadState, true);
 game.state.add('mainMenu', mainMenu);
 game.state.add('play', playState);
 
+game.getElapsedTime = function() {
+  return elapsedTime;
+}
+
