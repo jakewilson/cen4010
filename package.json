@@ -11,5 +11,10 @@
     "sqlite": "0.0.4",
     "jasmine": "^2.4.1",
     "body-parser": "1.15.0"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/jonathanfrias/meatpocalypse.git"
+  },
+  "license": "GPL-2.0"
 }
