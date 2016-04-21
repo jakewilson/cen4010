@@ -34,7 +34,9 @@ describe("Database", function() {
          username: player,
          password: '1234',
          passwordAttempts: 0,
-         lastAttempt: 0});
+         lastAttempt: 0,
+         isAdmin: 0,
+        });
         done();
       });
     });

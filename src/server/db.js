@@ -28,7 +28,8 @@ module.exports = {
           "username VARCHAR(255), " +
           "password VARCHAR(255), " +
           "passwordAttempts INT, " +
-          "lastAttempt INT " +
+          "lastAttempt INT, " +
+          "isAdmin INTEGER DEFAULT 0" +
           ");"
         )
         db.run("CREATE UNIQUE INDEX if not exists player on players (username);");
@@ -36,7 +37,7 @@ module.exports = {
             "create table if not exists playerStatistics (" +
             "playerid INT," +
             "score INT," +
-            "gameTime INT," +
+            "time INT," +
             "carrotsCollected INT," +
             "enemiesKilled INT," +
             "animalsRescued INT, " +
@@ -98,7 +99,7 @@ module.exports = {
         "INSERT INTO playerStatistics (" +
         "playerid, " +
         "score, " +
-        "gameTime, " +
+        "time, " +
         "carrotsCollected, " +
         "enemiesKilled, " +
         "animalsRescued, " +
@@ -106,7 +107,7 @@ module.exports = {
         ")VALUES(?,?,?,?,?,?,?)",
         data.playerid,
         data.score,
-        data.gameTime,
+        data.time,
         data.carrotsCollected,
         data.enemiesKilled,
         data.animalsRescued,
