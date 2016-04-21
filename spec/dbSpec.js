@@ -2,18 +2,23 @@
 var db = require('../src/server/db.js');
 var fs = require('fs');
 
-var db_name = 'test.db';
+var dbName = 'dbSpec.db';
 
 describe("Database", function() {
 
+  beforeAll(function() {
+    db.open(dbName);
+  });
+
   afterAll(() => {
     // remove .db file so the next time the test is run it will pass
-    fs.unlink(db_name, () => {});
+    fs.unlink(dbName, () => {});
+    db.close();
   });
 
   it("should create a db file", (done) => {
-    db.create(db_name, () => {
-      fs.access(db_name, fs.F_OK, (err) => {
+    db.create(dbName, () => {
+      fs.access(dbName, fs.F_OK, (err) => {
         expect(err).toBe(null);
         done();
       });
@@ -29,7 +34,9 @@ describe("Database", function() {
          username: player,
          password: '1234',
          passwordAttempts: 0,
-         lastAttempt: 0});
+         lastAttempt: 0,
+         isAdmin: 0,
+        });
         done();
       });
     });
@@ -58,6 +65,27 @@ describe("Database", function() {
     db.getPlayer(undefined, (err, row) => {
       expect(err).not.toBe(undefined);
       expect(row).toBe(undefined);
+      done();
+    });
+  });
+
+  it("should allow statistics to be entered", function(done) {
+    var playerStats = {
+      playerid: 0,
+      score: 1,
+      shotsFired: 2,
+      carrotsCollected: 3,
+      animalsRescued: 4,
+      enemiesKilled: 5,
+      accountId: 6,
+      time: 7,
+    };
+
+    db.addStatistics(playerStats, function(err) {
+      if(err) {
+        throw err;
+      }
+
       done();
     });
   });

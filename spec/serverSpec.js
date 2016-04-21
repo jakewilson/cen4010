@@ -2,19 +2,20 @@
 var server = require("../src/server/server.js");
 var http = require('http');
 var db = require('../src/server/db.js');
+var xhr = require('./support/xhr.js');
+var fs = require('fs');
 
 describe("Server", function() {
+  var dbName = 'server.db';
   beforeAll(function() {
+    db.create(dbName);
     server.start(3000);
-    db.create("meatpocalypse.db"); // should *NOT* have to do this...
   });
 
   afterAll(function() {
     server.stop();
-  });
-
-  afterEach(function() {
-    db.clear();
+    db.close();
+    fs.unlink(dbName, () => {});
   });
 
   var assertPlayerExists = function(user, done) {
@@ -111,6 +112,25 @@ describe("Server", function() {
       });
       req.write(postData);
       req.end();
+    });
+  });
+
+  describe("uploading statistics", function() {
+    it("can upload stats", function(done) {
+      var playerStats = {
+        playerid: 100,
+        score: 1,
+        shotsFired: 2,
+        carrotsCollected: 3,
+        animalsRescued: 4,
+        enemiesKilled: 5,
+        accountId: 6,
+        time: 7,
+      };
+      xhr.post('/registerStatistics', playerStats, function(res) {
+        expect(res.statusCode).toBe(302);
+        done();
+      });
     });
   });
 });

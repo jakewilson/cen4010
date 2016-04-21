@@ -28,11 +28,27 @@ module.exports = function(grunt) {
         src: paths,
         dest: 'src/client/at/meatpocalypse.min.js'
       }
-    }
+    },
+    watch: {
+      scripts: {
+        files: paths,
+      },
+      tasks: ['uglify', 'default'],
+      options: {
+        debounceDelay: 1000,
+      },
+      uglify: {
+        files: paths,
+        tasks: ['uglify'],
+      },
+    },
   });
 
   // Load the plugin that provides the "uglify" task.
   grunt.loadNpmTasks('grunt-contrib-uglify');
+
+  //Grunt watch
+  grunt.loadNpmTasks('grunt-contrib-watch');
 
   // Default task(s).
   grunt.registerTask('default', ['uglify']);

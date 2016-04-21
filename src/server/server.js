@@ -7,7 +7,7 @@ var urlParser = bodyParser.urlencoded({extended: false});
 var running = false;
 var server;
 
-db.create('meatpocalypse.db');
+db.open('meatpocalypse.db');
 
 app.post('/at/index.html', urlParser, (req, res, next) => {
     if (!req.body)
@@ -66,8 +66,16 @@ app.post('/at/index.html', urlParser, (req, res, next) => {
     res.write('Player already exists!');
     res.end();
   });
+}).post('/registerStatistics', urlParser, function(req, res, next) {
+  db.addStatistics(req.body, function(err) {
+    res.redirect(302, '/at/statistics.html');
+    res.end();
+  });
 }).get('/', function(req, res, next) {
   res.redirect(302, 'at/index.html');
+  res.end();
+}).get('/hello', function(req, res, next) {
+  res.write("Hello World");
   res.end();
 });
 
