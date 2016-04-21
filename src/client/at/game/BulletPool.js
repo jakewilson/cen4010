@@ -79,3 +79,7 @@ BulletPool.prototype.setCollisionWithEntity = function(entity) {
 BulletPool.prototype.setFireRate = function(rate) {
   this._FIRE_RATE = rate;
 }
+
+BulletPool.prototype.kill = function() {
+  this._pool.callAll('kill');
+}
