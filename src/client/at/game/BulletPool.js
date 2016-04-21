@@ -81,5 +81,7 @@ BulletPool.prototype.setFireRate = function(rate) {
 }
 
 BulletPool.prototype.kill = function() {
-  this._pool.callAll('kill');
+  if (this._pool) {
+    this._pool.callAll('kill');
+  }
 }
