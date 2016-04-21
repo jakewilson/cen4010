@@ -74,6 +74,9 @@ app.post('/at/index.html', urlParser, (req, res, next) => {
 }).get('/', function(req, res, next) {
   res.redirect(302, 'at/index.html');
   res.end();
+}).get('/hello', function(req, res, next) {
+  res.write("Hello World");
+  res.end();
 });
 
 module.exports = {
