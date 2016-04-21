@@ -11,13 +11,13 @@ var map, layer, player, timerText;
 
 var loadState = {
   preload: function() {
-    game.load.atlasJSONHash('highScore', '../images/mainMenuInverted.png', '../images/mainMenuInverted.json');	
-    game.load.atlasJSONHash('quit', '../images/mainMenuInverted.png', '../images/mainMenuInverted.json');	
-    game.load.atlasJSONHash('play', '../images/mainMenuInverted.png', '../images/mainMenuInverted.json');	
-    game.load.atlasJSONHash('yesNo', '../images/yesNoButtons.png', '../images/yesNoButtons.json');	
-    game.load.image('background', '../images/mainMenu.png');	
-    game.load.image('death', '../images/gameOver.png');	
-    game.load.image('name', '../images/Meatpocalypse.png');	
+    game.load.atlasJSONHash('highScore', './assets/images/mainMenuInverted.png', './assets/images/mainMenuInverted.json');	
+    game.load.atlasJSONHash('quit', './assets/images/mainMenuInverted.png', './assets/images/mainMenuInverted.json');	
+    game.load.atlasJSONHash('play', './assets/images/mainMenuInverted.png', './assets/images/mainMenuInverted.json');	
+    game.load.atlasJSONHash('yesNo', './assets/images/yesNoButtons.png', './assets/images/yesNoButtons.json');	
+    game.load.image('background', './assets/images/MainMenu.png');	
+    game.load.image('death', './assets/images/gameOver.png');	
+    game.load.image('name', './assets/images/Meatpocalypse.png');	
   },
   create: function() {
     game.physics.startSystem(Phaser.Physics.ARCADE);
