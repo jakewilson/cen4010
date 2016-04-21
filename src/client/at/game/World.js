@@ -13,6 +13,7 @@ var World = function(game) {
   this.trash = new Trash(game);
 
   this.enemy =  null;
+  this._bossFight = false;
 }
 
 World.prototype.preLoad = function() {
@@ -86,15 +87,17 @@ World.prototype.update = function(player) {
   this.setCollision(player);
   player.setBulletPoolCollisionWithLayer(this.layers['First']);
   if (player.getSprite().body.x >= 10000) {
-    this._game.camera.unfollow(player.getSprite());
+    this.startBossBattle();
   }
 
-  this._boss.update(player);
-  this._boss.setCollision(this.layers['First']);
-  this._boss.setCollisionWithPlayer(player);
-  this._boss.setBulletPoolCollisionWithLayer(this.layers['First']);
-  this._boss.setBulletPoolCollision(player);
-  player.setBulletPoolCollision(this._boss);
+  if (this._bossFight) {
+    this._boss.update(player);
+    this._boss.setCollision(this.layers['First']);
+    this._boss.setCollisionWithPlayer(player);
+    this._boss.setBulletPoolCollisionWithLayer(this.layers['First']);
+    this._boss.setBulletPoolCollision(player);
+    player.setBulletPoolCollision(this._boss);
+  }
 }
 
 World.prototype._updateEnemy = function(enemies, player) {
@@ -128,8 +131,6 @@ World.prototype.setCollision = function(player) {
 World.prototype.createEnemies = function() {
   this._createRangedEnemies();
   this._createMeleeEnemies();
-  var bossObj = this.layers['Enemies'][this.layers['Enemies'].length - 1];
-  this._boss.create(bossObj.x, bossObj.y, 'walkleft1.png');
 }
 
 World.prototype._createRangedEnemies = function() {
@@ -155,6 +156,9 @@ World.prototype._createMeleeEnemies = function() {
 }
 
 World.prototype.render = function() {
+  if (this._bossFight) {
+    this._boss.render();
+  }
   this.renderEnemies(this._rangedEnemies);
 }
 
@@ -162,4 +166,13 @@ World.prototype.renderEnemies = function(enemies) {
   enemies.forEach(function(enemy) {
     enemy.render();
   });
+}
+
+World.prototype.startBossBattle = function() {
+  if (!this._bossFight) {
+    this._bossFight = true;
+    this._game.camera.unfollow(player.getSprite());
+    var bossObj = this.layers['Enemies'][this.layers['Enemies'].length - 1];
+    this._boss.create(bossObj.x, bossObj.y, 'walkleft1.png');
+  }
 }

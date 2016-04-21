@@ -10,6 +10,7 @@ RangedEnemy.prototype.preLoad = function() {
   Enemy.prototype.preLoad.call(this);
 }
 
+
 RangedEnemy.prototype.update = function(player) {
   if (!Enemy.prototype.update.call(this)) return;
   switch (this._state) {
