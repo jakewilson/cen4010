@@ -1,7 +1,10 @@
 var width = 900, height = (21 * 32) - 8;
 var elapsedTime,
+  startTime,
+  victory = 0,
   pauseTime = 0,
-  tmpPauseTime = 0;
+  tmpPauseTime = 0
+  playAgain = false;
 
 var game = new Phaser.Game(width, height, Phaser.AUTO, 'meatpocalypse');
 var map, layer, player, timerText;
@@ -22,7 +25,6 @@ var loadState = {
   }
 };
 
-var first = true;
 
 var mainMenu = {
   create: function() {
@@ -57,12 +59,14 @@ var deathScreen = {
 
     function yesClick() {
       //Write to the database here
-      game.state.start('play');
+      playAgain = true;
+      game.state.start('sendStats');
     }
 		
     function noClick() {
       //Write to the database here
-      game.state.start('load');
+      playAgain = false;
+      game.state.start('sendStats');
     }
   }
 };
@@ -73,18 +77,9 @@ var victoryScreen = {
     quit = game.add.button(675, 150, 'quit', quitClick, this, 'RQuit.png', 'WQuit.png', 'RQuit.png');
     play_button = game.add.button(50, 160, 'play', actionOnClick, this, 'RPlayButton.png', 'WPlay.png', 'RPlayButton.png');
     highScore_button = game.add.button(250, 395, 'highScore', hsClick, this, 'WRHS.png', 'RWHS.png', 'WRHS.png');
-
-    function actionOnClick() {
-      game.state.start('play');
-    }
-		
-    function hsClick() {
-      window.location = "/at/highScore.html";
-    }
-		
-    function quitClick() {
-      window.location = "/at/index.html";
-    }
+    victory = 1;
+    playAgain = false;
+    game.state.start('sendStats');
   }
 };
 
@@ -97,6 +92,7 @@ var playState = {
   },
 
   create: function() {
+    initTime();
     bg = game.add.tileSprite(0, 0, width, height, 'background');
     bg.fixedToCamera = true;
   
@@ -116,12 +112,9 @@ var playState = {
 
   update: function() {
     player.setCollision(map.layers['First']);
-  
-  
     player.update();
     map.update(player);
-  
-    elapsedTime = ((Math.round(game.time.now) - pauseTime) / 1000).toFixed(1);
+    elapsedTime = ((Math.round((+new Date()) - startTime) - pauseTime) / 1000).toFixed(1);
     timerText.text = 'Time: ' + elapsedTime;
   },
 
@@ -130,13 +123,36 @@ var playState = {
   }
 };
 
+var sendStats = {
+  create: function() {
+    //Send xmlhttprequest
+    var xhr = new XMLHttpRequest();
+    var stats = player.getStats();
+    stats.victory = victory;
+    xhr.open('post', '/registerStatistics', true);
+    xhr.send(stats);  
+    
+    if (playAgain) {
+      game.state.start('play');
+    }
+    else {
+      game.state.start('mainMenu');
+    }
+  }
+}
+
 function pauseFunction() {
   game.paused = !game.paused;
   if(game.paused) {
-    tmpPauseTime = game.time.now;
+    tmpPauseTime = (+ new Date() - startTime);
   } else {
-    pauseTime += (game.time.now - tmpPauseTime);
+    pauseTime += ((+ new Date() - startTime) - tmpPauseTime);
   }
+}
+
+function initTime() {
+  pauseTime = 0;
+  startTime = (+ new Date());
 }
 
 game.state.add('load', loadState, true);
@@ -144,6 +160,7 @@ game.state.add('mainMenu', mainMenu);
 game.state.add('play', playState);
 game.state.add('deathScreen', deathScreen);
 game.state.add('victoryScreen', victoryScreen);
+game.state.add('sendStats', sendStats);
 
 game.getElapsedTime = function() {
   return elapsedTime;
