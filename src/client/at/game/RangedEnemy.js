@@ -24,7 +24,7 @@ RangedEnemy.prototype.update = function(player) {
       break;
   }
 
-  this._state = this.playerInRange(player) && this.facingPlayer(player) ? this._STATES.ATTACK : this._STATES.PATROL;
+  this._state = this.playerInRange(player, null, player.getSprite().height * 2) && this.facingPlayer(player) ? this._STATES.ATTACK : this._STATES.PATROL;
 }
 
 

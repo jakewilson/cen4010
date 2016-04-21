@@ -218,9 +218,5 @@ Player.prototype.getStats = function() {
 }
 
 Player.prototype.render = function() {
-  // for some reason these are only true in render, not in update
-//  if (this._sprite !== null && this._sprite.body.blocked.left || this._sprite.body.blocked.right) {
- //   Entity.prototype.switchDirection.call(this);
-  //}
-  this._game.debug.bodyInfo(this._sprite, 100, 100);
+  //this._game.debug.bodyInfo(this._sprite, 100, 100);
 }

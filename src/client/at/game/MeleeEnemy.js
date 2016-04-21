@@ -14,7 +14,9 @@ MeleeEnemy.prototype.update = function(player) {
   switch (this._state) {
     case this._STATES.PATROL:
       this._WALK_SPEED = 150;
-      this._patrol();
+      if (this._MAX_PATROL_DIST > 0) {
+        this._patrol();
+      }
       break;
 
     case this._STATES.CHARGE:
