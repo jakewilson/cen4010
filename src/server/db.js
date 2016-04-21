@@ -139,4 +139,20 @@ module.exports = {
   close: function() {
     db.close();
   },
+
+  countPlayers: function(callback) {
+    db.get("Select count(*) as count from players;", callback);
+  },
+
+  highScores: function(callback) {
+    db.each("" +
+    "select " +
+      "players.username, " +
+      "playerStatistics.playerid, " +
+      "playerStatistics.time " +
+    "from playerStatistics " +
+    "join players on players.playerid = playerStatistics.playerid " +
+    "order by time desc " +
+    "limit 10; ", callback);
+  },
 }

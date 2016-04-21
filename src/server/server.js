@@ -59,7 +59,7 @@ app.post('/at/index.html', urlParser, (req, res, next) => {
     }
 }).post('/registerPlayer', urlParser, function(req, res, next) {
   db.addPlayer(req.body.user, req.body.pass, function() {
-    res.redirect(302, 'at/game.html');
+    res.redirect(302, 'at/index.html');
     res.end();
   }, function() {
     res.writeHead(409, {'Content-Type': 'text/html'});
@@ -75,8 +75,15 @@ app.post('/at/index.html', urlParser, (req, res, next) => {
   res.redirect(302, 'at/index.html');
   res.end();
 }).get('/hello', function(req, res, next) {
-  res.write("Hello World");
+  res.write("Hello World. You're beautiful!");
   res.end();
+}).get('/highScore', function(req, res, next) {
+  db.getHighScore(function(highScores) {
+
+
+    res.write(highScores);
+    res.end();
+  });
 });
 
 module.exports = {
