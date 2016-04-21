@@ -1,4 +1,4 @@
-var Enemy = function(game, name, health, attackRange, walkSpeed) {
+var Enemy = function(game, name, health, attackRange, walkSpeed, patrolRange, startingDir) {
   Entity.call(this, game, name, health, 5, 5, 500);
   this._ATTACK_RANGE = attackRange;
   this._WALK_SPEED = walkSpeed;
@@ -8,7 +8,9 @@ var Enemy = function(game, name, health, attackRange, walkSpeed) {
     ATTACK: 2
   };
   this._state = this._STATES.IDLE;
-  this._direction = 'left';
+  this._direction = startingDir || 'left';
+  this._totalDist = 0;
+  this._MAX_PATROL_DIST = patrolRange || 32 * 5; // 5 tiles
 }
 
 // Enemy inherits from Entity
@@ -20,7 +22,7 @@ Enemy.prototype.preLoad = function() {
 }
 
 Enemy.prototype.create = function(x, y, frame) {
-  Entity.prototype.create.call(this, x, y, frame);
+  Entity.prototype.create.call(this, x, y, 'walk' + this._direction + '1.png');
   this._sprite.body.immovable = true;
   this._state = this._STATES.PATROL;
 }
@@ -40,7 +42,9 @@ Enemy.prototype.update = function(player) {
   Entity.prototype.update.call(this);
   switch (this._state) {
     case this._STATES.PATROL:
-      this._patrol();
+      if (this._MAX_PATROL_DIST > 0) {
+        this._patrol();
+      }
       break;
 
     case this._STATES.ATTACK:
@@ -56,7 +60,7 @@ Enemy.prototype.update = function(player) {
  */
 Enemy.prototype._patrol = function() {
   if (Math.abs(this._totalDist) > this._MAX_PATROL_DIST) {
-    Entity.prototype.switchDirection.call(this);
+    this.switchDirection();
   }
   this.move(this._direction);
   this._totalDist += this._sprite.body.deltaX();
@@ -78,7 +82,12 @@ Enemy.prototype.playerInRange = function(player) {
 Enemy.prototype.render = function() {
   // for some reason these are only true in render, not in update
   if (this._sprite !== null && this._sprite.body.blocked.left || this._sprite.body.blocked.right) {
-    Entity.prototype.switchDirection.call(this);
+    this.switchDirection();
   }
   //this._game.debug.bodyInfo(this._sprite, 100, 100);
+}
+
+Enemy.prototype.switchDirection = function() {
+  this._direction = this._direction === 'left' ? 'right' : 'left';
+  this._totalDist = 0;
 }

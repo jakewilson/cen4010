@@ -82,6 +82,9 @@ World.prototype.update = function(player) {
   // set collisions with game objects (tofu, animals, carrots, trash cans)
   this.setCollision(player);
   player.setBulletPoolCollisionWithLayer(this.layers['First']);
+  if (player.getSprite().body.x >= 10000) {
+    this._game.camera.unfollow(player.getSprite());
+  }
 }
 
 World.prototype._updateEnemy = function(enemies, player) {
@@ -121,7 +124,7 @@ World.prototype._createRangedEnemies = function() {
   var this_ = this;
   this.layers['Enemies'].forEach(function(enemy) {
     if (enemy.name === 'Range') {
-      var ranger = new RangedEnemy(this_._game);
+      var ranger = new RangedEnemy(this_._game, enemy.properties.patrol, enemy.properties.dir);
       ranger.create(enemy.x, enemy.y);
       this_._rangedEnemies.push(ranger);
     }
@@ -132,7 +135,7 @@ World.prototype._createMeleeEnemies = function() {
   var this_ = this;
   this.layers['Enemies'].forEach(function(enemy) {
     if (enemy.name === 'Melee') {
-      var butcher = new MeleeEnemy(this_._game);
+      var butcher = new MeleeEnemy(this_._game, enemy.properties.patrol, enemy.properties.dir);
       butcher.create(enemy.x, enemy.y);
       this_._meleeEnemies.push(butcher);
     }

@@ -1,5 +1,5 @@
-var RangedEnemy = function(game, patrolDistance) {
-  Enemy.call(this, game, 'ranger', 2, 32 * 7, 100);
+var RangedEnemy = function(game, patrolRange, startingDir) {
+  Enemy.call(this, game, 'ranger', 2, 32 * 7, 100, patrolRange, startingDir);
 }
 
 // RangedEnemy inherits from Enemy

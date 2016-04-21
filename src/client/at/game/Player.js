@@ -132,11 +132,11 @@ Player.prototype.update = function() {
 Player.prototype._godMode = function() {
   if (!this._god) {
     //Uncomment this line to add in increased speed
-    //this._WALK_SPEED = this._WALK_SPEED * 5;
+    this._WALK_SPEED = this._WALK_SPEED * 5;
     this._god = true;
   } else {
     //Uncomment this line to reduce speed when exiting god mode
-    //this._WALK_SPEED = this._WALK_SPEED / 5;
+    this._WALK_SPEED = this._WALK_SPEED / 5;
     this._god = false;
   }
 }
@@ -216,4 +216,12 @@ Player.prototype.getStats = function() {
     accountId: this._accountId,
     time: 0, // to be filled in later
   }
+}
+
+Player.prototype.render = function() {
+  // for some reason these are only true in render, not in update
+//  if (this._sprite !== null && this._sprite.body.blocked.left || this._sprite.body.blocked.right) {
+ //   Entity.prototype.switchDirection.call(this);
+  //}
+  this._game.debug.bodyInfo(this._sprite, 100, 100);
 }
