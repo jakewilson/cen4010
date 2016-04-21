@@ -134,8 +134,7 @@ var sendStats = {
     
     if (playAgain) {
       game.state.start('play');
-    }
-    else {
+    } else {
       game.state.start('mainMenu');
     }
   }

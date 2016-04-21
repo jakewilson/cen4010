@@ -5,7 +5,7 @@ var MeleeEnemy = function(game, patrolRange, startingDir) {
   this._VISION = 32 * 5; // butcher can see 5 tiles
 }
 
-// Enemy inherits from Entity
+// MeleeEnemy inherits from Enemy
 MeleeEnemy.prototype = Object.create(Enemy.prototype);
 MeleeEnemy.prototype.constructor = MeleeEnemy;
 
