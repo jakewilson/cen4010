@@ -10,6 +10,22 @@ RangedEnemy.prototype.preLoad = function() {
   Enemy.prototype.preLoad.call(this);
 }
 
+RangedEnemy.prototype.update = function(player) {
+  if (!Enemy.prototype.update.call(this)) return;
+  switch (this._state) {
+    case this._STATES.PATROL:
+      this._patrol();
+      break;
+
+    case this._STATES.ATTACK:
+      this.attack();
+      break;
+  }
+
+  this._state = this.playerInRange(player) && this.facingPlayer(player) ? this._STATES.ATTACK : this._STATES.PATROL;
+}
+
+
 RangedEnemy.prototype.create = function(x, y, frame) {
   Enemy.prototype.create.call(this, x, y, frame);
   this._sprite.body.setSize(33, 67, 33, 10);

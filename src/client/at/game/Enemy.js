@@ -25,6 +25,12 @@ Enemy.prototype.create = function(x, y, frame) {
   this._state = this._STATES.PATROL;
 }
 
+Enemy.prototype.update = function() {
+  if (!this._sprite.visible) return false;
+  Entity.prototype.update.call(this);
+  return true;
+}
+
 /**
  * Sets a collision with the ranged enemy and the player
  */
@@ -35,26 +41,11 @@ Enemy.prototype.setCollisionWithPlayer = function(player) {
   this._game.physics.arcade.collide(player.getSprite(), this._sprite, onCollision);
 }
 
-Enemy.prototype.update = function(player) {
-  if (!this._sprite.visible) return;
-  Entity.prototype.update.call(this);
-  switch (this._state) {
-    case this._STATES.PATROL:
-      this._patrol();
-      break;
-
-    case this._STATES.ATTACK:
-      this.attack();
-      break;
-  }
-
-  this._state = this.playerInRange(player) && this.facingPlayer(player) ? this._STATES.ATTACK : this._STATES.PATROL;
-}
-
 /**
  * Walk back and forth until encountering the player
  */
 Enemy.prototype._patrol = function() {
+  this._WALK_SPEED = 150;
   if (Math.abs(this._totalDist) > this._MAX_PATROL_DIST) {
     Entity.prototype.switchDirection.call(this);
   }
@@ -71,8 +62,14 @@ Enemy.prototype.facingPlayer = function(player) {
   return playerDirection === this._direction;
 }
 
-Enemy.prototype.playerInRange = function(player) {
-  return this._game.physics.arcade.distanceBetween(player.getSprite(), this._sprite) <= this._ATTACK_RANGE;
+/**
+ * Returns true if the player is within the range specified
+ * @param player: the player to check
+ * @param range: the range to check if within. NOTE: defaults to this._ATTACK_RANGE
+ */
+Enemy.prototype.playerInRange = function(player, range) {
+  range = range || this._ATTACK_RANGE;
+  return this._game.physics.arcade.distanceBetween(player.getSprite(), this._sprite) <= range;
 }
 
 Enemy.prototype.render = function() {
