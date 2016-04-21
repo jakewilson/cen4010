@@ -1,6 +1,7 @@
 var width = 900, height = (21 * 32) - 8;
 var elapsedTime,
   startTime,
+  victory = 0,
   pauseTime = 0,
   tmpPauseTime = 0
   playAgain = false;
@@ -76,18 +77,9 @@ var victoryScreen = {
     quit = game.add.button(675, 150, 'quit', quitClick, this, 'RQuit.png', 'WQuit.png', 'RQuit.png');
     play_button = game.add.button(50, 160, 'play', actionOnClick, this, 'RPlayButton.png', 'WPlay.png', 'RPlayButton.png');
     highScore_button = game.add.button(250, 395, 'highScore', hsClick, this, 'WRHS.png', 'RWHS.png', 'WRHS.png');
-
-    function actionOnClick() {
-      game.state.start('play');
-    }
-		
-    function hsClick() {
-      window.location = "/at/highScore.html";
-    }
-		
-    function quitClick() {
-      window.location = "/at/index.html";
-    }
+    victory = 1;
+    playAgain = false;
+    game.state.start('sendStats');
   }
 };
 
@@ -135,6 +127,8 @@ var sendStats = {
   create: function() {
     //Send xmlhttprequest
     var xhr = new XMLHttpRequest();
+    var stats = player.getStats();
+    stats.victory = victory;
     xhr.open('post', '/registerStatistics', true);
     xhr.send(player.getStats());  
     
