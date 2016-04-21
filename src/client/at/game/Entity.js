@@ -140,6 +140,7 @@ Entity.prototype.hurt = function() {
     this._hurting = true;
     // TODO play damage animation here
     if (this._health === 0) {
+      this._bulletPool.kill();
       this.kill();
     }
   }
