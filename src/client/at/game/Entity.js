@@ -27,6 +27,9 @@ Entity.prototype.preLoad = function() {
  */
 Entity.prototype.kill = function() {
   this._sprite.kill();
+  if (this._bulletPool) {
+    this._bulletPool.kill();
+  }
 }
 
 /**
@@ -141,7 +144,6 @@ Entity.prototype.hurt = function() {
     this._hurting = true;
     // TODO play damage animation here
     if (this._health === 0) {
-      this._bulletPool.kill();
       this.kill();
     }
   }

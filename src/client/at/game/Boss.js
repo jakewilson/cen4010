@@ -9,6 +9,11 @@ var Boss = function(game) {
 Boss.prototype = Object.create(Enemy.prototype);
 Boss.prototype.constructor = Boss;
 
+Boss.prototype.kill = function() {
+  Enemy.prototype.kill.call(this);
+  // TODO switch to `victory` state here
+}
+
 Boss.prototype.update = function(player) {
   if (!Enemy.prototype.update.call(this)) return;
   switch (this._state) {
