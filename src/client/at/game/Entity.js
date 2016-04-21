@@ -32,8 +32,9 @@ Entity.prototype.kill = function() {
 /**
  * Plays the Entity's attack animation
  */
-Entity.prototype.attack = function() {
-  this._currentPlayingAnim = this._sprite.animations.play('attack' + this._direction, this._ATTACK_FPS);
+Entity.prototype.attack = function(frame) {
+  frame = frame || 'attack' + this._direction;
+  this._currentPlayingAnim = this._sprite.animations.play(frame, this._ATTACK_FPS);
   this._attacking = true;
 }
 
