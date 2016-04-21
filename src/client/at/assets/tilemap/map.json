@@ -19,7 +19,7 @@
                 {
                  "height":29,
                  "id":7,
-                 "name":"Range\/0\/R",
+                 "name":"Range",
                  "properties":
                     {
                      "dir":"right",
@@ -95,7 +95,7 @@
                 {
                  "height":27,
                  "id":12,
-                 "name":"Range\/0\/L",
+                 "name":"Range",
                  "properties":
                     {
                      "dir":"left",
@@ -111,7 +111,7 @@
                 {
                  "height":26,
                  "id":13,
-                 "name":"Range\/L\/0",
+                 "name":"Range",
                  "properties":
                     {
                      "dir":"left",
@@ -397,7 +397,7 @@
                 {
                  "height":28,
                  "id":36,
-                 "name":"Melee\/0\/L",
+                 "name":"Melee",
                  "properties":
                     {
                      "dir":"left",
