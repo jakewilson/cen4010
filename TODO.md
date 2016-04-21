@@ -8,7 +8,7 @@ Medium Priority
 - [ ] Make ranged enemy projectile disappear on death
 - [ ] Add Boss
   - [ ] Create Boss cinematic
-  - [ ] Change frame names
+  - [x] Change frame names
 - [x] Remove ranged enemy from ground level near 2nd tofu (player cannot escape projectiles there)
 
 Low Priority
