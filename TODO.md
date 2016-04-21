@@ -9,7 +9,7 @@ High Priority
 
 Medium Priority
 -------------
-- [ ] Make ranged enemy projectile disappear on death
+- [x] Make ranged enemy projectile disappear on death
 - [ ] Add Boss
   - [ ] Create Boss cinematic
   - [x] Change frame names
