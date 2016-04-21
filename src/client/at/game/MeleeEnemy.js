@@ -1,6 +1,6 @@
-var MeleeEnemy = function(game) {
+var MeleeEnemy = function(game, patrolRange, startingDir) {
   this._ENEMY_HEALTH = 3;
-  Enemy.call(this, game, 'butcher', this._ENEMY_HEALTH, 32, 150);
+  Enemy.call(this, game, 'butcher', this._ENEMY_HEALTH, 32, 150, patrolRange, startingDir);
   this._STATES.CHARGE = 3;
   this._VISION = 32 * 5; // butcher can see 5 tiles
 }

@@ -1,5 +1,5 @@
-var RangedEnemy = function(game, patrolDistance) {
-  Enemy.call(this, game, 'ranger', 2, 32 * 7, 100);
+var RangedEnemy = function(game, patrolRange, startingDir) {
+  Enemy.call(this, game, 'ranger', 2, 32 * 7, 100, patrolRange, startingDir);
 }
 
 // RangedEnemy inherits from Enemy
@@ -14,7 +14,9 @@ RangedEnemy.prototype.update = function(player) {
   if (!Enemy.prototype.update.call(this)) return;
   switch (this._state) {
     case this._STATES.PATROL:
-      this._patrol();
+      if (this._MAX_PATROL_DIST > 0) {
+        this._patrol();
+      }
       break;
 
     case this._STATES.ATTACK:

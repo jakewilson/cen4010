@@ -13,8 +13,6 @@ var Entity = function(game, name, health, walkSpeed, attackSpeed, damageRate) {
   this._damageRate = damageRate || 1500;
   this._nextDamage = 0;
   this._hurting = false;
-  this._totalDist = 0;
-  this._MAX_PATROL_DIST = 32 * 5; // 5 tiles
 }
 
 /**
@@ -163,11 +161,6 @@ Entity.prototype.move = function(direction) {
   if (this._currentPlayingAnim === null || this._currentPlayingAnim.name.indexOf('walk') >= 0) {
     this._currentPlayingAnim = this._sprite.animations.play('walk' + this._direction, this._WALK_FPS);
   }
-}
-
-Entity.prototype.switchDirection = function() {
-  this._direction = this._direction === 'left' ? 'right' : 'left';
-  this._totalDist = 0;
 }
 
 Entity.prototype.isDead = function() {
