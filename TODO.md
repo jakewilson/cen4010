@@ -2,6 +2,9 @@ High Priority
 -------------
 - [ ] Add high scores page
 - [ ] Implement score writing on death / victory
+- [ ] Game Instructions state
+- [ ] Encrypt username and passwords
+- [ ] Enlarge MeleeEnemy physics body size on attack
 
 Medium Priority
 -------------
@@ -10,6 +13,7 @@ Medium Priority
   - [ ] Create Boss cinematic
   - [x] Change frame names
 - [x] Remove ranged enemy from ground level near 2nd tofu (player cannot escape projectiles there)
+- [ ] Add wasd keys as well as arrow keys
 
 Low Priority
 -------------
