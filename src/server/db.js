@@ -8,6 +8,11 @@ var db;
 var dbFileName = "meatpocalypse.db";
 
 module.exports = {
+
+  open: function(name) {
+    db = new sqlite3.Database(name);
+  },
+
   /*
    * Creates the db with the given name
    * If called more than once, nothing will happen

@@ -7,7 +7,7 @@ var urlParser = bodyParser.urlencoded({extended: false});
 var running = false;
 var server;
 
-db.create('meatpocalypse.db');
+db.open('meatpocalypse.db');
 
 app.post('/at/index.html', urlParser, (req, res, next) => {
     if (!req.body)

@@ -3,19 +3,19 @@ var server = require("../src/server/server.js");
 var http = require('http');
 var db = require('../src/server/db.js');
 var xhr = require('./support/xhr.js');
+var fs = require('fs');
 
 describe("Server", function() {
+  var dbName = 'server.db';
   beforeAll(function() {
+    db.create(dbName);
     server.start(3000);
-    db.create("meatpocalypse.db"); // should *NOT* have to do this...
   });
 
   afterAll(function() {
     server.stop();
-  });
-
-  afterEach(function() {
-    db.clear();
+    db.close();
+    fs.unlink(dbName, () => {});
   });
 
   var assertPlayerExists = function(user, done) {
