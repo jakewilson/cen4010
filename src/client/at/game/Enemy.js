@@ -22,7 +22,8 @@ Enemy.prototype.preLoad = function() {
 }
 
 Enemy.prototype.create = function(x, y, frame) {
-  Entity.prototype.create.call(this, x, y, 'walk' + this._direction + '1.png');
+  frame = frame || 'walk' + this._direction + '1.png';
+  Entity.prototype.create.call(this, x, y, frame);
   this._sprite.body.immovable = true;
   this._state = this._STATES.PATROL;
 }

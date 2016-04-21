@@ -5,6 +5,7 @@ module.exports = function(grunt) {
     'Enemy.js',
     'TileSpriteGroup.js',
     'Animal.js',
+    'Boss.js',
     'Carrot.js',
     'BulletPool.js',
     'RangedEnemy.js',

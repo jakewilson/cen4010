@@ -128,7 +128,7 @@
 	"spriteSourceSize": {"x":3,"y":9,"w":124,"h":84},
 	"sourceSize": {"w":128,"h":96}
 },
-"walkrunleft1.png":
+"walkleft1.png":
 {
 	"frame": {"x":1029,"y":1,"w":82,"h":83},
 	"rotated": false,
@@ -136,7 +136,7 @@
 	"spriteSourceSize": {"x":43,"y":10,"w":82,"h":83},
 	"sourceSize": {"w":128,"h":96}
 },
-"walkrunleft2.png":
+"walkleft2.png":
 {
 	"frame": {"x":1533,"y":1,"w":82,"h":82},
 	"rotated": false,
@@ -144,7 +144,7 @@
 	"spriteSourceSize": {"x":43,"y":11,"w":82,"h":82},
 	"sourceSize": {"w":128,"h":96}
 },
-"walkrunright1.png":
+"walkright1.png":
 {
 	"frame": {"x":1113,"y":1,"w":82,"h":83},
 	"rotated": false,
@@ -152,7 +152,7 @@
 	"spriteSourceSize": {"x":3,"y":10,"w":82,"h":83},
 	"sourceSize": {"w":128,"h":96}
 },
-"walkrunright2.png":
+"walkright2.png":
 {
 	"frame": {"x":1617,"y":1,"w":82,"h":82},
 	"rotated": false,
