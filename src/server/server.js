@@ -78,10 +78,24 @@ app.post('/at/index.html', urlParser, (req, res, next) => {
   res.write("Hello World. You're beautiful!");
   res.end();
 }).get('/highScore', function(req, res, next) {
-  db.getHighScore(function(highScores) {
+  var results = [];
+  var username = req.query.username != "" ? req.query.username : null;
+  db.getHighScores(username, function(err, row) {
+    results.push(row);
+  }, function() {
+    res.writeHead(200, {'Content-Type': 'application/json'});
 
-
-    res.write(highScores);
+    res.write(JSON.stringify(results));
+    res.end();
+  });
+}).get('/playerStats', function(req, res, next) {
+  var results = [];
+  var username = req.query.username != "" ? req.query.username : null;
+  db.getPlayerStats(username, function(err, row) {
+    results.push(row);
+  }, function() {
+    res.writeHead(200, {'Content-Type': 'application/json'})
+    res.write(JSON.stringify(results));
     res.end();
   });
 });

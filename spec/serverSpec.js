@@ -136,19 +136,23 @@ describe("Server", function() {
   });
 
   describe("High Scores", function() {
-    xit("get get high scores", function(done) {
-      var i = 0;
-      var results = {};
+    it("creates high scores", function(done) {
+      var results = [];
       faker.generate(function() {
-        db.highScores(function(err, row) {
-          i++;
-          results[row.playerid +""+row.username+""+row.time] = row
-          if(i == 100) {
-            console.log(results);
-            expect(Object.keys(results).length).toBe(10);
-            done();
-          }
+        db.getHighScores(function(err, row) {
+          expect(err).toBe(null);
+          results.push(row);
+        }, function(err, rowCount) {
+          expect(rowCount).toBe(10);
+          done();
         });
+      });
+    });
+
+    fit("can GET /highScore", function(done) {
+      xhr.xhr('GET', '/highScore', "", function(res) {
+        res.on('data', console.log);
+        done();
       });
     });
   });

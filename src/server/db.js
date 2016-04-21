@@ -42,6 +42,7 @@ module.exports = {
             "enemiesKilled INT," +
             "animalsRescued INT, " +
             "shotsFired INT," +
+            "victory INT DEFAULT 0," +
             "FOREIGN KEY(playerid) REFERENCES players(playerid)" +
             ");",
         () => {
@@ -144,15 +145,30 @@ module.exports = {
     db.get("Select count(*) as count from players;", callback);
   },
 
-  highScores: function(callback) {
-    db.each("" +
+  getHighScores: function(username, callback, onComplete) {
+    var sql = "" +
     "select " +
       "players.username, " +
       "playerStatistics.playerid, " +
       "playerStatistics.time " +
     "from playerStatistics " +
-    "join players on players.playerid = playerStatistics.playerid " +
-    "order by time desc " +
-    "limit 10; ", callback);
+    "join players on players.playerid = playerStatistics.playerid "
+    if(username) {
+      // sql injection!
+      sql += "where username = '"+username+"' "
+    }
+    sql += "order by time asc " +
+    "limit 10; ";
+
+    db.each(sql, callback, onComplete);
+  },
+
+  getPlayerStats: function(username, callback, onComplete) {
+    db.each("" +
+      "select * " +
+      "from " +
+      " playerStatistics " +
+      " join players on players.playerid = playerStatistics.playerid " +
+      " where players.username = '"+username+"';", callback, onComplete);
   },
 }

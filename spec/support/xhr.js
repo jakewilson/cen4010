@@ -32,8 +32,8 @@ function post(endpoint, data, callback) {
   xhr('POST', endpoint, data, callback);
 }
 
-function get(endpoint, data, callback) {
-  xhr('GET', endpoint, data, callback);
+function get(endpoint, callback) {
+  xhr('GET', endpoint, "", callback);
 }
 
 module.exports = {

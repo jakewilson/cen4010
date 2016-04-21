@@ -1,14 +1,17 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>High Scores Page</title>
+  <title>Meatpocalypse Leaderboard</title>
   <script src="lib/jquery-2.2.3.min.js"></script>
   <script src="highScore.js"></script>
 </head>
 <body>
-  <h1 id="stats">HIGH SCORES</h1>
+  <h1 id="stats">Meatpocalypse Leaderboard</h1>
 
-  <table id="highScoreTable">
+  <input type="text" name="username" id="username"><br>
+  <button id="search" type="button">Search</button>
+
+  <table id="highScoreTable" border='1'>
     <tr>
       <th>Player Name</th>
       <th>Time</th>
