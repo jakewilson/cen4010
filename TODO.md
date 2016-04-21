@@ -5,6 +5,7 @@ High Priority
 - [ ] Game Instructions state
 - [ ] Encrypt username and passwords
 - [ ] Enlarge MeleeEnemy physics body size on attack
+- [ ] Finish victory screen
 
 Medium Priority
 -------------
