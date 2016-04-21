@@ -1,7 +1,7 @@
 High Priority
 -------------
 - [ ] Add high scores page
-= [ ] Implement score writing on death / victory
+- [ ] Implement score writing on death / victory
 
 Medium Priority
 -------------
