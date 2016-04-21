@@ -75,7 +75,6 @@ Player.prototype.create = function(x, y) {
   carrotText = this._game.add.text(this._carrotTextOffset, 58, 'x ' + this._carrotsCollected, textStyle);
   carrotText.fixedToCamera = true;
 
-
   this._createHealthPool();
   this._drawHealth();
 }
