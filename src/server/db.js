@@ -8,6 +8,11 @@ var db;
 var dbFileName = "meatpocalypse.db";
 
 module.exports = {
+
+  open: function(name) {
+    db = new sqlite3.Database(name);
+  },
+
   /*
    * Creates the db with the given name
    * If called more than once, nothing will happen
@@ -23,20 +28,22 @@ module.exports = {
           "username VARCHAR(255), " +
           "password VARCHAR(255), " +
           "passwordAttempts INT, " +
-          "lastAttempt INT" +
+          "lastAttempt INT, " +
+          "isAdmin INTEGER DEFAULT 0" +
           ");"
-        );
-        db.run('CREATE UNIQUE INDEX if not exists player on players (username);');
+        )
+        db.run("CREATE UNIQUE INDEX if not exists player on players (username);");
         db.run("" +
             "create table if not exists playerStatistics (" +
             "playerid INT," +
             "score INT," +
-            "gameTime INT," +
+            "time INT," +
             "carrotsCollected INT," +
             "enemiesKilled INT," +
+            "animalsRescued INT, " +
             "shotsFired INT," +
-            "FOREIGN KEY(playerid) REFERENCES players(playerid))" +
-            ";",
+            "FOREIGN KEY(playerid) REFERENCES players(playerid)" +
+            ");",
         () => {
           if (callback !== undefined)
             callback.call(this);
@@ -83,6 +90,30 @@ module.exports = {
         if (callback !== undefined)
           callback.call(this, err, row);
       });
+    });
+  },
+
+  addStatistics: function(data, callback) {
+    db.serialize(function() {
+      db.run("" +
+        "INSERT INTO playerStatistics (" +
+        "playerid, " +
+        "score, " +
+        "time, " +
+        "carrotsCollected, " +
+        "enemiesKilled, " +
+        "animalsRescued, " +
+        "shotsFired " +
+        ")VALUES(?,?,?,?,?,?,?)",
+        data.playerid,
+        data.score,
+        data.time,
+        data.carrotsCollected,
+        data.enemiesKilled,
+        data.animalsRescued,
+        data.shotsFired,
+        callback
+      );
     });
   },
 

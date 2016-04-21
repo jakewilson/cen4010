@@ -144,3 +144,7 @@ game.state.add('mainMenu', mainMenu);
 game.state.add('play', playState);
 game.state.add('deathScreen', deathScreen);
 game.state.add('victoryScreen', victoryScreen);
+
+game.getElapsedTime = function() {
+  return elapsedTime;
+}
