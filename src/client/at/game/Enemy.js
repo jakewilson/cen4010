@@ -10,7 +10,7 @@ var Enemy = function(game, name, health, attackRange, walkSpeed, patrolRange, st
   this._state = this._STATES.IDLE;
   this._direction = startingDir || 'left';
   this._totalDist = 0;
-  this._MAX_PATROL_DIST = patrolRange || 32 * 5; // 5 tiles
+  this._MAX_PATROL_DIST = 32 * patrolRange || 32 * 5; // 5 tiles
 }
 
 // Enemy inherits from Entity
