@@ -2,8 +2,10 @@ module.exports = function(grunt) {
 
   var paths = [
     'Entity.js',
+    'Enemy.js',
     'TileSpriteGroup.js',
     'Animal.js',
+    'Boss.js',
     'Carrot.js',
     'BulletPool.js',
     'RangedEnemy.js',

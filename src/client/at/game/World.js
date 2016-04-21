@@ -5,6 +5,7 @@ var World = function(game) {
 
   this._rangedEnemies = [];
   this._meleeEnemies = [];
+  this._boss = new Boss(game);
 
   this.tofu = new Tofu(game);
   this.animal = new Animal(game);
@@ -22,6 +23,8 @@ World.prototype.preLoad = function() {
   this.carrot.preLoad();
   this.animal.preLoad();
   this.trash.preLoad();
+
+  this._boss.preLoad();
 
   this._game.load.atlasJSONHash('ranger', './assets/spritesheets/ranger.png', './assets/spritesheets/ranger.json');
   this._game.load.image('meat', './assets/spritesheets/meat.png');
@@ -82,12 +85,22 @@ World.prototype.update = function(player) {
   // set collisions with game objects (tofu, animals, carrots, trash cans)
   this.setCollision(player);
   player.setBulletPoolCollisionWithLayer(this.layers['First']);
+  if (player.getSprite().body.x >= 10000) {
+    this._game.camera.unfollow(player.getSprite());
+  }
+
+  this._boss.update(player);
+  this._boss.setCollision(this.layers['First']);
+  this._boss.setCollisionWithPlayer(player);
+  this._boss.setBulletPoolCollisionWithLayer(this.layers['First']);
+  this._boss.setBulletPoolCollision(player);
+  player.setBulletPoolCollision(this._boss);
 }
 
 World.prototype._updateEnemy = function(enemies, player) {
   var this_ = this;
   enemies.forEach(function(enemy) {
-    enemy.update(player, this_.layers['First']);
+    enemy.update(player);
     enemy.setCollision(this_.layers['First']);
     enemy.setCollisionWithPlayer(player);
     enemy.setBulletPoolCollisionWithLayer(this_.layers['First']);
@@ -115,13 +128,15 @@ World.prototype.setCollision = function(player) {
 World.prototype.createEnemies = function() {
   this._createRangedEnemies();
   this._createMeleeEnemies();
+  var bossObj = this.layers['Enemies'][this.layers['Enemies'].length - 1];
+  this._boss.create(bossObj.x, bossObj.y, 'walkleft1.png');
 }
 
 World.prototype._createRangedEnemies = function() {
   var this_ = this;
   this.layers['Enemies'].forEach(function(enemy) {
     if (enemy.name === 'Range') {
-      var ranger = new RangedEnemy(this_._game);
+      var ranger = new RangedEnemy(this_._game, enemy.properties.patrol, enemy.properties.dir);
       ranger.create(enemy.x, enemy.y);
       this_._rangedEnemies.push(ranger);
     }
@@ -132,7 +147,7 @@ World.prototype._createMeleeEnemies = function() {
   var this_ = this;
   this.layers['Enemies'].forEach(function(enemy) {
     if (enemy.name === 'Melee') {
-      var butcher = new MeleeEnemy(this_._game);
+      var butcher = new MeleeEnemy(this_._game, enemy.properties.patrol, enemy.properties.dir);
       butcher.create(enemy.x, enemy.y);
       this_._meleeEnemies.push(butcher);
     }
