@@ -45,7 +45,6 @@ Enemy.prototype.setCollisionWithPlayer = function(player) {
  * Walk back and forth until encountering the player
  */
 Enemy.prototype._patrol = function() {
-  this._WALK_SPEED = 150;
   if (Math.abs(this._totalDist) > this._MAX_PATROL_DIST) {
     Entity.prototype.switchDirection.call(this);
   }
@@ -67,9 +66,12 @@ Enemy.prototype.facingPlayer = function(player) {
  * @param player: the player to check
  * @param range: the range to check if within. NOTE: defaults to this._ATTACK_RANGE
  */
-Enemy.prototype.playerInRange = function(player, range) {
-  range = range || this._ATTACK_RANGE;
-  return this._game.physics.arcade.distanceBetween(player.getSprite(), this._sprite) <= range;
+Enemy.prototype.playerInRange = function(player, xRange, yRange) {
+  xRange = xRange || this._ATTACK_RANGE;
+  yRange = yRange || player.getSprite().height;
+
+  return (Math.abs(this._sprite.x - player.getSprite().x) <= xRange) && 
+         (Math.abs(this._sprite.y - player.getSprite().y) <= yRange); 
 }
 
 Enemy.prototype.render = function() {
