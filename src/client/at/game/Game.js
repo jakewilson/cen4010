@@ -130,9 +130,9 @@ var sendStats = {
     var stats = player.getStats();
     stats.victory = victory;
     xhr.open('post', '/registerStatistics', true);
-    xhr.send(player.getStats());  
+    xhr.send(stats);  
     
-    if(playAgain) {
+    if (playAgain) {
       game.state.start('play');
     }
     else {
