@@ -2,6 +2,7 @@
 var server = require("../src/server/server.js");
 var http = require('http');
 var db = require('../src/server/db.js');
+var xhr = require('./support/xhr.js');
 
 describe("Server", function() {
   beforeAll(function() {
@@ -111,6 +112,25 @@ describe("Server", function() {
       });
       req.write(postData);
       req.end();
+    });
+  });
+
+  describe("uploading statistics", function() {
+    it("can upload stats", function(done) {
+      var playerStats = {
+        playerid: 100,
+        score: 1,
+        shotsFired: 2,
+        carrotsCollected: 3,
+        animalsRescued: 4,
+        enemiesKilled: 5,
+        accountId: 6,
+        time: 7,
+      };
+      xhr.post('/registerStatistics', playerStats, function(res) {
+        expect(res.statusCode).toBe(302);
+        done();
+      });
     });
   });
 });

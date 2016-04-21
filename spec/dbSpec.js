@@ -2,7 +2,7 @@
 var db = require('../src/server/db.js');
 var fs = require('fs');
 
-var db_name = 'test.db';
+var db_name = 'meatpocalypse.db';
 
 describe("Database", function() {
 
@@ -58,6 +58,28 @@ describe("Database", function() {
     db.getPlayer(undefined, (err, row) => {
       expect(err).not.toBe(undefined);
       expect(row).toBe(undefined);
+      done();
+    });
+  });
+
+  it("should allow statistics to be entered", function(done) {
+    var playerStats = {
+      playerid: 0,
+      score: 1,
+      shotsFired: 2,
+      carrotsCollected: 3,
+      animalsRescued: 4,
+      enemiesKilled: 5,
+      accountId: 6,
+      time: 7,
+    };
+
+    db.run("SELECT count(*) from playerStatistics");
+    db.addStatistics(playerStats, function(err) {
+      if(err) {
+        throw err;
+      }
+
       done();
     });
   });

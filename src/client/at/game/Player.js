@@ -209,7 +209,7 @@ Player.prototype.getStats = function() {
     carrotsCollected: this._carrotsCollected,
     animalsRescued: this._animalsRescued,
     enemiesKilled: this._enemiesKilled,
-    accountId: this._accountId,
+    playerid: this._accountId,
     time: this._game.getElapsedTime(),
   }
 }
