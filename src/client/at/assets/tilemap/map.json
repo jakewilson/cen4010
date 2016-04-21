@@ -48,21 +48,6 @@
                  "y":323
                 }, 
                 {
-                 "height":28,
-                 "id":9,
-                 "name":"Range",
-                 "properties":
-                    {
-
-                    },
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":31,
-                 "x":2752.33,
-                 "y":472
-                }, 
-                {
                  "height":27,
                  "id":10,
                  "name":"Range",
