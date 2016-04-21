@@ -136,7 +136,7 @@ describe("Server", function() {
   });
 
   describe("High Scores", function() {
-    it("creates high scores", function(done) {
+    xit("creates high scores", function(done) {
       var results = [];
       faker.generate(function() {
         db.getHighScores(function(err, row) {
@@ -149,7 +149,7 @@ describe("Server", function() {
       });
     });
 
-    fit("can GET /highScore", function(done) {
+    xit("can GET /highScore", function(done) {
       xhr.xhr('GET', '/highScore', "", function(res) {
         res.on('data', console.log);
         done();
