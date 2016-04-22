@@ -22,6 +22,7 @@ Boss.prototype.preLoad = function() {
 Boss.prototype.kill = function() {
   Enemy.prototype.kill.call(this);
   // TODO switch to `victory` state here
+  this._game.state.start('victoryScreen');
 }
 
 Boss.prototype.update = function(player) {
