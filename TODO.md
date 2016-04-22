@@ -14,7 +14,7 @@ Medium Priority
   - [ ] Create Boss cinematic
   - [x] Change frame names
 - [x] Remove ranged enemy from ground level near 2nd tofu (player cannot escape projectiles there)
-- [ ] Add wasd keys as well as arrow keys
+- [x] Add wasd keys as well as arrow keys
 
 Low Priority
 -------------
