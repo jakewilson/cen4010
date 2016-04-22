@@ -1,13 +1,14 @@
 "use strict";
 var db = require('../src/server/db.js');
 var fs = require('fs');
+var faker = require('../spec/support/faker.js');
 
 var dbName = 'dbSpec.db';
 
 describe("Database", function() {
 
   beforeAll(function() {
-    db.open(dbName);
+    db.create(dbName);
   });
 
   afterAll(() => {
@@ -87,6 +88,16 @@ describe("Database", function() {
       }
 
       done();
+    });
+  });
+
+  it("should get the high scores", function(done) {
+    faker.generate(function() {
+      db.countPlayers(function(err, row) {
+        expect(err).toBeFalsy();
+        expect(row.count).toBe(22);
+        done();
+      });
     });
   });
 });

@@ -4,6 +4,7 @@ var http = require('http');
 var db = require('../src/server/db.js');
 var xhr = require('./support/xhr.js');
 var fs = require('fs');
+var faker = require('../spec/support/faker.js');
 
 describe("Server", function() {
   var dbName = 'server.db';
@@ -129,6 +130,28 @@ describe("Server", function() {
       };
       xhr.post('/registerStatistics', playerStats, function(res) {
         expect(res.statusCode).toBe(302);
+        done();
+      });
+    });
+  });
+
+  describe("High Scores", function() {
+    xit("creates high scores", function(done) {
+      var results = [];
+      faker.generate(function() {
+        db.getHighScores(function(err, row) {
+          expect(err).toBe(null);
+          results.push(row);
+        }, function(err, rowCount) {
+          expect(rowCount).toBe(10);
+          done();
+        });
+      });
+    });
+
+    xit("can GET /highScore", function(done) {
+      xhr.xhr('GET', '/highScore', "", function(res) {
+        res.on('data', console.log);
         done();
       });
     });

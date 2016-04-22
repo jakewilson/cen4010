@@ -153,10 +153,8 @@ var sendStats = {
   create: function() {
     var xhr = new XMLHttpRequest();
     var stats = player.getStats();
-    //stats.victory = victory;
-    xhr.open('POST', '/register_statistics', true);
-    xhr.send(JSON.stringify(stats));  
-    
+    stats.victory = victory;
+    $.post('/registerStatistics', stats);
     if (playAgain) {
       game.state.start('play');
     } else {
