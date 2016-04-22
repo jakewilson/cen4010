@@ -6,11 +6,18 @@
   <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
   <script src="highScore.js"></script>
+  <style>
+    a {
+      float: right;
+    }
+  </style>
 </head>
 <body>
   <h1 id="stats">Meatpocalypse Leaderboard</h1>
 
-  <input type="text" name="username" id="username"><br>
+  <input type="text" name="username" id="username">
+  <a href="/at/game.html">Main Menu</a>
+  <br>
   <button id="search" type="button">Search</button>
 
   <table id="highScoreTable" border='1' class='table'>
