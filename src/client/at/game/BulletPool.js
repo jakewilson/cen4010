@@ -7,8 +7,9 @@ var BULLET_VELOCITY = 400;
  * @param game: the game object
  * @param name: the name of the bullet sprite
  */
-var BulletPool = function(game, name) {
+var BulletPool = function(game, name, gravity) {
   this._game = game;
+  this._gravity = gravity || false;
 
   this._pool = this._game.add.group();
   this._pool.enableBody = true;
@@ -19,7 +20,7 @@ var BulletPool = function(game, name) {
   this._pool.setAll('outOfCameraBoundsKill', true);
   this._pool.setAll('outOfBoundsKill', true);
   this._pool.setAll('autoCull', true);
-  this._pool.setAll('body.allowGravity', false);
+  this._pool.setAll('body.allowGravity', this._gravity);
   this._nextFire = 0;
 
   this._FIRE_RATE = 350;

@@ -34,10 +34,16 @@ Entity.prototype.kill = function() {
 
 /**
  * Plays the Entity's attack animation
+ *
+ * @param anim: the animation to play
+ * @param speed: the speed at which to play the animation
  */
-Entity.prototype.attack = function(frame) {
-  frame = frame || 'attack' + this._direction;
-  this._currentPlayingAnim = this._sprite.animations.play(frame, this._ATTACK_FPS);
+Entity.prototype.attack = function(anim, speed) {
+  anim = anim || 'attack' + this._direction;
+  speed = speed || this._ATTACK_FPS;
+  if (!this._attacking) {
+    this._currentPlayingAnim = this._sprite.animations.play(anim, speed);
+  }
   this._attacking = true;
 }
 
@@ -80,15 +86,17 @@ Entity.prototype.addAnimation = function(name, frames, onComplete) {
 Entity.prototype._animComplete = function() {
   this._sprite.frameName = 'walk' + this._direction + '1.png';
   this._currentPlayingAnim = null;
+  this._attacking = false;
 }
 
 /**
  * Creates the Bullet Pool for the Entity
  * @param game: the game object
  * @param path: the path to the bullet image
+ * @param gravity: whether to allow gravity for bullets or not
  */
-Entity.prototype.createBulletPool = function(name) {
-  this._bulletPool = new BulletPool(this._game, name, this._sprite);
+Entity.prototype.createBulletPool = function(name, gravity) {
+  this._bulletPool = new BulletPool(this._game, name, gravity);
 }
 
 Entity.prototype.setCollision = function(layer, callback) {
