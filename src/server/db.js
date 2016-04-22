@@ -158,7 +158,7 @@ module.exports = {
       sql += "where username = '"+username+"' "
     }
     sql += "order by time asc " +
-    "limit 10; ";
+    "limit 50; ";
 
     db.each(sql, callback, onComplete);
   },
