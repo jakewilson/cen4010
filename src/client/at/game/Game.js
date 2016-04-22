@@ -155,6 +155,9 @@ var sendStats = {
     var xhr = new XMLHttpRequest();
     var stats = player.getStats();
     stats.victory = victory;
+    if (stats.victory) {
+      stats.score += 500;
+    }
     $.post('/registerStatistics', stats);
     if (playAgain) {
       game.state.start('play');
