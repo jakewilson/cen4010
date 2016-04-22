@@ -38,10 +38,10 @@ Enemy.prototype.update = function() {
  * Sets a collision with the ranged enemy and the player
  */
 Enemy.prototype.setCollisionWithPlayer = function(player) {
-  var onCollision = function(player_sprite, enemy_sprite) {
+  var onOverlap = function(player_sprite, enemy_sprite) {
      player.hurt();
   };
-  this._game.physics.arcade.collide(player.getSprite(), this._sprite, onCollision);
+  this._game.physics.arcade.overlap(player.getSprite(), this._sprite, onOverlap);
 }
 
 /**
