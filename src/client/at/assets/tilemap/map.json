@@ -200,21 +200,6 @@
                  "y":451
                 }, 
                 {
-                 "height":28,
-                 "id":21,
-                 "name":"Melee",
-                 "properties":
-                    {
-
-                    },
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":30,
-                 "x":2593,
-                 "y":451
-                }, 
-                {
                  "height":24,
                  "id":22,
                  "name":"Melee",
