@@ -129,9 +129,7 @@ var sendStats = {
     var xhr = new XMLHttpRequest();
     var stats = player.getStats();
     stats.victory = victory;
-    xhr.open('post', '/registerStatistics', true);
-    xhr.send(stats);  
-    
+    $.post('/registerStatistics', stats);
     if (playAgain) {
       game.state.start('play');
     } else {

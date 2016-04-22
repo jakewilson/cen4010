@@ -68,7 +68,6 @@ app.post('/at/index.html', urlParser, (req, res, next) => {
   });
 }).post('/registerStatistics', urlParser, function(req, res, next) {
   db.addStatistics(req.body, function(err) {
-    res.redirect(302, '/at/statistics.html');
     res.end();
   });
 }).get('/', function(req, res, next) {
