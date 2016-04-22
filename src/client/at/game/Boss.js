@@ -8,7 +8,7 @@ var Boss = function(game) {
   this._healthTwoY = this._healthOneY + 20;
   this._healthX = 10300;
   this._drumstickTextOffset = 18;
-  this._inCinematic = false;
+  this.inCinematic = false;
   this._cinText = "";
 }
 
@@ -59,7 +59,9 @@ Boss.prototype.update = function(player) {
       break;
   }
 
-  this._state = this.playerInRange(player, null, player.getSprite().height * 2) && this.facingPlayer(player) ? this._STATES.ATTACK : this._STATES.PATROL;
+  if (!this.inCinematic) {
+    this._state = this.playerInRange(player, null, player.getSprite().height * 2) && this.facingPlayer(player) ? this._STATES.ATTACK : this._STATES.PATROL;
+  }
 }
 
 Boss.prototype.patrol = function() {
@@ -71,7 +73,6 @@ Boss.prototype.patrol = function() {
 
 Boss.prototype.create = function(x, y, frame) {
   Enemy.prototype.create.call(this, x, y, frame);
-  this._state = this._STATES.CINEMATIC;
   this.createBulletPool('drumstick', true, 500);
   this._bulletPool.setFireRate(1500);
 
@@ -117,14 +118,14 @@ Boss.prototype._drawHealth = function() {
 }
 
 Boss.prototype.hurt = function() {
-  if (!this._inCinematic) {
+  if (!this.inCinematic) {
     Entity.prototype.hurt.call(this);
     this._drawHealth();
   }
 }
 
 Boss.prototype._playCinematic = function() {
-  this._inCinematic = true;
+  this.inCinematic = true;
   this._nextLine();  
 }
 
@@ -133,7 +134,7 @@ Boss.prototype._nextLine = function() {
     if (lineIndex === cinematicText.length)
     {
         //  We're finished
-        this._inCinematic = false;
+        this.inCinematic = false;
         game.time.events.add(Phaser.Timer.SECOND * 3, this._clearCinematic, this);
         this._state = this._STATES.PATROL;
         return;
