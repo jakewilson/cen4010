@@ -92,17 +92,16 @@ var instructionScreen = {
 var victoryScreen = {
   create: function() {
     image = game.add.image(0, 0, 'victory');
-    play_button = game.add.button(30, 155, 'MainMenu', playAgain, this, 'playAgainWR.png', 'playAgainRW.png', 'playAgainWR.png');
-    menu_button = game.add.button(675, 165, 'MainMenu', mainMenu, this, 'mainMenuWR.png', 'mainMenuRW.png', 'mainMenuWR.png');
+    game.add.button(30, 155, 'MainMenu', play, this, 'playAgainWR.png', 'playAgainRW.png', 'playAgainWR.png');
+    game.add.button(675, 165, 'MainMenu', mainMenu, this, 'mainMenuWR.png', 'mainMenuRW.png', 'mainMenuWR.png');
     victory = 1;
 
     function mainMenu() {
-      console.log(playAgain);
       playAgain = false;
       game.state.start('sendStats');
     }
 
-    function playAgain() {
+    function play() {
       playAgain = true;
       game.state.start('sendStats');
     }
@@ -161,7 +160,6 @@ var sendStats = {
       game.state.start('play');
     } else {
       location.reload();
-      //game.state.start('mainMenu');
     }
   }
 }
