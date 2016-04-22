@@ -40,5 +40,6 @@ Boss.prototype.create = function(x, y, frame) {
   this.addAnimation('rangeright', ['rangeright1.png', 'rangeright2.png', 'rangeright3.png'], this._animComplete);
 
   // TODO set size
+  this._sprite.body.setSize(67, 80, 50, 11);
 }
 
