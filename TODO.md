@@ -4,7 +4,7 @@ High Priority
 - [ ] Implement score writing on death / victory
 - [ ] Game Instructions state
 - [ ] Encrypt username and passwords
-- [ ] Enlarge MeleeEnemy physics body size on attack
+- [x] Enlarge MeleeEnemy physics body size on attack
 - [ ] Finish victory screen
 
 Medium Priority
@@ -19,4 +19,3 @@ Medium Priority
 Low Priority
 -------------
 - [ ] Create Meatpocalypse object
-- [ ] Move the time to the left

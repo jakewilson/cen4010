@@ -19,6 +19,11 @@ Boss.prototype.preLoad = function() {
   this._game.load.image('drumstick', './assets/spritesheets/drumstick.png');
 }
 
+Boss.prototype.kill = function() {
+  Enemy.prototype.kill.call(this);
+  // TODO switch to `victory` state here
+}
+
 Boss.prototype.update = function(player) {
   if (!Enemy.prototype.update.call(this)) return;
   switch (this._state) {
@@ -46,7 +51,7 @@ Boss.prototype.create = function(x, y, frame) {
   this.addAnimation('meleeright', ['meleeright1.png', 'meleeright2.png', 'meleeright3.png'], this._animComplete);
   this.addAnimation('rangeright', ['rangeright1.png', 'rangeright2.png', 'rangeright3.png'], this._animComplete);
 
-  // TODO set size
+  this._sprite.body.setSize(67, 80, 50, 11);
   this._createHealthPool();
   this._drawHealth();
 }
@@ -61,6 +66,7 @@ Boss.prototype._createHealthPool = function() {
     }
   }
 }
+
 /**
  * Draws the boss's health as drumsticks at the top left of the screen
  */
