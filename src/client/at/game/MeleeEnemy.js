@@ -47,5 +47,5 @@ MeleeEnemy.prototype._charge = function() {
 
 MeleeEnemy.prototype.create = function(x, y, frame) {
   Enemy.prototype.create.call(this, x, y, frame);
-  this._sprite.body.setSize(29, 59, 18, 28);
+  this._sprite.body.setSize(29, 59, 10, 28);
 }
