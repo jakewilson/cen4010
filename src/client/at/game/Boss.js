@@ -52,7 +52,7 @@ Boss.prototype.patrol = function() {
 Boss.prototype.create = function(x, y, frame) {
   Enemy.prototype.create.call(this, x, y, frame);
 
-  this.createBulletPool('drumstick', true);
+  this.createBulletPool('drumstick', true, 500);
   this._bulletPool.setFireRate(1500);
 
   // add extra animations

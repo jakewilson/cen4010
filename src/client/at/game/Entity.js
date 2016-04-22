@@ -95,8 +95,8 @@ Entity.prototype._animComplete = function() {
  * @param path: the path to the bullet image
  * @param gravity: whether to allow gravity for bullets or not
  */
-Entity.prototype.createBulletPool = function(name, gravity) {
-  this._bulletPool = new BulletPool(this._game, name, gravity);
+Entity.prototype.createBulletPool = function(name, gravity, velocity) {
+  this._bulletPool = new BulletPool(this._game, name, gravity, velocity);
 }
 
 Entity.prototype.setCollision = function(layer, callback) {
