@@ -36,8 +36,7 @@ var mainMenu = {
     quit = game.add.button(675, 150, 'quit', quitClick, this, 'RQuit.png', 'WQuit.png', 'RQuit.png');
     play_button = game.add.button(50, 160, 'play', playClick, this, 'RPlayButton.png', 'WPlay.png', 'RPlayButton.png');
     highScore_button = game.add.button(250, 395, 'highScore', hsClick, this, 'WRHS.png', 'RWHS.png', 'WRHS.png');
-    //instruction_button = game.add.button(250, 395, 'instruction', hsClick, this, 'WRHS.png', 'RWHS.png', 'WRHS.png');
-    instructions_button = game.add.button(180, 485, 'name', instructClick, this, 'RPlayButton.png', 'WPlay.png', 'RPlayButton.png');
+    instruction_button = game.add.button(650, 500, 'MainMenu', instructClick, this, 'instructionsR.png', 'instructionsW.png', 'instructionsR.png');
 
     function playClick() {
       game.state.start('play');
@@ -45,7 +44,6 @@ var mainMenu = {
 
     function instructClick() {
       game.state.start('instructionScreen');
-      //game.state.start('victoryScreen');
     }
 		
     function hsClick() {
