@@ -59,8 +59,12 @@ Player.prototype.create = function(x, y) {
   // follow the player
   this._game.camera.follow(this._sprite);
 
-  this._godButton = this._game.input.keyboard.addKey(Phaser.Keyboard.D);
+  this._godButton = this._game.input.keyboard.addKey(Phaser.Keyboard.G);
   this._godButton.onDown.add(this._godMode, this);
+
+  this._walkRight = this._game.input.keyboard.addKey(Phaser.Keyboard.D);
+  this._walkLeft = this._game.input.keyboard.addKey(Phaser.Keyboard.A);
+  this._jumpKey = this._game.input.keyboard.addKey(Phaser.Keyboard.W);
 
   this._cursors = this._game.input.keyboard.createCursorKeys();
   this._attackButton = this._game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
@@ -114,13 +118,13 @@ Player.prototype.update = function() {
     this.attack();
   }
   
-  if (this._cursors.right.isDown) {
+  if (this._cursors.right.isDown || this._walkRight.isDown) {
     this.move('right')
-  } else if (this._cursors.left.isDown) {
+  } else if (this._cursors.left.isDown || this._walkLeft.isDown) {
     this.move('left')
   }
 
-  if (this._cursors.up.isDown) {
+  if (this._cursors.up.isDown || this._jumpKey.isDown) {
     this.jump();
   }
 
