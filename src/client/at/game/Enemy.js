@@ -5,7 +5,8 @@ var Enemy = function(game, name, health, attackRange, walkSpeed, patrolRange, st
   this._STATES = {
     IDLE: 0,
     PATROL: 1,
-    ATTACK: 2
+    ATTACK: 2,
+    CINEMATIC: 3
   };
   this._state = this._STATES.IDLE;
   this._direction = startingDir || 'left';
