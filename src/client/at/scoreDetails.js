@@ -2,11 +2,11 @@ var username = window.location.search.split("=")[1];
 function updateHighScore(username) {
   var header = "<tr> " +
       "<th>Shots fired</th>" +
-      "<th>time (seconds)</th>" +
-      "<th>Score</th>" +
       "<th>carrots collected</th>" +
       "<th>enemies killed</th>" +
       "<th>animals rescued</th>" +
+      "<th>time (seconds)</th>" +
+      "<th>Score</th>" +
     "</tr>";
   $("#highScoreTable").html(header);
   $.get('/playerStats?username='+username, function(data) {
@@ -16,11 +16,11 @@ function updateHighScore(username) {
         .append("" +
           "<tr>" +
             "<td> "+ it.shotsFired + "</td>" +
-            "<td> "+ it.time.toFixed(2) + "</td>" +
-            "<td> "+ it.score + "</td>" +
             "<td> "+ it.carrotsCollected + "</td>" +
             "<td> "+ it.enemiesKilled + "</td>" +
             "<td> "+ it.animalsRescued + "</td>" +
+            "<td> "+ it.time.toFixed(2) + "</td>" +
+            "<td> "+ it.score + "</td>" +
           "</tr>");
 
     });
