@@ -59,7 +59,7 @@ app.post('/at/index.html', urlParser, (req, res, next) => {
     }
 }).post('/registerPlayer', urlParser, function(req, res, next) {
   db.addPlayer(req.body.user, req.body.pass, function() {
-    res.redirect(302, 'at/game.html');
+    res.redirect(302, 'at/index.html');
     res.end();
   }, function() {
     res.writeHead(409, {'Content-Type': 'text/html'});
@@ -68,15 +68,35 @@ app.post('/at/index.html', urlParser, (req, res, next) => {
   });
 }).post('/registerStatistics', urlParser, function(req, res, next) {
   db.addStatistics(req.body, function(err) {
-    res.redirect(302, '/at/statistics.html');
     res.end();
   });
 }).get('/', function(req, res, next) {
   res.redirect(302, 'at/index.html');
   res.end();
 }).get('/hello', function(req, res, next) {
-  res.write("Hello World");
+  res.write("Hello World. You're beautiful!");
   res.end();
+}).get('/highScore', function(req, res, next) {
+  var results = [];
+  var username = req.query.username != "" ? req.query.username : null;
+  db.getHighScores(username, function(err, row) {
+    results.push(row);
+  }, function() {
+    res.writeHead(200, {'Content-Type': 'application/json'});
+
+    res.write(JSON.stringify(results));
+    res.end();
+  });
+}).get('/playerStats', function(req, res, next) {
+  var results = [];
+  var username = req.query.username != "" ? req.query.username : null;
+  db.getPlayerStats(username, function(err, row) {
+    results.push(row);
+  }, function() {
+    res.writeHead(200, {'Content-Type': 'application/json'})
+    res.write(JSON.stringify(results));
+    res.end();
+  });
 });
 
 module.exports = {

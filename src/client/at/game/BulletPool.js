@@ -1,5 +1,4 @@
 var NUM_BULLETS = 10;
-var BULLET_VELOCITY = 400;
 
 /**
  * Constructs a BulletPool
@@ -7,8 +6,9 @@ var BULLET_VELOCITY = 400;
  * @param game: the game object
  * @param name: the name of the bullet sprite
  */
-var BulletPool = function(game, name) {
+var BulletPool = function(game, name, gravity, velocity) {
   this._game = game;
+  this._gravity = gravity || false;
 
   this._pool = this._game.add.group();
   this._pool.enableBody = true;
@@ -19,10 +19,11 @@ var BulletPool = function(game, name) {
   this._pool.setAll('outOfCameraBoundsKill', true);
   this._pool.setAll('outOfBoundsKill', true);
   this._pool.setAll('autoCull', true);
-  this._pool.setAll('body.allowGravity', false);
+  this._pool.setAll('body.allowGravity', this._gravity);
   this._nextFire = 0;
 
   this._FIRE_RATE = 350;
+  this._BULLET_VELOCITY = velocity || 400;
 }
 
 /**
@@ -41,9 +42,9 @@ BulletPool.prototype.fireBullet = function(x, y, dir) {
     this._nextFire = this._game.time.now + this._FIRE_RATE;
     bullet.reset(x, y);
     if (dir === 'right') {
-      bullet.body.velocity.x = BULLET_VELOCITY;
+      bullet.body.velocity.x = this._BULLET_VELOCITY;
     } else {
-      bullet.body.velocity.x = BULLET_VELOCITY * (-1);
+      bullet.body.velocity.x = this._BULLET_VELOCITY * (-1);
     }
     return true;
   }
