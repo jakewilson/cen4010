@@ -8,10 +8,26 @@ var Boss = function(game) {
   this._healthTwoY = this._healthOneY + 20;
   this._healthX = 10300;
   this._drumstickTextOffset = 18;
+  this._inCinematic = false;
+  this._cinText = "";
 }
 
-var nameText;
 
+var cinematicText = [
+  "It's Good to see you again Gene Gregor, You look as skinny as ever",
+  "I see that you've become the leader of the puny vegan resistance.",
+  "I, Salem Guido will personally see to the destruction of you and",
+  "your vegatable loving friends. MEAT RULES THE WORLD!!!!"
+];
+
+var nameText;
+var line = [];
+
+var wordIndex = 0;
+var lineIndex = 0;
+
+var wordDelay = 120;
+var lineDelay = 400; 
 // Boss inherits from Enemy
 Boss.prototype = Object.create(Enemy.prototype);
 Boss.prototype.constructor = Boss;
@@ -37,6 +53,10 @@ Boss.prototype.update = function(player) {
     case this._STATES.ATTACK:
       this.attack('melee' + this._direction);
       break;
+
+    case this._STATES.CINEMATIC:
+      this._playCinematic();
+      break;
   }
 
   this._state = this.playerInRange(player, null, player.getSprite().height * 2) && this.facingPlayer(player) ? this._STATES.ATTACK : this._STATES.PATROL;
@@ -51,7 +71,7 @@ Boss.prototype.patrol = function() {
 
 Boss.prototype.create = function(x, y, frame) {
   Enemy.prototype.create.call(this, x, y, frame);
-
+  this._state = this._STATES.CINEMATIC;
   this.createBulletPool('drumstick', true, 500);
   this._bulletPool.setFireRate(1500);
 
@@ -66,6 +86,8 @@ Boss.prototype.create = function(x, y, frame) {
   nameText = this._game.add.text(this._healthX - 10, this._healthOneY - 25, 'Salem Guido', { font: "18px Arial", fill: "#CC0000", align: "left"}); 
   this._createHealthPool();
   this._drawHealth();
+
+  cinText = game.add.text(this._healthX - 600, 80, '', { font: "18px Arial", fill: "#19de65", align: "center"});
 }
 
 Boss.prototype._createHealthPool = function() {
@@ -95,7 +117,61 @@ Boss.prototype._drawHealth = function() {
 }
 
 Boss.prototype.hurt = function() {
+  if (!this._inCinematic) {
     Entity.prototype.hurt.call(this);
     this._drawHealth();
+  }
 }
 
+Boss.prototype._playCinematic = function() {
+  this._inCinematic = true;
+  this._nextLine();  
+}
+
+Boss.prototype._nextLine = function() {
+
+    if (lineIndex === cinematicText.length)
+    {
+        //  We're finished
+        this._inCinematic = false;
+        game.time.events.add(Phaser.Timer.SECOND * 3, this._clearCinematic, this);
+        this._state = this._STATES.PATROL;
+        return;
+    }
+
+    //  Split the current line on spaces, so one word per array element
+    line = cinematicText[lineIndex].split(' ');
+
+    //  Reset the word index to zero (the first word in the line)
+    wordIndex = 0;
+
+    //  Call the 'nextWord' function once for each word in the line (line.length)
+    game.time.events.repeat(wordDelay, line.length, this._nextWord, this);
+
+    //  Advance to the next line
+    lineIndex++;
+
+}
+
+Boss.prototype._nextWord = function() {
+
+    //  Add the next word onto the text string, followed by a space
+    cinText.text = cinText.text.concat(line[wordIndex] + " ");
+    //  Advance the word index to the next word in the line
+    wordIndex++;
+
+    //  Last word?
+    if (wordIndex === line.length)
+    {
+        //  Add a carriage return
+        cinText.text = cinText.text.concat("\n");
+
+        //  Get the next line after the lineDelay amount of ms has elapsed
+        game.time.events.add(lineDelay, this._nextLine, this);
+    }
+
+}
+
+Boss.prototype._clearCinematic = function() {
+  cinText.text = "";
+}
