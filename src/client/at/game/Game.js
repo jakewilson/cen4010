@@ -15,9 +15,12 @@ var loadState = {
     game.load.atlasJSONHash('quit', './assets/images/mainMenuInverted.png', './assets/images/mainMenuInverted.json');	
     game.load.atlasJSONHash('play', './assets/images/mainMenuInverted.png', './assets/images/mainMenuInverted.json');	
     game.load.atlasJSONHash('yesNo', './assets/images/yesNoButtons.png', './assets/images/yesNoButtons.json');	
+    game.load.atlasJSONHash('MainMenu', './assets/images/menuButtons.png', './assets/images/menuButtons.json');	
     game.load.image('background', './assets/images/MainMenu.png');	
     game.load.image('death', './assets/images/gameOver.png');	
     game.load.image('name', './assets/images/Meatpocalypse.png');	
+    game.load.image('instructions', './assets/images/instructions.png');	
+    game.load.image('victory', './assets/images/victory.png');	
   },
   create: function() {
     game.physics.startSystem(Phaser.Physics.ARCADE);
@@ -29,12 +32,20 @@ var loadState = {
 var mainMenu = {
   create: function() {
     image = game.add.image(0, 0, 'background');
+    console.log(image);
     quit = game.add.button(675, 150, 'quit', quitClick, this, 'RQuit.png', 'WQuit.png', 'RQuit.png');
     play_button = game.add.button(50, 160, 'play', playClick, this, 'RPlayButton.png', 'WPlay.png', 'RPlayButton.png');
     highScore_button = game.add.button(250, 395, 'highScore', hsClick, this, 'WRHS.png', 'RWHS.png', 'WRHS.png');
+    //instruction_button = game.add.button(250, 395, 'instruction', hsClick, this, 'WRHS.png', 'RWHS.png', 'WRHS.png');
+    instructions_button = game.add.button(180, 485, 'name', instructClick, this, 'RPlayButton.png', 'WPlay.png', 'RPlayButton.png');
 
     function playClick() {
       game.state.start('play');
+    }
+
+    function instructClick() {
+      game.state.start('instructionScreen');
+      //game.state.start('victoryScreen');
     }
 		
     function hsClick() {
@@ -58,28 +69,45 @@ var deathScreen = {
     death.scale.set(1, 1);
 
     function yesClick() {
-      //Write to the database here
       playAgain = true;
       game.state.start('sendStats');
     }
 		
     function noClick() {
-      //Write to the database here
       playAgain = false;
       game.state.start('sendStats');
     }
   }
 };
 
+var instructionScreen = {
+  create: function() {
+    game.add.image(game.world.centerX, game.world.centerY, 'instructions').anchor.set(0.5);
+    menu_button = game.add.button(750, 600, 'MainMenu', menuClick, this, 'mainMenuR.png', 'mainMenuW.png', 'mainMenuR.png');
+
+    function menuClick() {
+      game.state.start('mainMenu');
+    }
+   }
+} 
+
 var victoryScreen = {
   create: function() {
-    game.add.image(game.world.centerX, game.world.centerY, 'death').anchor.set(0.5);
-    quit = game.add.button(675, 150, 'quit', quitClick, this, 'RQuit.png', 'WQuit.png', 'RQuit.png');
-    play_button = game.add.button(50, 160, 'play', actionOnClick, this, 'RPlayButton.png', 'WPlay.png', 'RPlayButton.png');
-    highScore_button = game.add.button(250, 395, 'highScore', hsClick, this, 'WRHS.png', 'RWHS.png', 'WRHS.png');
+    image = game.add.image(0, 0, 'victory');
+    play_button = game.add.button(30, 155, 'MainMenu', playAgain, this, 'playAgainWR.png', 'playAgainRW.png', 'playAgainWR.png');
+    menu_button = game.add.button(675, 165, 'MainMenu', mainMenu, this, 'mainMenuWR.png', 'mainMenuRW.png', 'mainMenuWR.png');
     victory = 1;
-    playAgain = false;
-    game.state.start('sendStats');
+
+    function mainMenu() {
+      console.log(playAgain);
+      playAgain = false;
+      game.state.start('sendStats');
+    }
+
+    function playAgain() {
+      playAgain = true;
+      game.state.start('sendStats');
+    }
   }
 };
 
@@ -125,17 +153,17 @@ var playState = {
 
 var sendStats = {
   create: function() {
-    //Send xmlhttprequest
     var xhr = new XMLHttpRequest();
     var stats = player.getStats();
-    stats.victory = victory;
-    xhr.open('post', '/registerStatistics', true);
-    xhr.send(stats);  
+    //stats.victory = victory;
+    xhr.open('POST', '/register_statistics', true);
+    xhr.send(JSON.stringify(stats));  
     
     if (playAgain) {
       game.state.start('play');
     } else {
-      game.state.start('mainMenu');
+      location.reload();
+      //game.state.start('mainMenu');
     }
   }
 }
@@ -160,6 +188,8 @@ game.state.add('play', playState);
 game.state.add('deathScreen', deathScreen);
 game.state.add('victoryScreen', victoryScreen);
 game.state.add('sendStats', sendStats);
+game.state.add('instructionScreen', instructionScreen);
+game.state.add('victoryScreen', victoryScreen);
 
 game.getElapsedTime = function() {
   return elapsedTime;
