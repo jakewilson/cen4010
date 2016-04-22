@@ -4,11 +4,13 @@ var Boss = function(game) {
   this._WALK_SPEED = 200;
   this._STATES.CHARGE = 3;
   this._healthPool = null;
-  this._healthOneY = 75;
+  this._healthOneY = 90;
   this._healthTwoY = this._healthOneY + 20;
   this._healthX = 10300;
   this._drumstickTextOffset = 18;
 }
+
+var nameText;
 
 // Boss inherits from Enemy
 Boss.prototype = Object.create(Enemy.prototype);
@@ -52,6 +54,7 @@ Boss.prototype.create = function(x, y, frame) {
   this.addAnimation('rangeright', ['rangeright1.png', 'rangeright2.png', 'rangeright3.png'], this._animComplete);
 
   this._sprite.body.setSize(67, 80, 50, 11);
+  nameText = this._game.add.text(this._healthX - 10, this._healthOneY - 25, 'Salem Guido', { font: "18px Arial", fill: "#CC0000", align: "left"}); 
   this._createHealthPool();
   this._drawHealth();
 }
