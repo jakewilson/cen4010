@@ -7,7 +7,7 @@ var elapsedTime,
   playAgain = false;
 
 var game = new Phaser.Game(width, height, Phaser.AUTO, 'meatpocalypse');
-var map, layer, player, timerText;
+var map, layer, player, timerText, victoryTimeText;
 
 var loadState = {
   preload: function() {
@@ -94,6 +94,8 @@ var victoryScreen = {
     image = game.add.image(0, 0, 'victory');
     game.add.button(30, 155, 'MainMenu', play, this, 'playAgainWR.png', 'playAgainRW.png', 'playAgainWR.png');
     game.add.button(675, 165, 'MainMenu', mainMenu, this, 'mainMenuWR.png', 'mainMenuRW.png', 'mainMenuWR.png');
+    victoryTimeText = game.add.text(400, 13 * 32, 'Time: ', { font: "18px Arial", fill: "#ffffff", align: "left"});
+    victoryTimeText.text = 'Time: ' + elapsedTime;
     victory = 1;
 
     function mainMenu() {
